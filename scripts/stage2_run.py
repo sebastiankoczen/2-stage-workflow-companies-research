@@ -17,7 +17,8 @@ from email import encoders
 from datetime import datetime
 from pathlib import Path
 
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger(__name__)
@@ -30,7 +31,7 @@ OUTPUT_DIR   = ROOT / "output"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 # ── Config ─────────────────────────────────────────────────────────────────────
-GEMINI_MODEL = "gemini-1.5-pro"
+GEMINI_MODEL = "gemini-2.0-flash"
 SLEEP_BETWEEN = 8        # seconds between company calls (rate limit guard)
 
 
@@ -83,12 +84,12 @@ Company to deep-scan:
 # ── Gemini call ────────────────────────────────────────────────────────────────
 def call_gemini(prompt: str, company_name: str) -> str:
     api_key = os.environ["GEMINI_API_KEY"]
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel(GEMINI_MODEL)
+    client = genai.Client(api_key=api_key)
     log.info(f"Deep scanning: {company_name} …")
-    response = model.generate_content(
-        prompt,
-        generation_config=genai.types.GenerationConfig(
+    response = client.models.generate_content(
+        model=GEMINI_MODEL,
+        contents=prompt,
+        config=types.GenerateContentConfig(
             temperature=0.2,
             max_output_tokens=8192,
         ),
