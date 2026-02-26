@@ -84,41 +84,62 @@ COLUMNS = [
 ]
 
 def parse_markdown_table(raw: str) -> list[dict]:
-    """Extract rows from a pipe-delimited markdown table."""
+    """Extract rows from a pipe-delimited markdown table.
+    Handles: prose before/after table, code fences, varied spacing,
+    multi-line cells, and tables with fewer than 10 columns.
+    """
+    # Strip code fences if Gemini wrapped the table in ```markdown ... ```
+    raw = re.sub(r"```[a-z]*\n?", "", raw)
+
     rows = []
-    in_table = False
     header_passed = False
+    header_cols = 0
 
     for line in raw.splitlines():
         line = line.strip()
+
+        # Skip non-table lines
         if not line.startswith("|"):
-            if in_table:
-                break           # table ended
             continue
 
-        in_table = True
-        if re.match(r"^\|[-| :]+\|$", line):
+        # Detect separator row (---|---|--- style)
+        if re.match(r"^\|[\s\-:|]+\|$", line):
             header_passed = True
             continue
-        if not header_passed:
-            continue            # still header row
 
+        # Parse cells
         cells = [c.strip() for c in line.strip("|").split("|")]
-        if len(cells) < 10:
-            continue            # malformed row
+
+        # First pipe-row before separator = header — record column count
+        if not header_passed:
+            header_cols = len(cells)
+            continue
+
+        # Skip rows with too few cells (malformed)
+        if len(cells) < 5:
+            continue
+
+        # Pad to 10 cells if Gemini returned fewer columns
+        while len(cells) < 10:
+            cells.append("")
+
+        # Skip rows that look like sub-headers (all caps or repeated header text)
+        if cells[0].upper() in ("TIER", "COLUMN A", "COL A", "#"):
+            continue
 
         rows.append({
-            "tier":             cells[0],
-            "company":          cells[1],
-            "hq_country":       cells[2],
-            "industry":         cells[3],
-            "revenue":          cells[4],
-            "situations":       cells[5],
-            "classification":   cells[6],
-            "priority_score":   cells[7],
-            "key_evidence":     cells[8],
-            "sources":          cells[9],
+            "tier":           cells[0],
+            "company":        cells[1],
+            "hq_country":     cells[2],
+            "industry":       cells[3],
+            "revenue":        cells[4],
+            "situations":     cells[5],
+            "classification": cells[6],
+            "priority_score": cells[7],
+            "key_evidence":   cells[8],
+            "sources":        cells[9],
         })
+
     return rows
 
 
@@ -330,10 +351,13 @@ def main():
             raw_responses.append(raw)
             parsed = parse_markdown_table(raw)
             log.info(f"  → Parsed {len(parsed)} rows")
+            if len(parsed) == 0:
+                log.warning(f"  → Parser found 0 rows. First 800 chars of raw output:\n{raw[:800]}")
             if parsed:
                 all_runs.append(parsed)
         except Exception as e:
             log.warning(f"Run {i+1} failed: {e}")
+            log.debug(f"Raw output preview: {raw[:500] if 'raw' in dir() else 'no output'}")
 
         if (i + 1) % RUNS_BETWEEN_SLEEP == 0 and i < NUM_RUNS - 1:
             log.info(f"Rate-limit sleep {SLEEP_SECONDS}s …")
