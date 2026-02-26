@@ -62,14 +62,14 @@ def build_prompt() -> str:
 # ── Gemini call ────────────────────────────────────────────────────────────────
 def call_gemini(prompt: str, run_index: int) -> str:
     api_key = os.environ["GEMINI_API_KEY"]
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel(GEMINI_MODEL)
+    client = genai.Client(api_key=api_key)
 
     log.info(f"Run {run_index+1}/{NUM_RUNS} → calling Gemini …")
-    response = model.generate_content(
-        prompt,
-        generation_config=genai.types.GenerationConfig(
-            temperature=0.4,          # some variation across runs
+    response = client.models.generate_content(
+        model=GEMINI_MODEL,
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            temperature=0.4,
             max_output_tokens=8192,
         ),
     )
