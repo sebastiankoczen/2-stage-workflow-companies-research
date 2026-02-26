@@ -15,15 +15,15 @@
   },
   {
     "tier": "Tier 1",
-    "company": "Sika",
+    "company": "Givaudan",
     "hq_country": "Switzerland",
-    "industry": "Chemicals",
-    "revenue": "Approx. $11B",
-    "situations": "Significant Growth, Supply Chain Disruption",
-    "classification": "Confirmed, Likely",
+    "industry": "Flavors & Fragrances",
+    "revenue": "Approx. $7B",
+    "situations": "Margin Pressure, Supply Chain Disruption",
+    "classification": "Likely, Likely",
     "priority_score": "RC: 0",
-    "key_evidence": "MP: 0",
-    "sources": "SG: 8",
+    "key_evidence": "MP: 4",
+    "sources": "SG: 0",
     "_score_int": 0,
     "_frequency": 1
   }
