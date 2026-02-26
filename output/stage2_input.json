@@ -1,0 +1,30 @@
+[
+  {
+    "tier": "Tier 1",
+    "company": "Novartis",
+    "hq_country": "Switzerland",
+    "industry": "Pharmaceuticals",
+    "revenue": "Approx. 50B",
+    "situations": "Margin Pressure, Resource Constraints",
+    "classification": "Likely, Likely",
+    "priority_score": "RC: 5",
+    "key_evidence": "MP: 5",
+    "sources": "SG: 0",
+    "_score_int": 5,
+    "_frequency": 1
+  },
+  {
+    "tier": "Tier 1",
+    "company": "Roche",
+    "hq_country": "Switzerland",
+    "industry": "Pharmaceuticals",
+    "revenue": "Approx. 65B",
+    "situations": "Margin Pressure, Supply Chain Disruption",
+    "classification": "Confirmed, Likely",
+    "priority_score": "RC: 1",
+    "key_evidence": "MP: 7",
+    "sources": "SG: 0",
+    "_score_int": 1,
+    "_frequency": 1
+  }
+]
