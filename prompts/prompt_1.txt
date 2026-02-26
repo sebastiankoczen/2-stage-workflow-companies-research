@@ -19,7 +19,7 @@ INPUTS (MANDATORY)
 4) Campaign Filters (manual inputs) 
 - Target Region (OPTIONAL): {default = Switzerland} 
 - Industry focus (OPTIONAL): {default = Pharmaceuticals and Life Sciences, MedTech and Medical Devices, FMCG and Consumer Goods, Luxury Goods and Cosmetics, Food and Beverage Manufacturing, Chemicals and Specialty Chemicals, Agribusiness, Packaging, Industrial Manufacturing, Automotive Components, Energy and Utilities with physical supply chains) 
-- Company revenue size range (OPTIONAL): {default = 0.5B–20B USD} 
+- Company revenue size range (OPTIONAL): {default = 0.5B–15B USD} 
 - Evidence recency window (OPTIONAL): {default = last 12 months} 
  
 =============================================================================== 
@@ -73,8 +73,8 @@ Apply strict deduplication:
 WORKING METHOD (MANDATORY) 
 =============================================================================== 
 Step 1 — Candidate discovery Identify companies that match: 
-- Region (mandatory) 
-- Revenue size range (default 0.5B–20B USD) 
+- Region: Switzerland, company with strong representation in Switzerland or max 200km away from Switzerland
+- Revenue size range (default 0.5B–15B USD) 
 - Industry focus (default industries unless user provides otherwise) 
  
 Step 2 — Situation signal scan (quick but evidence-based) For each candidate company, scan the web for evidence signals. 
