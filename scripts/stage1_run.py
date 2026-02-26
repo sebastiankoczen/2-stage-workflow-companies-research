@@ -84,47 +84,46 @@ COLUMNS = [
 ]
 
 def parse_markdown_table(raw: str) -> list[dict]:
-    """Extract rows from a pipe-delimited markdown table.
-    Handles: prose before/after table, code fences, varied spacing,
-    multi-line cells, and tables with fewer than 10 columns.
-    """
-    # Strip code fences if Gemini wrapped the table in ```markdown ... ```
-    raw = re.sub(r"```[a-z]*\n?", "", raw)
+    """Robust parser — handles prose before table, loose separator formats,
+    code fences, and any line that looks like a data row."""
+
+    # Strip markdown code fences
+    raw = re.sub(r"```[a-z]*", "", raw)
+
+    lines = [l.strip() for l in raw.splitlines()]
+    pipe_lines = [l for l in lines if l.startswith("|") and l.endswith("|")]
+
+    if not pipe_lines:
+        log.warning("No pipe-delimited lines found in response at all.")
+        return []
 
     rows = []
-    header_passed = False
-    header_cols = 0
+    header_skipped = False
 
-    for line in raw.splitlines():
-        line = line.strip()
-
-        # Skip non-table lines
-        if not line.startswith("|"):
-            continue
-
-        # Detect separator row (---|---|--- style)
-        if re.match(r"^\|[\s\-:|]+\|$", line):
-            header_passed = True
-            continue
-
-        # Parse cells
+    for line in pipe_lines:
         cells = [c.strip() for c in line.strip("|").split("|")]
 
-        # First pipe-row before separator = header — record column count
-        if not header_passed:
-            header_cols = len(cells)
+        # Skip separator rows like |---|---|
+        if all(re.match(r"^[-:\s]+$", c) for c in cells if c):
+            header_skipped = True
             continue
 
-        # Skip rows with too few cells (malformed)
+        # Skip the header row itself (contains column names)
+        if not header_skipped:
+            # This is the header row — skip it and mark done
+            header_skipped = True
+            continue
+
+        # Skip rows with too few cells
         if len(cells) < 5:
             continue
 
-        # Pad to 10 cells if Gemini returned fewer columns
+        # Pad to 10 if needed
         while len(cells) < 10:
             cells.append("")
 
-        # Skip rows that look like sub-headers (all caps or repeated header text)
-        if cells[0].upper() in ("TIER", "COLUMN A", "COL A", "#"):
+        # Skip obvious repeated headers
+        if cells[0].strip().lower() in ("tier", "col a", "column a", "#", ""):
             continue
 
         rows.append({
@@ -141,7 +140,6 @@ def parse_markdown_table(raw: str) -> list[dict]:
         })
 
     return rows
-
 
 def extract_total_score(score_str: str) -> int:
     """Parse 'RC: 4 | MP: 6 | SG: 2 | SCD: 3 = 15/40' → 15"""
