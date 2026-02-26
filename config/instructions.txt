@@ -1,0 +1,292 @@
+A) Situation Definitions (research-oriented)
+1) RESOURCE CONSTRAINTS
+Definition (operational)
+Company shows insufficient execution capacity (people/bandwidth) in Supply Chain and/or Procurement
+Capability gap: missing specialized expertise required to deliver initiatives (not just to design them)
+Execution backlog persists despite “clear priorities” or announced programs
+Evidence must show internal resourcing shortfall, not external demand/supply shocks
+What it is NOT (avoid false positives)
+Not a temporary peak workload caused only by seasonality
+Not general “hiring” for growth (normal scaling)
+Not project delays caused mainly by unclear governance, strategy uncertainty, or budget freeze
+Not a supply disruption (that’s Situation 4)
+Not margin-driven layoffs (that’s Situation 2)
+Why it creates an execution need (task-force fit)
+Requires rapid injection of senior doers to unblock delivery
+Need for interim capacity in PMO / workstreams without increasing fixed headcount
+Needs embedded execution to stabilize + run transformation while BAU continues 
+
+2) MARGIN PRESSURE
+Definition (operational)
+Profitability declines or stays structurally weak due to cost inflation, inefficiency, pricing pressure
+Company explicitly announces cost reduction / productivity / cash protection measures
+Margin deterioration is not explained solely by planned investment for growth
+Typically evidenced through management statements and financial results
+What it is NOT (avoid false positives)
+Not “growth investment” phase with strong profitability maintained
+Not a one-off exceptional event without continuation (unless reconfirmed)
+Not pure FX impact with otherwise stable margins
+Not disruption-driven service failure only (Situation 4)
+Not resource lack without financial stress (Situation 1)
+Why it creates an execution need (task-force fit)
+Requires fast execution of cost-out, procurement savings, operating model changes
+Needs experienced practitioners to deliver measurable savings quickly
+Internal teams often too stretched to execute while maintaining performance
+
+3) SIGNIFICANT GROWTH
+Definition (operational)
+Company shows rapid growth in revenue, production volumes, footprint or channels
+Growth creates operational scaling pressure (capacity, service levels, inventory, supplier capability)
+Evidence shows expansion initiatives (plants/DCs, new markets, M&A integration, product launches)
+Growth outpaces operational maturity / systems
+What it is NOT (avoid false positives)
+Not stable or low growth with routine hiring
+Not pure share price growth without operational scaling evidence
+Not growth driven only by short-lived commodity pricing
+Not disruption-related volume spikes from shortages elsewhere (unless sustained)
+Not margin pressure disguised as “growth story”
+Why it creates an execution need (task-force fit)
+Need to scale execution fast without building permanent structures
+High demand for planning, procurement, manufacturing, logistics execution
+Integration + footprint changes require temporary expert task forces 
+
+4) SUPPLY CHAIN DISRUPTION
+Definition (operational)
+Company experiences severe, active disruption affecting service, supply continuity, capacity, logistics
+Evidence includes shortages, delays, shutdowns, supplier failure, quality incidents, forced re-sourcing
+Disruption has material business impact: lost sales, missed guidance, customer penalties, inventory shock
+Requires stabilization actions beyond normal operations
+What it is NOT (avoid false positives)
+Not normal lead time variability
+Not margin pressure without supply failure
+Not internal capacity constraints unrelated to external disruptions
+Not planned shutdowns / routine maintenance
+Not generic “risk” statements without observable events
+Why it creates an execution need (task-force fit)
+Need for rapid “SWAT” execution: supplier stabilization, expediting, re-planning, alternative sourcing
+Requires cross-functional task force to restore service and control costs
+Internal teams often overwhelmed during crisis periods
+
+B) Observable Online Signals (Evidence Library) — Research Handbook Page
+1) RESOURCE CONSTRAINTS
+Financial
+STRONG (2)
+External workforce / contractor reliance explicitly described as necessary to execute SC/Proc work
+Where: Annual report notes; earnings transcript; investor deck
+MEDIUM (1)
+SG&A / Opex increase partly attributed to temporary operational delivery support
+Where: Annual report; quarterly results commentary
+
+Operational
+STRONG (2)
+Key initiatives delayed explicitly due to lack of internal execution capacity (ERP / IBP / S&OP / logistics transformation)
+Where: Earnings call transcript; investor presentation; annual report
+MEDIUM (1)
+Execution backlog / delayed deliverables described (resource cause implied but not explicit)
+Where: Annual report; trade media; company update
+
+Organizational
+STRONG (2)
+Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”
+Where: Earnings transcript; investor deck
+Urgent hiring for SC/Proc roles (“urgent”, “immediate start”, “critical hire”)
+Where: LinkedIn Jobs; company careers website
+Repeated leadership churn in SC/Proc key roles (CPO / Planning Head / Logistics Director)
+Where: Company press releases; leadership announcements; LinkedIn profiles
+MEDIUM (1)
+Persistent high volume of SC/Proc vacancies without urgency keywords
+Where: LinkedIn Jobs; career site
+Reviews reporting chronic understaffing (supporting evidence only)
+Where: Glassdoor; Indeed
+
+Ecosystem
+STRONG (2)
+Public partnership or program explicitly announced to “accelerate execution” using external support
+Where: Press release; partner press release; reputable media
+MEDIUM (1)
+Staffing partners / contractor ecosystem presence implied (frequent interim posts, staffing firm campaigns)
+Where: LinkedIn; staffing firm websites; trade publications
+
+2) MARGIN PRESSURE
+Financial
+STRONG (2)
+Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)
+Where: Annual report / 10-K / 20-F; quarterly results; earnings transcript
+Guidance downgrade explicitly due to cost inflation / inefficiencies / pricing pressure
+Where: Investor release; earnings call transcript
+Quantified cost-out / savings program (value + timeframe)
+Where: Investor deck; earnings call transcript; annual report
+MEDIUM (1)
+Input costs / inflation described as headwind without quantified structural margin impact
+Where: Annual report; earnings call
+Freight / energy / labor costs cited as major headwind
+Where: Quarterly results; investor presentation
+
+Operational
+STRONG (2)
+Restructuring actions tied to margin recovery (plant closure, footprint rationalization, SKU reduction)
+Where: Press release; annual report; reputable media
+Procurement-driven savings program launched with targets (cost reduction / supplier renegotiation)
+Where: Investor presentation; annual report; press release
+MEDIUM (1)
+Broad “efficiency / simplification / lean” initiatives repeated without quantified targets
+Where: CEO letter; annual report narrative; trade media
+
+Organizational
+STRONG (2)
+Layoffs / hiring freeze explicitly justified by profitability pressure or cost control
+Where: Investor comms; press releases; reputable media
+MEDIUM (1)
+Internal cost controls signaled (reduced discretionary spend; halted initiatives)
+Where: Earnings transcript; reputable business media
+
+Ecosystem
+STRONG (2)
+Divestments / portfolio exits explicitly framed as margin repair
+Where: Investor deck; press release; annual report
+MEDIUM (1)
+Supplier renegotiation narrative (without quantified targets)
+Where: Earnings call; trade publications
+
+3) SIGNIFICANT GROWTH
+Financial
+STRONG (2)
+Sustained high growth explicitly linked to scaling capacity and execution limits
+Where: Earnings call transcript; annual report; quarterly results
+MEDIUM (1)
+Capex intensity rising (trend) consistent with growth narrative (no explicit project)
+Where: Annual report; investor deck
+
+Operational
+STRONG (2)
+Major capacity expansion announced (new plant / lines / DC / automation ramp)
+Where: Press release; investor deck
+M&A integration / carve-out execution program active
+Where: Press release; investor announcement
+Service/backlog pressure explicitly due to demand growth
+Where: Earnings call transcript; business media
+MEDIUM (1)
+Portfolio complexity increasing (product launches / SKU growth)
+Where: Trade media; annual report
+Expansion of logistics network / 3PL capacity due to volume growth
+Where: Trade publications; company newsroom
+
+Organizational
+STRONG (2)
+Explicit hiring ramp to scale SC execution (planners, buyers, manufacturing ops, logistics ops)
+Where: LinkedIn Jobs + official company hiring statements
+MEDIUM (1)
+Multiple new SC/Proc roles created (growth connection not explicit)
+Where: LinkedIn Jobs; careers pages
+
+Ecosystem
+STRONG (2)
+Entry into multiple new geographies/channels requiring operational redesign
+Where: Investor deck; annual report; press release
+MEDIUM (1)
+New supplier onboarding / manufacturing partnerships due to growth
+Where: Trade publications; sustainability report
+
+4) SUPPLY CHAIN DISRUPTION
+Financial
+STRONG (2)
+Missed sales / guidance explicitly attributed to supply disruption/shortage
+Where: Earnings call transcript; quarterly results
+Inventory shock explicitly linked to disruption (forced build, obsolescence, allocation)
+Where: Annual report notes; quarterly report
+MEDIUM (1)
+Premium freight / expediting costs explicitly mentioned as response to disruption
+Where: Earnings transcript; investor deck
+
+Operational
+STRONG (2)
+Production shutdown due to material shortage / supplier failure
+Where: Press release; trade media; investor comms
+Recall / quality crisis causing supply interruption
+Where: Regulator notices; company press release
+Public shortage/backorder announcements impacting customers
+Where: Company notices; reputable business media
+MEDIUM (1)
+“Supply constraints” repeatedly mentioned without quantified impact
+Where: Earnings call transcript; management updates
+
+Organizational
+STRONG (2)
+Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)
+Where: Press release; earnings call transcript
+MEDIUM (1)
+Hiring for disruption-response roles (expeditors, supplier quality, crisis planners)
+Where: LinkedIn Jobs; careers pages
+
+Ecosystem
+STRONG (2)
+Force majeure / supplier insolvency materially affecting continuity
+Where: Reputable media; court filings; investor commentary
+Major logistics disruption with material impact (strikes, port closures, route disruption)
+Where: Reputable media; trade publications
+MEDIUM (1)
+Supplier concentration risk cited as immediate operational risk (only if reconfirmed recently)
+Where: Annual report risk section + recent investor update
+
+
+
+C) How to Find Evidence (search guidance)
+Research workflow (priority order)
+ALLOWED SOURCES:  
+
+Tier 1:  
+- Regulatory filings  
+- Earnings call transcripts (third-party hosted)  
+- Financial statements reported by trusted media  
+
+Tier 2:  
+- Reuters  
+- Bloomberg  
+- Financial Times  
+- Industry trade publications  
+
+Tier 3 (supporting only):  
+- Reputable business news outlets  
+
+EXCLUDED:  
+- Company websites  
+- Investor relations pages  
+- Vendor blogs  
+
+- Generic AI or SWOT analyses
+
+C) Validation rules — UPDATED (mandatory fields + clickable URL)
+Always capture for each counted signal:
+Date (YYYY-MM-DD)
+Direct quote (≤ 25 words, verbatim)
+Source link as clickable URL (must be a full URL starting with https://...)
+Validation requirements:
+Reject undated articles or pages without publication date
+Avoid recycled news: if evidence is older than {X} months, only use it if reconfirmed recently with a new dated source
+Prefer evidence where management explicitly connects cause → impact:
+“because of X, we experienced Y”
+Cross-check:
+if trade media reports disruption → confirm in investor comms
+Avoid misleading / recycled news
+Reject articles that:
+have no date
+reuse older events without confirmation
+cite unnamed “sources close to the matter” as primary evidence
+Use “after:” or “site:” operators:
+company name supply disruption after:2024-08-01
+Treat syndications carefully (one original source, many copies)
+
+E) Scoring Logic (simple + deterministic)
+Signal scoring
+STRONG signal found = +2 points
+MEDIUM signal found = +1 point
+Counting rules (strict)
+Each counted signal must have ≥ 1 source link
+The same signal can be counted only once even if repeated across sources
+Each situation scored independently (no spillover points)
+Situation thresholds
+CONFIRMED: ≥ 10 points 
+LIKELY: 6–9 points 
+UNCLEAR: 3–5 points 
+NOT PRESENT: 0–2 points
+

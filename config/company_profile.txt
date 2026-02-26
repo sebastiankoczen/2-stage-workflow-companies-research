@@ -1,0 +1,150 @@
+XIMPAX profiling
+1) Identity & Positioning
+Company name: XIMPAX Ltd. 
+Website: https://www.ximpax.com/ 
+Boutique vs large firm assessment (with evidence from the site)
+Assessment: Boutique / network-based execution firm (not a large consulting firm).
+Evidence: positioning as a “rapid-deployment task force” and “We are NOT consultants… We deliver outcomes — not presentations.” 
+Evidence: operating model described as a “collaborative network” with a mix of employees and freelancers (explicit comparison vs traditional pyramid consulting model). 
+Evidence: “50+ experts” via a global network, rather than a large in-house pyramid. 
+Value proposition (2–3 sentences)
+XIMPAX positions itself as an execution-first, rapid-deployment task force for end-to-end Supply Chain challenges—deploying experienced practitioners to stabilize, fix, build and accelerate outcomes when clients face disruption, resourcing gaps, margin pressure, or significant growth. The firm emphasizes hands-on implementation and embedding experts into client teams, rather than delivering slideware. 
+What makes the company different (max 5 bullets)
+Execution-first positioning: “We are NOT consultants… We deliver outcomes — not presentations.” 
+Rapid-deployment “task force” model designed for urgent/high-need situations. 
+Collaborative network model (mix of employees + freelancers), explicitly contrasted with pyramid consulting. 
+End-to-end Supply Chain depth across Planning, Procurement, Manufacturing, Logistics. 
+Focus industries stated on the site (Consumer Goods; Pharma & Life Sciences; Chemicals & Industrial Goods). 
+Section source URLs:
+https://www.ximpax.com/
+https://www.ximpax.com/about-us
+https://www.ximpax.com/freelancer-network
+https://www.ximpax.com/what-we-do
+
+2) Operating Model
+Typical engagement model (task force, interim support, project delivery, hybrid)
+Hybrid: improvement projects + embedded experts (“Plug & Play”) directly into client teams. 
+Type of resources provided (roles & seniority)
+Domain experts across Plan / Source / Make / Deliver. 
+Program / project / task force managers. 
+Analytics & support team. 
+Mix of employees and freelancers; “seasoned practitioners” with hands-on ownership. 
+Typical engagement duration (if stated)
+Unknown / Not disclosed on the website pages reviewed.
+Delivery approach (how they execute)
+Rapid deployment; embed practitioners into client teams; emphasis on hands-on execution, ownership, and day-one impact. 
+Operating model described as a “collaborative network” to match expertise to each situation and operate across regions/industries. 
+Section source URLs:
+https://www.ximpax.com/what-we-do
+https://www.ximpax.com/freelancer-network
+https://www.ximpax.com/about-us
+
+3) Competence Areas (from the website)
+Below are the capability areas explicitly referenced on the site and the example activities/deliverables listed or directly implied.
+Procurement 
+Example activities / deliverables (3–6):
+Source-to-Pay support / execution 
+Category Management 
+Sustainability in procurement (e.g., procurement & sustainability expertise highlighted) 
+Indirects sourcing / management 
+Packaging procurement (explicitly listed) 
+Planning 
+Example activities / deliverables (3–6):
+IBP / S&OP / S&OE (explicit) 
+Sales & Operations Planning (explicit) 
+Supply & Demand Planning (explicit) 
+Inventory Management (explicit) 
+Maturity scans & capability improvement (applies to planning capabilities as well) 
+Manufacturing 
+Example activities / deliverables (3–6):
+Manufacturing excellence (explicit) 
+External Manufacturing (explicit) 
+Make vs Buy (explicit) 
+Capex-related topics (explicitly listed “Capex”) 
+Logistics 
+Example activities / deliverables (3–6):
+Transportation & Warehousing (explicit) 
+Sustainability & Carbon Footprint (explicit) 
+Network optimisation (explicit, cross-domain but often includes logistics footprint) 
+Transformation / PMO (cross-domain) 
+Example activities / deliverables (3–6):
+Program / project / task force management 
+M&A integration & carve-outs 
+Network & footprint design 
+Training & workshops 
+Margin improvement projects 
+Digital / analytics 
+Example activities / deliverables (3–6):
+Analytics & support resources embedded in the delivery model 
+(No further digital tooling, platforms, or proprietary solutions explicitly described on the pages reviewed) Unknown / Not disclosed 
+Section source URLs:
+https://www.ximpax.com/what-we-do
+https://www.ximpax.com/about-us
+
+4) Client Types & Industries Served
+Industry list with evidence from the site
+Consumer Goods 
+Pharma & Life Sciences 
+Chemicals & Industrial Goods 
+Type of clients (e.g., mid-size, multinational, private equity, etc.)
+Unknown / Not disclosed (no explicit client-size segments or client-type categories named on the pages reviewed).
+Region footprint
+Global network; stated client support across Europe, the Americas, and Asia Pacific. 
+Section source URLs:
+https://www.ximpax.com/about-us
+
+5) Locations & Coverage
+Offices / hubs / regions supported (explicitly stated)
+Zürich (EMEA) — address provided 
+Singapore (APAC) — address provided 
+Mexico City (Americas) — “Coming soon!” (regional office referenced) 
+Remote/on-site delivery indications
+Implied ability to deliver across regions via global network and embedding experts into client teams; explicit “experts all around the world” and operation “across regions.” 
+Explicit statement of remote vs on-site delivery: Unknown / Not disclosed.
+Section source URLs:
+https://www.ximpax.com/contact-us
+https://www.ximpax.com/about-us
+https://www.ximpax.com/freelancer-network
+
+6) Credibility Signals (factual only)
+Case studies: Unknown / Not disclosed (no case studies or named “case” pages found in the reviewed site sections). 
+Awards / certifications: Unknown / Not disclosed. 
+Partner ecosystem:
+Collaboration with a “trusted global network of niche specialists” is stated, but no named partners disclosed. 
+Publications / thought leadership: Unknown / Not disclosed (no publications section surfaced in reviewed pages). 
+Any public reference clients (only if explicitly named): Unknown / Not disclosed (no client names visible in reviewed pages). 
+Section source URLs:
+https://www.ximpax.com/
+https://www.ximpax.com/what-we-do
+https://www.ximpax.com/freelancer-network
+https://www.ximpax.com/about-us
+
+7) Constraints & Boundaries (for deterministic targeting)
+Ideal client size range (qualitative if numbers missing)
+Likely fit: organizations that need rapid execution capacity in Supply Chain (temporary expertise injection, task-force style), especially in the stated focus industries (Consumer Goods, Pharma & Life Sciences, Chemicals & Industrial Goods). 
+Numeric revenue/employee thresholds: Unknown / Not disclosed.
+What is OUT of scope / not a strong fit (based on stated model and positioning)
+Engagements expecting classic “strategy-only” consulting outputs (frameworks, slide decks) without hands-on implementation. 
+Work that requires large-scale pyramid staffing with heavy junior leverage (their model explicitly differentiates away from this). 
+What types of projects they likely should avoid (deterministic guidance)
+Multi-year, highly standardized global rollouts requiring large permanent delivery organizations (no evidence of such scale model disclosed; they emphasize a flexible network and rapid deployment). 
+Pure technology implementation projects where success depends primarily on proprietary software/platform ownership (no proprietary tech offering disclosed on-site). 
+Section source URLs:
+https://www.ximpax.com/
+https://www.ximpax.com/what-we-do
+https://www.ximpax.com/freelancer-network
+https://www.ximpax.com/about-us
+
+8) Research-ready summary
+1-paragraph summary
+XIMPAX Ltd. positions itself as an execution-focused, rapid-deployment task force for end-to-end Supply Chain challenges. The firm mobilizes experienced practitioners (mix of employees and freelancers) to embed into client teams and deliver practical outcomes across Planning, Procurement, Manufacturing, and Logistics—particularly when organizations face supply chain disruption, resourcing gaps, margin pressure, significant growth, or major transformation. XIMPAX states a focus on three industries—Consumer Goods, Pharma & Life Sciences, and Chemicals & Industrial Goods—and operates through regional hubs in Zürich and Singapore, with Mexico City listed as “coming soon,” supported by a global expert network. 
+Keywords (max 20)
+Rapid-deployment task force; execution-first; embedded experts; end-to-end supply chain; Planning; IBP; S&OP; S&OE; demand planning; inventory management; Procurement; Source-to-Pay; category management; sustainability; Manufacturing excellence; make vs buy; network optimization; logistics; transportation & warehousing; margin improvement. 
+Short tag line
+“Real experts. Real execution. Real impact.” 
+Section source URLs:
+https://www.ximpax.com/
+https://www.ximpax.com/what-we-do
+https://www.ximpax.com/about-us
+https://www.ximpax.com/contact-us
+https://www.ximpax.com/freelancer-network
