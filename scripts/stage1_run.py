@@ -91,7 +91,7 @@ def parse_markdown_table(raw: str) -> list[dict]:
     raw = re.sub(r"```[a-z]*", "", raw)
 
     lines = [l.strip() for l in raw.splitlines()]
-    pipe_lines = [l for l in lines if l.startswith("|") and l.endswith("|")]
+    pipe_lines = [l for l in lines if l.startswith("|")]
 
     if not pipe_lines:
         log.warning("No pipe-delimited lines found in response at all.")
@@ -350,7 +350,7 @@ def main():
             parsed = parse_markdown_table(raw)
             log.info(f"  → Parsed {len(parsed)} rows")
             if len(parsed) == 0:
-                log.warning(f"  → Parser found 0 rows. First 800 chars of raw output:\n{raw[:800]}")
+                log.warning(f"  → Parser found 0 rows. First 1500 chars of raw output:\n{raw[:1500]}")
             if parsed:
                 all_runs.append(parsed)
         except Exception as e:
