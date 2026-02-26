@@ -1,1 +1,30 @@
-[]
+[
+  {
+    "tier": "Tier 1",
+    "company": "Lonza",
+    "hq_country": "Switzerland",
+    "industry": "Pharma & Life Sciences",
+    "revenue": "Approx. $6B",
+    "situations": "Significant Growth, Supply Chain Disruption",
+    "classification": "Likely, Likely",
+    "priority_score": "RC: 0",
+    "key_evidence": "MP: 0",
+    "sources": "SG: 5",
+    "_score_int": 0,
+    "_frequency": 1
+  },
+  {
+    "tier": "Tier 1",
+    "company": "Givaudan",
+    "hq_country": "Switzerland",
+    "industry": "Flavors and Fragrances",
+    "revenue": "Approx. $7B",
+    "situations": "Margin Pressure, Significant Growth",
+    "classification": "Likely, Likely",
+    "priority_score": "RC: 0",
+    "key_evidence": "MP: 4",
+    "sources": "SG: 5",
+    "_score_int": 0,
+    "_frequency": 1
+  }
+]
