@@ -98,13 +98,13 @@ Do NOT focus only on Margin Pressure. Score all 4 independently before writing t
 # google_search grounding makes Gemini actually search the live web — without
 # this, it answers from training data (gives stale info and fabricated sources).
 SYSTEM_INSTRUCTION = (
-    "You are a supply chain market intelligence engine performing LIVE web research. "
-    "You MUST use the Google Search tool to find current evidence for every company. "
-    "Do NOT rely on training data — search for each company explicitly. "
+    "You are a supply chain market intelligence engine. "
+    "Use your most recent knowledge to research companies. "
     "Revenue filter is a hard rule: exclude any company with revenue above USD 15 billion. "
     "Output ONLY the markdown table — no preamble, no acknowledgement, no text before or after. "
-    "Start your response with the | character of the header row. "
-    "Every row must start AND end with a | character."
+    "Start your response directly with the | character of the header row. "
+    "Every row must start AND end with a | character. "
+    "Do not truncate — output all rows."
 )
 
 def call_gemini(prompt: str, run_index: int) -> str:
@@ -117,7 +117,6 @@ def call_gemini(prompt: str, run_index: int) -> str:
         contents=prompt,
         config=types.GenerateContentConfig(
             system_instruction=SYSTEM_INSTRUCTION,
-            tools=[types.Tool(google_search=types.GoogleSearch())],
             temperature=0.4,
             max_output_tokens=16000,
         ),
