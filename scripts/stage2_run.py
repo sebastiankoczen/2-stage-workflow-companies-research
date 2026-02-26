@@ -82,6 +82,15 @@ Company to deep-scan:
 
 
 # ── Gemini call ────────────────────────────────────────────────────────────────
+SYSTEM_INSTRUCTION = (
+    "You are a supply chain market intelligence engine. "
+    "When asked to produce a table, output ONLY the markdown table with no preamble, "
+    "no acknowledgement, no explanation before or after. "
+    "Start your response directly with the | character of the first table row. "
+    "Every row must start AND end with a | character. "
+    "Do not truncate the table — include all rows."
+)
+
 def call_gemini(prompt: str, company_name: str) -> str:
     api_key = os.environ["GEMINI_API_KEY"]
     client = genai.Client(api_key=api_key)
@@ -90,8 +99,9 @@ def call_gemini(prompt: str, company_name: str) -> str:
         model=GEMINI_MODEL,
         contents=prompt,
         config=types.GenerateContentConfig(
+            system_instruction=SYSTEM_INSTRUCTION,
             temperature=0.2,
-            max_output_tokens=8192,
+            max_output_tokens=16000,
         ),
     )
     return response.text
