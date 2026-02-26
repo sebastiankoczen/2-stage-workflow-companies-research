@@ -26,10 +26,10 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 GEMINI_MODEL       = "gemini-2.0-flash"
-NUM_RUNS           = 1          # ← set to 10 for production
+NUM_RUNS           = 10          # ← set to 10 for production
 RUNS_BETWEEN_SLEEP = 5
 SLEEP_SECONDS      = 15
-TOP_N_FOR_STAGE2   = 2          # ← set to 10 for production
+TOP_N_FOR_STAGE2   = 5          # ← set to 10 for production
 
 # Revenue hard filter — applied in post-processing after parsing
 REVENUE_MIN_B = 0.5
