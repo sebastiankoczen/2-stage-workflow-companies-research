@@ -1,0 +1,67 @@
+name: XIMPAX Weekly Intelligence Run
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Reason for manual trigger"
+        required: false
+        default: "Manual run"
+
+jobs:
+  run-intelligence:
+    name: Run 2-Stage Intelligence Engine
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Stage 1 — Company Discovery
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          cd scripts
+          python stage1_run.py
+
+      - name: Run Stage 2 — Deep Scan & Email Report
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+        run: |
+          cd scripts
+          python stage2_run.py
+
+      - name: Upload output artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: intelligence-report-${{ github.run_number }}
+          path: output/
+          retention-days: 30
+
+      - name: Commit report to repo
+        if: success()
+        run: |
+          git config user.name  "XIMPAX Intelligence Bot"
+          git config user.email "bot@ximpax-intelligence"
+          git add output/
+          git diff --staged --quiet || git commit -m "Weekly intelligence report — $(date -u +%Y-%m-%d)"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
