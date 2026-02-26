@@ -100,26 +100,35 @@ def call_gemini(prompt: str, company_name: str) -> str:
 # ── Parse Stage 2 markdown table ───────────────────────────────────────────────
 def parse_stage2_table(raw: str) -> list[dict]:
     """Parse the 4-column deep scan table from Prompt 2 output."""
+    raw = re.sub(r"```[a-z]*", "", raw)
+    lines = [l.strip() for l in raw.splitlines()]
+    pipe_lines = [l for l in lines if l.startswith("|")]
+
+    if not pipe_lines:
+        log.warning("Stage 2: no pipe-delimited lines found in response.")
+        return []
+
     rows = []
-    in_table = False
-    header_passed = False
+    header_skipped = False
 
-    for line in raw.splitlines():
-        line = line.strip()
-        if not line.startswith("|"):
-            if in_table:
-                break
-            continue
-        in_table = True
-        if re.match(r"^\|[-| :]+\|$", line):
-            header_passed = True
-            continue
-        if not header_passed:
-            continue
-
+    for line in pipe_lines:
         cells = [c.strip() for c in line.strip("|").split("|")]
+
+        # Skip separator rows
+        if all(re.match(r"^[-:\s]+$", c) for c in cells if c):
+            header_skipped = True
+            continue
+
+        # Skip header row
+        if not header_skipped:
+            header_skipped = True
+            continue
+
         if len(cells) < 4:
             continue
+
+        while len(cells) < 4:
+            cells.append("")
 
         rows.append({
             "situation_status": cells[0],
