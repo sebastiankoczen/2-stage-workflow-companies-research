@@ -25,7 +25,7 @@ OUTPUT_DIR = ROOT / "output"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 # ── Config ─────────────────────────────────────────────────────────────────────
-GEMINI_MODEL = "gemini-1.5-pro"
+GEMINI_MODEL = "gemini-2.0-flash"
 NUM_RUNS = 10
 RUNS_BETWEEN_SLEEP = 5          # Gemini free-tier rate limit guard
 SLEEP_SECONDS = 15
