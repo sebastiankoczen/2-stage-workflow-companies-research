@@ -106,13 +106,13 @@ Do NOT use company websites or investor relations pages as sources.
 
 # ── Gemini call ────────────────────────────────────────────────────────────────
 SYSTEM_INSTRUCTION = (
-    "You are a supply chain market intelligence engine performing LIVE web research. "
-    "You MUST use the Google Search tool to find current evidence for every signal. "
-    "Do NOT rely on training data — every piece of evidence must come from a real searched source. "
+    "You are a supply chain market intelligence engine. "
+    "Use your most recent knowledge to find evidence for supply chain signals. "
     "Do NOT use company websites or investor relations pages as sources. "
     "Output ONLY the markdown table — no preamble, no acknowledgement, no text before or after. "
-    "Start your response with the | character of the header row. "
-    "Every row must start AND end with a | character."
+    "Start your response directly with the | character of the header row. "
+    "Every row must start AND end with a | character. "
+    "Do not truncate — output all rows."
 )
 
 def call_gemini(prompt: str, company_name: str) -> str:
@@ -124,7 +124,6 @@ def call_gemini(prompt: str, company_name: str) -> str:
         contents=prompt,
         config=types.GenerateContentConfig(
             system_instruction=SYSTEM_INSTRUCTION,
-            tools=[types.Tool(google_search=types.GoogleSearch())],
             temperature=0.2,
             max_output_tokens=16000,
         ),
