@@ -47,12 +47,24 @@ FORBIDDEN_SOURCE_PATTERNS = [
     r"\bcompany\s+website\b", r"\bcompany\s+site\b", r"\bIR\s+page\b",
     r"\binvestor\s+relations\b", r"\bpress\s+release\b",
     r"\bvendor\s+blog\b", r"\bswot\b",
+    # Careers / jobs pages = company's own domain
+    r"\bcareers?\b", r"\bjobs?\s+page\b", r"\bnewsroom\b",
+    # Explicitly forbidden AI/SWOT analysis aggregator sites
+    r"portersfiveforce", r"comparably", r"craft\.co", r"macroaxis",
+    r"stockanalysis\.com", r"wisesheets", r"marketbeat", r"simplywall",
 ]
-# Known company domains that appear as source labels (the model names them directly)
+
+# When the model labels a source as just the company name (or company name + suffix)
+# it means it used the company's own website / press room.
 FORBIDDEN_SOURCE_LABELS = {
     "lonza", "givaudan", "novartis", "roche", "nestle", "abb", "sika",
     "sonova", "straumann", "georg fischer", "lindt", "emmi", "dätwyler",
     "tecan", "bossard", "orior", "huber", "bucher", "bobst",
+}
+# Suffixes that combined with a company name = company-owned page
+COMPANY_PAGE_SUFFIXES = {
+    "careers", "career", "jobs", "newsroom", "press", "news",
+    "investor", "investors", "ir", "annual report", "sustainability report",
 }
 
 
@@ -106,15 +118,27 @@ ALLOWED sources (use these):
   Tier 3: Reputable business news (Forbes, WSJ, etc.)
 
 FORBIDDEN — do NOT use any of these:
-  ✗ {company['company']} company website or press releases
+  ✗ {company['company']} company website, press releases, newsroom, or careers page
   ✗ Any company's own investor relations page
   ✗ LinkedIn job posts (only acceptable for Organizational signals,
     and ONLY if the posting itself is dated after {CUTOFF_STR})
   ✗ Generic industry blogs or vendor content
   ✗ ZipRecruiter, Indeed, or other job boards for non-job-specific signals
-  ✗ Generic industry articles that are NOT specifically about {company['company']}
-    (e.g. "supply chain professionals face staffing challenges" is NOT
-    evidence about {company['company']} — it must name this company explicitly)
+  ✗ SWOT or AI analysis aggregator sites: PortersFiveForce.com, Comparably,
+    Craft.co, Macroaxis, StockAnalysis, WiseSheets, MarketBeat, SimplyWallSt
+  ✗ Generic industry articles that do NOT specifically name {company['company']}
+    (e.g. "supply chain professionals face staffing challenges in 2024" is NOT
+    evidence about {company['company']} — the article must name this company)
+  ✗ Generic company taglines or marketing language
+    (e.g. "world leader in X with lean manufacturing" is a company description,
+    NOT evidence of a supply chain situation — it must be an analyst or journalist
+    reporting a specific operational fact)
+
+STRICT COUNTING RULES — READ CAREFULLY:
+  ✗ The same article / URL may only be counted for ONE signal, not multiple
+  ✗ If you use Reuters article X for one signal, you cannot use it again
+  ✗ Maximum 2 signals from any single source publication per situation
+  ✗ Do NOT count a signal without a real confirmed URL — write "no evidence found"
 
 ══════════════════════════════════════════════════════
 SEARCH QUERIES — RUN ALL OF THESE
@@ -198,6 +222,12 @@ CRITICAL RULES:
    — never invent, guess, abbreviate, or modify any URL
 6. Include the publication date in the Evidence column: "(Published: YYYY-MM-DD)"
 7. If research shows "No evidence found" for a situation, write one row with "No signals detected"
+8. Signal weight labels MUST be exactly one of these two — nothing else:
+   "STRONG +2"  (for strong signals worth 2 points)
+   "MEDIUM +1"  (for medium signals worth 1 point)
+   NEVER write "MEDIUM +2" — that is a labeling error. Medium is always +1.
+9. The source label must be the publication name (Reuters, Bloomberg, FT, Swissquote etc.)
+   NOT the article headline. If you only know the article title, use the domain name.
 """
 
 
@@ -295,20 +325,40 @@ def parse_evidence_date(evidence: str) -> datetime | None:
 
 def classify_source(source_str: str) -> str:
     """
-    Returns: 'forbidden' | 'clean' | 'unknown'
-    Checks if the source label matches known company website patterns.
+    Returns: 'forbidden' | 'clean'
+    Covers: company websites, careers pages, IR pages, SWOT/AI analysis sites,
+    article-headline-as-source-label (ambiguous).
     """
     s = source_str.lower().strip()
-    # Check against forbidden patterns
+
+    # 1. Direct pattern matches (company site, press release, SWOT sites, etc.)
     for pat in FORBIDDEN_SOURCE_PATTERNS:
         if re.search(pat, s, re.IGNORECASE):
             return "forbidden"
-    # Check if the source label IS just the company name (no publication name)
-    # e.g. "Lonza" or "Givaudan" with no other context
+
+    # 2. Company name alone OR company name + page suffix
+    #    e.g. "Lonza" | "Lonza Careers" | "Sika Newsroom" | "Givaudan Press"
     for label in FORBIDDEN_SOURCE_LABELS:
-        # Match if source IS the company name, optionally with page ref
-        if re.match(rf"^{re.escape(label)}(\s+\(|$)", s):
+        escaped = re.escape(label)
+        # Bare company name (possibly with page ref in parens)
+        if re.match(rf"^{escaped}(\s*[\(\[]|$)", s):
             return "forbidden"
+        # Company name + forbidden suffix
+        for suffix in COMPANY_PAGE_SUFFIXES:
+            if re.match(rf"^{escaped}\s+{re.escape(suffix)}", s):
+                return "forbidden"
+
+    # 3. Source label looks like an article headline rather than a publication name
+    #    Heuristic: >8 words, or contains "announces|agrees|plans|reports|falls|rises"
+    #    These are unreliable because the publication can't be independently identified.
+    words = s.split()
+    if len(words) > 8:
+        return "forbidden"
+    headline_verbs = ["announces", "agreed", "plans", "reported", "falls", "rises",
+                      "expands", "acquires", "closes", "layoffs", "restructur"]
+    if any(v in s for v in headline_verbs):
+        return "forbidden"
+
     return "clean"
 
 
