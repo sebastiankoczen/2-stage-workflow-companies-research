@@ -60,6 +60,15 @@ def build_prompt() -> str:
 
 
 # ── Gemini call ────────────────────────────────────────────────────────────────
+SYSTEM_INSTRUCTION = (
+    "You are a supply chain market intelligence engine. "
+    "When asked to produce a table, output ONLY the markdown table with no preamble, "
+    "no acknowledgement, no explanation before or after. "
+    "Start your response directly with the | character of the first table row. "
+    "Every row must start AND end with a | character. "
+    "Do not truncate the table — include all rows."
+)
+
 def call_gemini(prompt: str, run_index: int) -> str:
     api_key = os.environ["GEMINI_API_KEY"]
     client = genai.Client(api_key=api_key)
@@ -69,8 +78,9 @@ def call_gemini(prompt: str, run_index: int) -> str:
         model=GEMINI_MODEL,
         contents=prompt,
         config=types.GenerateContentConfig(
+            system_instruction=SYSTEM_INSTRUCTION,
             temperature=0.4,
-            max_output_tokens=8192,
+            max_output_tokens=16000,
         ),
     )
     return response.text
@@ -348,9 +358,9 @@ def main():
             raw = call_gemini(prompt, i)
             raw_responses.append(raw)
             parsed = parse_markdown_table(raw)
-            log.info(f"  → Parsed {len(parsed)} rows")
+            log.info(f"  → Parsed {len(parsed)} rows (response length: {len(raw)} chars)")
             if len(parsed) == 0:
-                log.warning(f"  → Parser found 0 rows. First 1500 chars of raw output:\n{raw[:1500]}")
+                log.warning(f"  → Parser found 0 rows. Full raw output:\n{raw[:3000]}")
             if parsed:
                 all_runs.append(parsed)
         except Exception as e:
