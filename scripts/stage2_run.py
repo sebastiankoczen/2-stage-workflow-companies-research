@@ -1,6 +1,6 @@
 """
 XIMPAX Intelligence Engine — Stage 2
-Deep-scans the Top 10 companies from Stage 1 via Gemini + Prompt 2,
+Deep-scans the Top N companies from Stage 1 via Gemini + Prompt 2,
 generates a polished HTML report, and emails it via Gmail.
 """
 
@@ -24,15 +24,15 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 log = logging.getLogger(__name__)
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
-ROOT = Path(__file__).resolve().parent.parent
-CONFIG_DIR   = ROOT / "config"
-PROMPTS_DIR  = ROOT / "prompts"
-OUTPUT_DIR   = ROOT / "output"
+ROOT        = Path(__file__).resolve().parent.parent
+CONFIG_DIR  = ROOT / "config"
+PROMPTS_DIR = ROOT / "prompts"
+OUTPUT_DIR  = ROOT / "output"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 # ── Config ─────────────────────────────────────────────────────────────────────
-GEMINI_MODEL = "gemini-2.0-flash"
-SLEEP_BETWEEN = 8        # seconds between company calls (rate limit guard)
+GEMINI_MODEL   = "gemini-2.0-flash"
+SLEEP_BETWEEN  = 8
 
 
 def load_file(path: Path) -> str:
@@ -43,7 +43,13 @@ def load_stage2_input() -> list[dict]:
     path = OUTPUT_DIR / "stage2_input.json"
     if not path.exists():
         raise FileNotFoundError(f"Stage 2 input not found at {path}. Run stage1_run.py first.")
-    return json.loads(path.read_text())
+    data = json.loads(path.read_text())
+    # Guarantee sorted by score descending before deep scanning
+    data.sort(key=lambda r: r.get("_score_int", 0), reverse=True)
+    log.info(f"Stage 2 input loaded — {len(data)} companies, sorted by score:")
+    for r in data:
+        log.info(f"  → {r['company']} | Score: {r.get('_score_int', '?')}/40")
+    return data
 
 
 def build_prompt(company: dict) -> str:
@@ -84,16 +90,15 @@ Company to deep-scan:
 # ── Gemini call ────────────────────────────────────────────────────────────────
 SYSTEM_INSTRUCTION = (
     "You are a supply chain market intelligence engine. "
-    "When asked to produce a table, output ONLY the markdown table with no preamble, "
-    "no acknowledgement, no explanation before or after. "
-    "Start your response directly with the | character of the first table row. "
+    "Output ONLY the markdown table — no preamble, no acknowledgement, no explanation. "
+    "Start your response with the | character of the header row. "
     "Every row must start AND end with a | character. "
-    "Do not truncate the table — include all rows."
+    "Do not truncate — include every signal row."
 )
 
 def call_gemini(prompt: str, company_name: str) -> str:
     api_key = os.environ["GEMINI_API_KEY"]
-    client = genai.Client(api_key=api_key)
+    client  = genai.Client(api_key=api_key)
     log.info(f"Deep scanning: {company_name} …")
     response = client.models.generate_content(
         model=GEMINI_MODEL,
@@ -110,26 +115,24 @@ def call_gemini(prompt: str, company_name: str) -> str:
 # ── Parse Stage 2 markdown table ───────────────────────────────────────────────
 def parse_stage2_table(raw: str) -> list[dict]:
     """Parse the 4-column deep scan table from Prompt 2 output."""
-    raw = re.sub(r"```[a-z]*", "", raw)
-    lines = [l.strip() for l in raw.splitlines()]
+    raw        = re.sub(r"```[a-z]*", "", raw)
+    lines      = [l.strip() for l in raw.splitlines()]
     pipe_lines = [l for l in lines if l.startswith("|")]
 
     if not pipe_lines:
         log.warning("Stage 2: no pipe-delimited lines found in response.")
         return []
 
-    rows = []
+    rows           = []
     header_skipped = False
 
     for line in pipe_lines:
         cells = [c.strip() for c in line.strip("|").split("|")]
 
-        # Skip separator rows
         if all(re.match(r"^[-:\s]+$", c) for c in cells if c):
             header_skipped = True
             continue
 
-        # Skip header row
         if not header_skipped:
             header_skipped = True
             continue
@@ -150,144 +153,219 @@ def parse_stage2_table(raw: str) -> list[dict]:
 
 
 # ── HTML report builder ─────────────────────────────────────────────────────────
-SIGNAL_COLORS = {
-    "confirmed": ("#166534", "#dcfce7", "✅ CONFIRMED"),
-    "likely":    ("#1e40af", "#dbeafe", "🔵 LIKELY"),
-    "unclear":   ("#854d0e", "#fef9c3", "⚠️ UNCLEAR"),
-    "not present": ("#64748b", "#f1f5f9", "⬜ NOT PRESENT"),
+# Situation → (text color, background color, label)
+SIGNAL_STYLES = {
+    "confirmed":   ("#86efac", "#14532d", "✅ CONFIRMED"),
+    "likely":      ("#93c5fd", "#1e3a5f", "🔵 LIKELY"),
+    "unclear":     ("#fcd34d", "#422006", "⚠️ UNCLEAR"),
+    "not present": ("#9ca3af", "#1f2937", "⬜ NOT PRESENT"),
 }
 
 def situation_style(status_text: str):
     t = status_text.lower()
-    for key, val in SIGNAL_COLORS.items():
+    for key, val in SIGNAL_STYLES.items():
         if key in t:
             return val
-    return ("#333", "#f8fafc", status_text)
+    return ("#d1d5db", "#1f2937", status_text[:40])
 
 
 def make_source_link(src: str) -> str:
-    urls = re.findall(r"https?://[^\s<>\"']+", src)
+    urls  = re.findall(r"https?://[^\s<>\"']+", src)
     label = re.sub(r"https?://[^\s<>\"']+", "", src).strip(" —-–")
     if urls:
-        return f'<a href="{urls[0]}" target="_blank">{label or "🔗 Source"}</a>'
-    return src[:100]
+        return f'<a href="{urls[0]}" target="_blank" style="color:#60a5fa">{label or "🔗 Source"}</a>'
+    return f'<span style="color:#6b7280">{src[:100]}</span>'
 
 
-def build_company_section(company: dict, rows: list[dict]) -> str:
+def build_company_section(company: dict, rows: list[dict], rank: int) -> str:
     score_int = company.get("_score_int", 0)
-    bar_pct = min(100, int(score_int / 40 * 100))
+    bar_pct   = min(100, int(score_int / 40 * 100))
 
-    # Group rows by situation
+    # Determine dominant situation colour for header accent
+    dominant_color = "#2563eb"
+    for row in rows:
+        sit = row["situation_status"].lower()
+        if "confirmed" in sit:
+            dominant_color = "#16a34a"
+            break
+        elif "likely" in sit:
+            dominant_color = "#2563eb"
+
+    # Group rows by situation block
     groups: dict[str, list] = {}
-    current_situation = ""
+    current_sit = ""
     for row in rows:
         if row["situation_status"].strip():
-            current_situation = row["situation_status"]
-        groups.setdefault(current_situation, []).append(row)
+            current_sit = row["situation_status"]
+        groups.setdefault(current_sit, []).append(row)
 
     signal_rows_html = []
     for sit, sig_rows in groups.items():
-        color, bg, label = situation_style(sit)
+        txt_color, bg_color, label = situation_style(sit)
         first = True
         for sig_row in sig_rows:
-            sit_cell = f'<td style="background:{bg};color:{color};font-weight:600;font-size:11px;white-space:nowrap;padding:8px">{label}<br><small style="font-size:10px;font-weight:normal">{sit}</small></td>' if first else '<td style="background:#fafafa"></td>'
-            first = False
+            if first:
+                sit_cell = (
+                    f'<td style="background:{bg_color};color:{txt_color};font-weight:700;'
+                    f'font-size:11px;white-space:nowrap;padding:10px 8px;'
+                    f'border-right:1px solid #374151">'
+                    f'{label}<br>'
+                    f'<small style="font-size:9px;font-weight:400;opacity:.8">{sit}</small></td>'
+                )
+                first = False
+            else:
+                sit_cell = '<td style="background:#111827;border-right:1px solid #374151"></td>'
+
             signal_rows_html.append(f"""
-            <tr>
+            <tr style="border-bottom:1px solid #374151">
               {sit_cell}
-              <td style="padding:8px;font-size:12px">{sig_row['detected_signal']}</td>
-              <td style="padding:8px;font-size:11px;font-style:italic;color:#444">{sig_row['evidence']}</td>
-              <td style="padding:8px;font-size:11px">{make_source_link(sig_row['source_url'])}</td>
+              <td style="padding:10px 8px;font-size:12px;color:#d1d5db;border-right:1px solid #374151">{sig_row['detected_signal']}</td>
+              <td style="padding:10px 8px;font-size:11px;font-style:italic;color:#9ca3af;border-right:1px solid #374151">{sig_row['evidence']}</td>
+              <td style="padding:10px 8px;font-size:11px">{make_source_link(sig_row['source_url'])}</td>
             </tr>""")
 
+    no_signals = (
+        '<tr><td colspan="4" style="padding:14px;color:#6b7280;text-align:center;'
+        'font-style:italic">No signals parsed — check raw output in repo</td></tr>'
+    )
+
     return f"""
-    <div style="background:#fff;border-radius:10px;margin-bottom:28px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden">
-      <div style="background:linear-gradient(135deg,#1a1a2e,#2563eb);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center">
+    <div style="background:#1f2937;border-radius:10px;margin-bottom:24px;
+                overflow:hidden;border:1px solid #374151">
+      <!-- Company header -->
+      <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f);
+                  border-left:4px solid {dominant_color};
+                  padding:16px 20px;display:flex;justify-content:space-between;align-items:center">
         <div>
-          <h2 style="font-size:17px;margin:0">{company['company']}</h2>
-          <p style="font-size:12px;opacity:.85;margin:4px 0 0">{company['industry']} &nbsp;|&nbsp; {company['hq_country']} &nbsp;|&nbsp; {company['revenue']}</p>
+          <div style="font-size:11px;color:#6b7280;text-transform:uppercase;
+                      letter-spacing:1px;margin-bottom:4px">#{rank} Priority Lead</div>
+          <h2 style="font-size:18px;margin:0;color:#f9fafb;font-weight:700">{company['company']}</h2>
+          <p style="font-size:12px;color:#9ca3af;margin:5px 0 0">
+            {company['industry']} &nbsp;·&nbsp; {company['hq_country']} &nbsp;·&nbsp; {company['revenue']}
+          </p>
         </div>
-        <div style="text-align:right">
-          <div style="font-size:26px;font-weight:700">{score_int}<small style="font-size:13px">/40</small></div>
-          <div style="background:rgba(255,255,255,.2);border-radius:4px;height:6px;width:120px;margin-top:4px">
-            <div style="background:#7dd3fc;height:6px;border-radius:4px;width:{bar_pct}%"></div>
+        <div style="text-align:right;min-width:110px">
+          <div style="font-size:30px;font-weight:800;color:#60a5fa">{score_int}
+            <small style="font-size:14px;color:#6b7280">/40</small>
           </div>
-          <small style="font-size:10px;opacity:.7">Priority Score</small>
+          <div style="background:rgba(255,255,255,.1);border-radius:4px;height:6px;
+                      width:110px;margin:6px 0 2px;margin-left:auto">
+            <div style="background:linear-gradient(90deg,#2563eb,#7c3aed);
+                        height:6px;border-radius:4px;width:{bar_pct}%"></div>
+          </div>
+          <small style="font-size:10px;color:#6b7280">Priority Score</small>
         </div>
       </div>
+      <!-- Signal table -->
       <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif">
         <thead>
-          <tr style="background:#f1f5f9">
-            <th style="padding:8px;text-align:left;font-size:11px;color:#555;text-transform:uppercase;width:160px">Situation</th>
-            <th style="padding:8px;text-align:left;font-size:11px;color:#555;text-transform:uppercase">Detected Signal</th>
-            <th style="padding:8px;text-align:left;font-size:11px;color:#555;text-transform:uppercase">Evidence & Quote</th>
-            <th style="padding:8px;text-align:left;font-size:11px;color:#555;text-transform:uppercase;width:150px">Source</th>
+          <tr style="background:#111827;border-bottom:2px solid #374151">
+            <th style="padding:8px;text-align:left;font-size:10px;color:#6b7280;
+                       text-transform:uppercase;width:150px;border-right:1px solid #374151">Situation</th>
+            <th style="padding:8px;text-align:left;font-size:10px;color:#6b7280;
+                       text-transform:uppercase;border-right:1px solid #374151">Detected Signal</th>
+            <th style="padding:8px;text-align:left;font-size:10px;color:#6b7280;
+                       text-transform:uppercase;border-right:1px solid #374151">Evidence & Quote</th>
+            <th style="padding:8px;text-align:left;font-size:10px;color:#6b7280;
+                       text-transform:uppercase">Source</th>
           </tr>
         </thead>
         <tbody>
-          {"".join(signal_rows_html) or '<tr><td colspan="4" style="padding:12px;color:#999;text-align:center">No signals parsed — check raw output</td></tr>'}
+          {"".join(signal_rows_html) if signal_rows_html else no_signals}
         </tbody>
       </table>
     </div>"""
 
 
-REPORT_TEMPLATE = """<!DOCTYPE html>
+REPORT_TEMPLATE = """\
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>XIMPAX Deep Scan Report — {date}</title>
-<style>
-  * {{ box-sizing: border-box; }}
-  body {{ font-family: Arial, sans-serif; background: #f4f6f9; color: #1a1a2e; margin: 0; padding: 24px; }}
-  .header {{ background: linear-gradient(135deg,#1a1a2e,#1e40af); color: #fff; padding: 28px 32px; border-radius: 12px; margin-bottom: 28px; }}
-  .header h1 {{ font-size: 24px; margin: 0 0 6px; }}
-  .header p {{ margin: 0; opacity: .8; font-size: 13px; }}
-  .stats {{ display: flex; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }}
-  .stat {{ background: #fff; border-radius: 8px; padding: 14px 20px; box-shadow: 0 1px 4px rgba(0,0,0,.1); }}
-  .stat .v {{ font-size: 30px; font-weight: 700; color: #2563eb; }}
-  .stat .l {{ font-size: 11px; color: #888; text-transform: uppercase; }}
-  a {{ color: #2563eb; }}
-  .footer {{ text-align:center; color:#888; font-size:11px; margin-top:24px; padding-top:16px; border-top:1px solid #e2e8f0; }}
-</style>
 </head>
-<body>
-<div class="header">
-  <h1>🎯 XIMPAX Weekly Intelligence — Deep Scan Report</h1>
-  <p>Stage 2 Analysis | {date} | Top {num_companies} Companies Validated</p>
-</div>
+<body style="margin:0;padding:0;background:#0f172a;font-family:Arial,sans-serif;color:#e5e7eb">
 
-<div class="stats">
-  <div class="stat"><div class="v">{num_companies}</div><div class="l">Companies Scanned</div></div>
-  <div class="stat"><div class="v">{confirmed}</div><div class="l">Confirmed Situations</div></div>
-  <div class="stat"><div class="v">{likely}</div><div class="l">Likely Situations</div></div>
-  <div class="stat"><div class="v">{total_signals}</div><div class="l">Total Signals Found</div></div>
-</div>
+  <!-- Email wrapper -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;padding:24px 0">
+  <tr><td>
+  <table width="680" align="center" cellpadding="0" cellspacing="0"
+         style="max-width:680px;margin:0 auto">
 
-{company_sections}
+    <!-- Header banner -->
+    <tr><td style="background:linear-gradient(135deg,#0f172a,#1e3a5f);
+                   border-radius:12px 12px 0 0;padding:28px 32px;
+                   border-bottom:3px solid #2563eb">
+      <div style="font-size:11px;color:#6b7280;text-transform:uppercase;
+                  letter-spacing:2px;margin-bottom:8px">XIMPAX Intelligence Engine</div>
+      <h1 style="margin:0;font-size:22px;color:#f9fafb;font-weight:800">
+        🎯 Weekly Deep Scan Report
+      </h1>
+      <p style="margin:8px 0 0;color:#9ca3af;font-size:13px">
+        Stage 2 Analysis &nbsp;·&nbsp; {date} &nbsp;·&nbsp; Top {num_companies} Companies Validated
+      </p>
+    </td></tr>
 
-<div class="footer">
-  XIMPAX Intelligence Engine — Automated Weekly Report &nbsp;|&nbsp; Powered by Gemini AI<br>
-  Questions? Reply to this email.
-</div>
+    <!-- Stats bar -->
+    <tr><td style="background:#1f2937;padding:16px 32px;border-bottom:1px solid #374151">
+      <table width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td style="text-align:center;padding:8px 0;border-right:1px solid #374151">
+          <div style="font-size:28px;font-weight:800;color:#60a5fa">{num_companies}</div>
+          <div style="font-size:10px;color:#6b7280;text-transform:uppercase">Scanned</div>
+        </td>
+        <td style="text-align:center;padding:8px 0;border-right:1px solid #374151">
+          <div style="font-size:28px;font-weight:800;color:#86efac">{confirmed}</div>
+          <div style="font-size:10px;color:#6b7280;text-transform:uppercase">Confirmed</div>
+        </td>
+        <td style="text-align:center;padding:8px 0;border-right:1px solid #374151">
+          <div style="font-size:28px;font-weight:800;color:#93c5fd">{likely}</div>
+          <div style="font-size:10px;color:#6b7280;text-transform:uppercase">Likely</div>
+        </td>
+        <td style="text-align:center;padding:8px 0">
+          <div style="font-size:28px;font-weight:800;color:#fcd34d">{total_signals}</div>
+          <div style="font-size:10px;color:#6b7280;text-transform:uppercase">Signals</div>
+        </td>
+      </tr>
+      </table>
+    </td></tr>
+
+    <!-- Company sections -->
+    <tr><td style="background:#111827;padding:20px 24px">
+      {company_sections}
+    </td></tr>
+
+    <!-- Footer -->
+    <tr><td style="background:#0f172a;border-radius:0 0 12px 12px;
+                   padding:16px 32px;border-top:1px solid #374151;
+                   text-align:center;color:#4b5563;font-size:11px">
+      XIMPAX Intelligence Engine &nbsp;·&nbsp; Automated Weekly Report &nbsp;·&nbsp; Powered by Gemini AI<br>
+      <span style="color:#374151">The full Stage 1 chart is attached as an HTML file.</span>
+    </td></tr>
+
+  </table>
+  </td></tr>
+  </table>
+
 </body>
 </html>"""
 
 
 def build_full_report(companies_with_rows: list[tuple]) -> str:
-    date_str = datetime.utcnow().strftime("%B %d, %Y")
-    confirmed = 0
-    likely = 0
+    date_str      = datetime.utcnow().strftime("%B %d, %Y")
+    confirmed     = 0
+    likely        = 0
     total_signals = 0
 
     sections = []
-    for company, rows in companies_with_rows:
+    for rank, (company, rows) in enumerate(companies_with_rows, start=1):
         for row in rows:
             sit = row["situation_status"].lower()
-            if "confirmed" in sit: confirmed += 1
-            elif "likely" in sit:  likely += 1
+            if "confirmed" in sit:   confirmed += 1
+            elif "likely" in sit:    likely    += 1
             if row["detected_signal"] and "no signals" not in row["detected_signal"].lower():
                 total_signals += 1
-        sections.append(build_company_section(company, rows))
+        sections.append(build_company_section(company, rows, rank))
 
     return REPORT_TEMPLATE.format(
         date=date_str,
@@ -304,39 +382,32 @@ def send_email(html_content: str, attachment_path: Path):
     smtp_user     = os.environ["GMAIL_ADDRESS"]
     smtp_password = os.environ["GMAIL_APP_PASSWORD"]
     to_address    = os.environ["RECIPIENT_EMAIL"]
+    subject       = f"XIMPAX Weekly Intelligence Report — {datetime.utcnow().strftime('%d %b %Y')}"
 
-    subject = f"XIMPAX Weekly Intelligence Report — {datetime.utcnow().strftime('%d %b %Y')}"
-
-    msg = MIMEMultipart("mixed")
+    msg            = MIMEMultipart("mixed")
     msg["From"]    = smtp_user
     msg["To"]      = to_address
     msg["Subject"] = subject
-
-    # HTML body
     msg.attach(MIMEText(html_content, "html", "utf-8"))
 
-    # Attachment
     with open(attachment_path, "rb") as f:
         part = MIMEBase("application", "octet-stream")
         part.set_payload(f.read())
     encoders.encode_base64(part)
-    part.add_header(
-        "Content-Disposition",
-        f'attachment; filename="{attachment_path.name}"',
-    )
+    part.add_header("Content-Disposition", f'attachment; filename="{attachment_path.name}"')
     msg.attach(part)
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
         server.login(smtp_user, smtp_password)
         server.sendmail(smtp_user, to_address, msg.as_string())
 
-    log.info(f"Email sent to {to_address}")
+    log.info(f"✅ Email sent to {to_address}")
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
     companies = load_stage2_input()
-    log.info(f"Stage 2: deep scanning {len(companies)} companies")
+    log.info(f"Stage 2: deep scanning {len(companies)} companies in score order")
 
     companies_with_rows = []
     raw_all = {}
@@ -344,10 +415,10 @@ def main():
     for i, company in enumerate(companies):
         try:
             prompt = build_prompt(company)
-            raw = call_gemini(prompt, company["company"])
+            raw    = call_gemini(prompt, company["company"])
             raw_all[company["company"]] = raw
-            rows = parse_stage2_table(raw)
-            log.info(f"  → {len(rows)} signal rows parsed for {company['company']}")
+            rows   = parse_stage2_table(raw)
+            log.info(f"  → {len(rows)} signal rows for {company['company']}")
             companies_with_rows.append((company, rows))
         except Exception as e:
             log.warning(f"Failed for {company['company']}: {e}")
@@ -356,21 +427,17 @@ def main():
         if i < len(companies) - 1:
             time.sleep(SLEEP_BETWEEN)
 
-    # Save raw
-    ts = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+    ts       = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
     raw_path = OUTPUT_DIR / f"stage2_raw_{ts}.json"
     raw_path.write_text(json.dumps(raw_all, ensure_ascii=False, indent=2))
 
-    # Build HTML report
-    html = build_full_report(companies_with_rows)
+    html      = build_full_report(companies_with_rows)
     html_path = OUTPUT_DIR / f"stage2_report_{ts}.html"
     html_path.write_text(html, encoding="utf-8")
     log.info(f"Stage 2 HTML report → {html_path}")
 
-    # Send email
     try:
         send_email(html, html_path)
-        log.info("✅ Email sent successfully")
     except Exception as e:
         log.error(f"Email failed: {e}")
         raise
