@@ -1,12 +1,13 @@
 """
 XIMPAX Intelligence Engine — Stage 1
 
-Key design: SECTOR ROTATION across 10 runs to force company diversity.
-Each run is assigned a specific industry pair so 10 runs × 20 companies
-explore the full Swiss industrial landscape rather than repeating the
-same 5 famous names every run.
+Reads companies from config/companies.xlsx (the master list).
+Each weekly run processes the next 100 companies: 10 runs × 10 companies each.
+A state.json file tracks the offset so each week picks up where the previous left off.
+After the full list is exhausted it wraps back to company #1.
 
-No web search — Gemini knowledge-based. Stage 2 does live research.
+No web search — Gemini knowledge-based scoring.
+Stage 2 does the live research.
 """
 
 import os
@@ -17,6 +18,7 @@ import logging
 from datetime import datetime, timedelta
 from pathlib import Path
 
+import pandas as pd
 from google import genai
 from google.genai import types
 
@@ -31,102 +33,120 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 GEMINI_MODEL       = "gemini-2.0-flash"
-NUM_RUNS           = 10
+COMPANIES_PER_RUN  = 5      # companies evaluated per Gemini call
+NUM_RUNS           = 5       # runs per week → 10 × 10 = 100 companies/week
 RUNS_BETWEEN_SLEEP = 3
 SLEEP_SECONDS      = 20
 TOP_N_FOR_STAGE2   = 10
+TODAY              = datetime.utcnow().strftime("%Y-%m-%d")
 
-REVENUE_MIN_B = 0.5
-REVENUE_MAX_B = 15.0
-TODAY         = datetime.utcnow().strftime("%Y-%m-%d")
-
-# ── Sector rotation config ─────────────────────────────────────────────────────
-# 10 run slots mapped to industry focus + seed companies to include
-# This guarantees breadth across the Swiss industrial landscape
-SECTOR_ROTATION = [
-    # Run 0: Pharma & Life Sciences
-    {
-        "focus": "Pharmaceuticals, Biotechnology, CDMO, Life Sciences",
-        "seed_companies": "Lonza, Bachem, Siegfried, Molecular Partners, Idorsia, Relief Therapeutics, Obseva, Polyphor, Evolent Health, Vifor Pharma",
-        "exclude": "",
-    },
-    # Run 1: MedTech & Medical Devices
-    {
-        "focus": "Medical Devices, Dental, Diagnostics, MedTech",
-        "seed_companies": "Straumann, Sonova, Ypsomed, Tecan, Hamilton Medical, Schiller, Medela, Sensirion, Skan Group, Coltene",
-        "exclude": "",
-    },
-    # Run 2: Specialty Chemicals & Materials
-    {
-        "focus": "Specialty Chemicals, Coatings, Adhesives, Construction Chemicals, Plastics",
-        "seed_companies": "Sika, Clariant, EMS-Chemie, Dätwyler, Bossard, Huber+Suhner, Gurit, Komax, Bucher Industries, List",
-        "exclude": "",
-    },
-    # Run 3: Flavours, Fragrances & Consumer Ingredients
-    {
-        "focus": "Flavors, Fragrances, Cosmetics Ingredients, Personal Care, Consumer Chemicals",
-        "seed_companies": "Givaudan, Firmenich (pre-merger), Ineos Styrolution Switzerland, Carbogen Amcis, Lonza Consumer Health, Salvona, Alessa, Lipoid, Roquette Suisse, Ashland Switzerland",
-        "exclude": "",
-    },
-    # Run 4: Food & Beverage
-    {
-        "focus": "Food Processing, Dairy, Beverages, Nutrition, Food Ingredients",
-        "seed_companies": "Emmi, Lindt & Sprüngli, Orior, Bell Food Group, Hügli, Bernrain, Kambly, Wander (Ovomaltine), Hero Group, Rivella",
-        "exclude": "",
-    },
-    # Run 5: Industrial Manufacturing & Automation
-    {
-        "focus": "Industrial Machinery, Automation, Robotics, Precision Manufacturing, Tools",
-        "seed_companies": "Georg Fischer, Bobst, Komax, Bystronic, Schindler (lifts), Kistler, Endress+Hauser, Tornos, Fritz Studer, Liebherr Switzerland",
-        "exclude": "",
-    },
-    # Run 6: Packaging & Printing
-    {
-        "focus": "Packaging Machinery, Labels, Films, Printed Materials, Packaging Materials",
-        "seed_companies": "Bobst, SIG Group, Schweitzer-Mauduit International Switzerland, Vetropack, Aluflexpack, UNIQA, Hug Engineering, Constantia Flexibles Switzerland, Perlen Packaging, Billerudkorsnäs Switzerland",
-        "exclude": "",
-    },
-    # Run 7: Healthcare IT, Electronics & Instruments
-    {
-        "focus": "Healthcare IT, Electronic Components, Scientific Instruments, Sensors, Lab Equipment",
-        "seed_companies": "Tecan, Sensirion, Landis+Gyr, Burckhardt Compression, Inficon, Kistler, Meteogroup, Feintool, Kudelski Group, Schweiter Technologies",
-        "exclude": "",
-    },
-    # Run 8: Agribusiness, Crop Science & Animal Health
-    {
-        "focus": "Agribusiness, Crop Protection, Animal Health, Seeds, Fertilizers",
-        "seed_companies": "Syngenta (pre-merger Swiss ops), Virbac Switzerland, Elanco Switzerland, Bayer CropScience Switzerland, CEVA Santé Animale Switzerland, Omya, Fenaco, Landi, Debrunner Acifer, Landor",
-        "exclude": "",
-    },
-    # Run 9: Energy, Utilities & Logistics
-    {
-        "focus": "Energy, Utilities, Grid Technology, Logistics Services, Transportation",
-        "seed_companies": "Alpiq, BKW, Axpo, Meyer Burger, Landis+Gyr, ABB Switzerland divisions, Helion Energy, Kuehne+Nagel Switzerland ops, Planzer Transport, Camion Transport",
-        "exclude": "",
-    },
-]
+COMPANIES_FILE = CONFIG_DIR / "companies.xlsx"
+STATE_FILE     = CONFIG_DIR / "state.json"
 
 
+# ── Company list loader ────────────────────────────────────────────────────────
+def load_company_list() -> list[dict]:
+    """Read companies.xlsx and return list of company dicts."""
+    if not COMPANIES_FILE.exists():
+        raise FileNotFoundError(
+            f"Company list not found at {COMPANIES_FILE}\n"
+            "Please add companies.xlsx to the config/ directory.\n"
+            "Use the companies_template.xlsx as a starting point."
+        )
+    df = pd.read_excel(COMPANIES_FILE, sheet_name="Companies", dtype=str)
+    df = df.fillna("")
+
+    # Normalise column names (strip whitespace, handle variations)
+    df.columns = [c.strip() for c in df.columns]
+
+    companies = []
+    for _, row in df.iterrows():
+        # Skip empty rows
+        if not str(row.get("Company", "")).strip():
+            continue
+        companies.append({
+            "no":                str(row.get("No", "")).strip(),
+            "company":           str(row.get("Company", "")).strip(),
+            "revenue_usd":       str(row.get("Revenue (USD approx.)", "")).strip(),
+            "revenue_local":     str(row.get("Revenue (Local Currency)", "")).strip(),
+            "fy":                str(row.get("FY", "")).strip(),
+            "hq":                str(row.get("Headquarters", "")).strip(),
+            "industry":          str(row.get("Industry", "")).strip(),
+            "ownership":         str(row.get("Ownership", "")).strip(),
+        })
+
+    log.info(f"Loaded {len(companies)} companies from {COMPANIES_FILE.name}")
+    return companies
+
+
+# ── State management ───────────────────────────────────────────────────────────
+def load_state() -> dict:
+    if STATE_FILE.exists():
+        try:
+            return json.loads(STATE_FILE.read_text())
+        except Exception:
+            pass
+    return {"next_offset": 0, "last_run_date": None, "last_run_companies": [], "total_processed_all_time": 0}
+
+
+def save_state(state: dict):
+    STATE_FILE.write_text(json.dumps(state, indent=2, ensure_ascii=False))
+    log.info(f"State saved → next_offset: {state['next_offset']}")
+
+
+def get_this_weeks_companies(all_companies: list[dict]) -> tuple[list[dict], int, int]:
+    """
+    Returns (this_weeks_100, offset_start, next_offset).
+    Wraps around if the list end is reached.
+    """
+    state    = load_state()
+    total    = len(all_companies)
+    offset   = state.get("next_offset", 0) % total
+
+    end      = offset + (COMPANIES_PER_RUN * NUM_RUNS)  # = 100
+    if end <= total:
+        batch = all_companies[offset:end]
+    else:
+        # Wrap around
+        batch = all_companies[offset:] + all_companies[:end - total]
+        log.info(f"Wrap-around: {total - offset} from end + {end - total} from start")
+
+    next_offset = end % total
+    log.info(f"This week: companies #{offset+1}–{min(end, total)} "
+             f"(offset {offset} → {next_offset}, total list: {total})")
+    return batch, offset, next_offset
+
+
+# ── Prompt builder ─────────────────────────────────────────────────────────────
 def load_file(path: Path) -> str:
     return path.read_text(encoding="utf-8").strip()
 
 
-def build_prompt(run_index: int) -> str:
-    company_profile  = load_file(CONFIG_DIR / "company_profile.txt")
-    icp_blueprint    = load_file(CONFIG_DIR / "icp_blueprint.txt")
-    instructions     = load_file(CONFIG_DIR / "instructions.txt")
-    prompt_template  = load_file(PROMPTS_DIR / "prompt_1.txt")
+def build_prompt(batch: list[dict], run_index: int) -> str:
+    company_profile = load_file(CONFIG_DIR / "company_profile.txt")
+    icp_blueprint   = load_file(CONFIG_DIR / "icp_blueprint.txt")
+    instructions    = load_file(CONFIG_DIR / "instructions.txt")
+    prompt_template = load_file(PROMPTS_DIR / "prompt_1.txt")
 
-    sector = SECTOR_ROTATION[run_index % len(SECTOR_ROTATION)]
+    # Format the 10 companies for this run as a clear list
+    company_lines = []
+    for i, c in enumerate(batch, 1):
+        line = (
+            f"  {i}. {c['company']}"
+            f" | Revenue: {c['revenue_usd']}"
+            f" | HQ: {c['hq']}"
+            f" | Industry: {c['industry']}"
+            f" | Ownership: {c['ownership']}"
+        )
+        if c["fy"]:
+            line += f" | FY: {c['fy']}"
+        company_lines.append(line)
+
+    companies_block = "\n".join(company_lines)
 
     return f"""
 You are a senior supply chain market intelligence analyst. Today is {TODAY}.
 This is run {run_index + 1} of {NUM_RUNS}.
-
-=== THIS RUN'S INDUSTRY FOCUS ===
-You must focus EXCLUSIVELY on: {sector['focus']}
-Seed companies to consider (you may include others in this sector too):
-{sector['seed_companies']}
 
 === FIRM PROFILE ===
 {company_profile}
@@ -137,93 +157,94 @@ Seed companies to consider (you may include others in this sector too):
 === SITUATION DETECTION FRAMEWORK ===
 {instructions}
 
-=== HARD CAMPAIGN FILTERS ===
-Revenue: USD {REVENUE_MIN_B}B minimum — USD {REVENUE_MAX_B}B MAXIMUM (hard cap, strictly enforced)
-Region: Switzerland or companies with strong Swiss manufacturing/SC presence
-EXCLUDED (too large): Roche, Novartis, Nestlé, ABB (group), Zurich Insurance, Swiss Re,
-  UBS, Credit Suisse, Richemont group (>$15B), Swatch Group (>$7B as group entity),
-  Kühne+Nagel group (>$33B)
-NOTE on conglomerates: if a division/subsidiary is in scope, include it as that entity
-  (e.g. "ABB Robotics Switzerland" not "ABB")
+=== YOUR TASK ===
+Evaluate EXACTLY these {COMPANIES_PER_RUN} specific companies. Do not add, remove, or replace any.
+Score each company on all four supply chain situations using your knowledge of their
+2024–2025 corporate events, earnings releases, restructurings, M&A activity, and
+supply chain news.
 
-=== MANDATORY EVALUATION — ALL 4 SITUATIONS ===
+COMPANIES TO EVALUATE (run {run_index + 1}):
+{companies_block}
+
+=== MANDATORY EVALUATION — ALL 4 SITUATIONS PER COMPANY ===
 For EVERY company, explicitly score all four independently:
 
 SITUATION 1 — RESOURCE CONSTRAINTS:
-  Leadership churn (CPO/VP SC departed)? Explicit bandwidth/capacity mentions?
-  High SC/Procurement vacancy volumes? ERP/IBP/S&OP programs stalled?
+  Leadership churn (CPO/VP SC departed or replaced)? Explicit bandwidth / capacity mentions?
+  High SC/Procurement vacancy volumes without urgency resolution?
+  ERP / IBP / S&OP transformation programs stalled or delayed?
   Score: each confirmed signal → STRONG +2 or MEDIUM +1, cap 10
 
 SITUATION 2 — MARGIN PRESSURE:
-  EBITDA or gross margin decline reported as structural?
-  Quantified savings/cost-out program with targets?
-  Guidance downgrade due to costs? Plant closure / SKU rationalization?
+  EBITDA or gross margin decline reported as structural (not one-off)?
+  Quantified savings / cost-out program with targets and timeline?
+  Guidance downgrade due to input costs or inefficiencies?
+  Plant closure, SKU rationalization, portfolio exit for margin recovery?
   Score: each confirmed signal → STRONG +2 or MEDIUM +1, cap 10
 
 SITUATION 3 — SIGNIFICANT GROWTH:
-  M&A activity requiring SC integration? New plant/DC/capacity announced?
-  Revenue growth outpacing operational infrastructure? Geographic expansion?
+  M&A activity requiring SC integration? New plant / DC / capacity announced?
+  Revenue growth outpacing operational infrastructure?
+  Geographic expansion into new markets requiring SC redesign?
   Score: each confirmed signal → STRONG +2 or MEDIUM +1, cap 10
 
 SITUATION 4 — SUPPLY CHAIN DISRUPTION:
-  Production shutdown, recall, quality crisis? Missed guidance due to supply?
-  Supplier failure, force majeure, logistics disruption with material impact?
+  Production shutdown, product recall, quality crisis with supply impact?
+  Missed guidance explicitly due to supply issues?
+  Supplier failure, force majeure, logistics crisis with material impact?
   Score: each confirmed signal → STRONG +2 or MEDIUM +1, cap 10
 
-SCORING:
-  STRONG +2 | MEDIUM +1 | Max 10/situation | Total max 40
-  CONFIRMED = 7-10 pts | LIKELY = 4-6 pts | UNCLEAR = 2-3 pts | NOT PRESENT = 0-1 pts
-  TIER 1 = ICP match + ≥1 situation CONFIRMED or LIKELY
+SCORING THRESHOLDS:
+  STRONG +2 | MEDIUM +1 | Max 10 per situation | Total max 40
+  CONFIRMED ≥ 7 pts | LIKELY 4–6 pts | UNCLEAR 2–3 pts | NOT PRESENT 0–1 pts
+  TIER 1 = ICP match + at least 1 situation CONFIRMED or LIKELY
   TIER 2 = ICP match but all situations UNCLEAR or NOT PRESENT
 
 === TASK ===
 {prompt_template}
 
-=== OUTPUT RULES (CRITICAL) ===
-- Output ONLY the markdown table — no preamble, no commentary
+=== OUTPUT RULES ===
+- Output ONLY the markdown table — no preamble, no commentary, no explanations
 - Every row must start AND end with |
-- Include EXACTLY 20 companies from this run's sector focus
-- DO NOT repeat companies you already covered in other runs' typical picks
-  (avoid defaulting to: Lonza, Givaudan, Sika, Straumann, Sonova unless
-  they are specifically in this run's sector focus)
-- Use your knowledge of 2024 annual results, Q3/Q4 2024 earnings, restructurings,
-  M&A activity, management changes for these specific sector companies
+- Output EXACTLY {COMPANIES_PER_RUN} rows, one per company listed above — no more, no less
+- Use the exact company names from the list above
 - Priority Score format: RC: X | MP: X | SG: X | SCD: X = XX/40
-- Sources: cite publication type only (Reuters Q4 2024, Annual Report 2024, etc.)
+- Sources: cite publication type and approximate date (e.g. "Reuters Q4 2024 earnings")
   Stage 2 will verify URLs — do not guess specific URLs here
-- Be generous with scoring: if a CDMO has a new plant, that's SG LIKELY minimum
+- If you have limited knowledge of a company, still evaluate based on what you know
+  and mark uncertain signals as MEDIUM rather than omitting them
 """
 
 
 # ── Gemini call ────────────────────────────────────────────────────────────────
 SYSTEM_INSTRUCTION = (
-    "You are a supply chain market intelligence analyst specialising in Swiss and "
-    "European companies. You have detailed knowledge of 2024 corporate events for "
-    "mid-market companies (not just large caps): earnings, restructurings, M&A, "
-    "management changes, supply chain news, capacity investments. "
+    "You are a supply chain market intelligence analyst. You have detailed knowledge "
+    "of 2024–2025 corporate events for Swiss and European industrial/pharma/FMCG "
+    "companies: earnings releases, restructurings, M&A activity, management changes, "
+    "capacity investments, supply chain disruptions. "
+    "When asked to evaluate specific companies, always output all requested rows. "
     "Output ONLY the markdown table. Start with the | header row. "
-    "Every row must start AND end with |. Output all 20 rows. Do not truncate. "
-    "Score companies generously based on what you know — do not leave scores at 0."
+    "Every row must start AND end with |. Output all rows. Do not truncate."
 )
 
 
-def call_gemini(prompt: str, run_index: int) -> str:
-    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-    sector_name = SECTOR_ROTATION[run_index % len(SECTOR_ROTATION)]["focus"].split(",")[0]
-    log.info(f"Run {run_index+1}/{NUM_RUNS} → {sector_name} sector …")
+def call_gemini(prompt: str, run_index: int, batch: list[dict]) -> str:
+    client       = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+    company_names = ", ".join(c["company"] for c in batch[:3]) + "..."
+    log.info(f"Run {run_index+1}/{NUM_RUNS} → evaluating: {company_names}")
     response = client.models.generate_content(
         model=GEMINI_MODEL,
         contents=prompt,
         config=types.GenerateContentConfig(
             system_instruction=SYSTEM_INSTRUCTION,
-            temperature=0.6,   # higher = more diverse company choices
+            temperature=0.3,   # lower = more consistent scoring
             max_output_tokens=16000,
         ),
     )
     text = response.text or ""
     log.info(f"  → {len(text)} chars returned")
-    if len(text) < 500:
-        log.warning(f"  → Very short response: {text[:300]}")
+    if len(text) < 300:
+        log.warning(f"  → Short response: {text[:300]}")
     return text
 
 
@@ -277,30 +298,6 @@ def extract_total_score(score_str: str) -> int:
     return sum(int(p) for p in parts) if parts else 0
 
 
-def parse_revenue_billions(rev_str: str) -> float | None:
-    s = rev_str.upper().replace(",", "")
-    if any(x in s for x in ("UNKNOWN", "N/A")):
-        return None
-    m = re.search(r"(\d+(?:\.\d+)?)\s*B", s)
-    if m:
-        return float(m.group(1))
-    m = re.search(r"(\d+(?:\.\d+)?)\s*M(?!A)", s)
-    if m:
-        return float(m.group(1)) / 1000
-    m = re.search(r"(\d+(?:\.\d+)?)", s)
-    if m:
-        val = float(m.group(1))
-        return val if val <= 500 else val / 1000
-    return None
-
-
-def revenue_in_range(rev_str: str) -> bool:
-    val = parse_revenue_billions(rev_str)
-    if val is None:
-        return True
-    return REVENUE_MIN_B <= val <= REVENUE_MAX_B
-
-
 # ── Aggregation ────────────────────────────────────────────────────────────────
 def normalise_name(name: str) -> str:
     n = name.strip().upper()
@@ -314,10 +311,6 @@ def aggregate_runs(all_runs: list[list[dict]]) -> list[dict]:
 
     for run_rows in all_runs:
         for row in run_rows:
-            if not revenue_in_range(row["revenue"]):
-                log.info(f"  ✗ Revenue filter: {row['company']} ({row['revenue']})")
-                continue
-
             name  = normalise_name(row["company"])
             score = extract_total_score(row["priority_score"])
             row["_score_int"] = score
@@ -333,19 +326,18 @@ def aggregate_runs(all_runs: list[list[dict]]) -> list[dict]:
                     seen[name]["_frequency"] = freq
 
     merged = list(seen.values())
-    # Sort: Tier 1 first, then by composite signal = score + (frequency bonus)
-    # When most scores are 0 (Gemini can't rate niche companies without search),
-    # frequency becomes the primary differentiator — seen in 3/10 runs > seen in 1/10 run
+    # Primary: Tier 1 first. Secondary: composite of score + frequency
+    # (frequency matters when scores are 0 — seen 3×/week > seen 1×)
     merged.sort(key=lambda r: (
         0 if "1" in r["tier"] else 1,
-        -(r["_score_int"] * 3 + r["_frequency"]),  # weighted composite
-        -r["_frequency"],
+        -(r["_score_int"] * 3 + r["_frequency"]),
         -r["_score_int"],
+        -r["_frequency"],
     ))
 
-    log.info(f"Aggregated: {len(merged)} unique companies after revenue filter")
-    for r in merged[:10]:
-        log.info(f"  {r['company']:35s} | {r['_score_int']:2d}/40 | {r['tier']} | {r['_frequency']}x")
+    log.info(f"Aggregated: {len(merged)} unique companies this week")
+    for r in merged[:15]:
+        log.info(f"  {r['company']:35s} | {r['_score_int']:2d}/40 | {r['tier']} | seen {r['_frequency']}x")
     return merged
 
 
@@ -387,30 +379,35 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   .hl td {{ background:#1e3a5f !important; }}
   .cn  {{ color:#f9fafb;font-weight:600; }}
   .note {{ margin-top:14px;font-size:11px;color:#6b7280; }}
-  .sector-badge {{ display:inline-block;padding:1px 6px;border-radius:4px;font-size:9px;
-                   background:#1e293b;color:#64748b;border:1px solid #334155;margin-left:4px; }}
+  .batch-info {{ background:#1e293b;border:1px solid #334155;border-radius:6px;padding:10px 16px;
+                 margin-bottom:16px;font-size:12px;color:#94a3b8; }}
 </style>
 </head>
 <body>
 <h1>XIMPAX Market Intelligence — Stage 1 Report</h1>
-<p class="sub">Generated: {date} | {num_runs} sector-rotated runs | {total} unique companies found</p>
+<p class="sub">Generated: {date} | {num_runs} runs of {per_run} companies | 100 companies evaluated this week</p>
+<div class="batch-info">
+  📋 <b>This week's batch:</b> Companies #{batch_start}–#{batch_end} from master list
+  &nbsp;|&nbsp; Next week starts at: #{next_offset_plus1}
+  &nbsp;|&nbsp; Total processed all-time: {total_processed}
+</div>
 <div class="stats">
-  <div class="sc"><div class="v">{total}</div><div class="l">Unique Companies</div></div>
-  <div class="sc"><div class="v">{sectors}</div><div class="l">Sectors Covered</div></div>
-  <div class="sc"><div class="v">{tier1}</div><div class="l">Tier 1 Leads</div></div>
+  <div class="sc"><div class="v">{scanned}</div><div class="l">Evaluated</div></div>
+  <div class="sc"><div class="v">{tier1}</div><div class="l">Tier 1</div></div>
   <div class="sc"><div class="v">{top10}</div><div class="l">→ Stage 2</div></div>
+  <div class="sc"><div class="v">{avg_score}</div><div class="l">Avg Score</div></div>
 </div>
 <table>
 <thead>
   <tr>
     <th>#</th><th>Tier</th><th>Company</th><th>HQ</th><th>Industry</th>
     <th>Revenue</th><th>Situations</th><th>Classification</th>
-    <th>Score</th><th>Runs</th><th>Key Evidence</th><th>Sources</th>
+    <th>Score</th><th>Key Evidence</th><th>Sources</th>
   </tr>
 </thead>
 <tbody>{rows}</tbody>
 </table>
-<p class="note">🥇 Highlighted = Top {top10} Tier 1 companies forwarded to Stage 2 for live Perplexity research.</p>
+<p class="note">🥇 Highlighted = Top {top10} companies forwarded to Stage 2 for live research.</p>
 </body>
 </html>"""
 
@@ -423,29 +420,26 @@ def badge(cls: str) -> str:
     return '<span class="bn">— N/P</span>'
 
 
-def build_html(rows: list[dict], num_runs: int) -> str:
+def build_html(rows: list[dict], num_runs: int, batch_meta: dict) -> str:
     date_str    = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
-    tier1_count = sum(1 for r in rows if "1" in r["tier"])
-    tier2_count = len(rows) - tier1_count
     tier1_rows  = [r for r in rows if "1" in r["tier"]]
     top_n       = min(TOP_N_FOR_STAGE2, len(tier1_rows))
     top_set     = set(id(r) for r in tier1_rows[:top_n])
+    avg         = round(sum(r["_score_int"] for r in rows) / max(len(rows), 1), 1)
 
     html_rows = []
     for i, row in enumerate(rows):
         is_top = id(row) in top_set
         score  = row["_score_int"]
-        freq   = row["_frequency"]
-        tc     = "t1" if "1" in row["tier"] else "t2"
-        hl     = "hl" if is_top else ""
         tc_col = "#60a5fa" if "1" in row["tier"] else "#4b5563"
         tl     = "★ T1" if "1" in row["tier"] else "T2"
         bar    = min(100, int(score / 40 * 100))
         marker = "🥇 " if is_top else ""
         sits   = row["situations"].replace(",", "<br>").replace(";", "<br>")
         ev     = row["key_evidence"][:260].replace("•", "<br>•")
-
-        src_html = f'<span style="color:#6b7280;font-size:10px">{row["sources"][:80]}</span>'
+        src    = f'<span style="color:#6b7280;font-size:10px">{row["sources"][:80]}</span>'
+        hl     = "hl" if is_top else ""
+        tc     = "t1" if "1" in row["tier"] else "t2"
 
         html_rows.append(f"""
         <tr class="{tc} {hl}">
@@ -460,33 +454,54 @@ def build_html(rows: list[dict], num_runs: int) -> str:
           <td><span class="sn">{score}/40</span>
               <div class="sbw"><div class="sb" style="width:{bar}%"></div></div>
               <small style="font-size:10px;color:#6b7280">{row['priority_score'][:40]}</small></td>
-          <td><span style="font-size:10px;color:#6b7280">{freq}/{num_runs}</span></td>
           <td class="ev">{ev}</td>
-          <td>{src_html}</td>
+          <td>{src}</td>
         </tr>""")
 
     return HTML_TEMPLATE.format(
-        date=date_str, num_runs=num_runs,
-        total=len(rows), sectors=min(num_runs, len(SECTOR_ROTATION)),
-        tier1=tier1_count, top10=top_n,
+        date=date_str,
+        num_runs=num_runs,
+        per_run=COMPANIES_PER_RUN,
+        scanned=len(rows),
+        tier1=len(tier1_rows),
+        top10=top_n,
+        avg_score=avg,
+        batch_start=batch_meta["batch_start"],
+        batch_end=batch_meta["batch_end"],
+        next_offset_plus1=batch_meta["next_offset"] + 1,
+        total_processed=batch_meta["total_processed"],
         rows="\n".join(html_rows),
     )
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
+    # Load full company list from Excel
+    all_companies = load_company_list()
+
+    # Get this week's 100 companies and advance the pointer
+    batch_100, offset_start, next_offset = get_this_weeks_companies(all_companies)
+
+    log.info(f"Stage 1: evaluating {len(batch_100)} companies | "
+             f"List positions #{offset_start+1}–#{min(offset_start+100, len(all_companies))}")
+
     all_runs: list[list[dict]] = []
     raw_all:  list[str]        = []
 
     for i in range(NUM_RUNS):
+        run_batch = batch_100[i * COMPANIES_PER_RUN : (i + 1) * COMPANIES_PER_RUN]
+        if not run_batch:
+            log.warning(f"Run {i+1}: no companies — batch exhausted")
+            break
+
         try:
-            prompt = build_prompt(i)
-            raw    = call_gemini(prompt, i)
+            prompt = build_prompt(run_batch, i)
+            raw    = call_gemini(prompt, i, run_batch)
             raw_all.append(raw)
             parsed = parse_markdown_table(raw)
-            log.info(f"  → Parsed {len(parsed)} companies from run {i+1}")
+            log.info(f"  → Parsed {len(parsed)} rows for run {i+1}")
             if len(parsed) == 0:
-                log.warning(f"  → 0 companies. Raw:\n{raw[:800]}")
+                log.warning(f"  → 0 rows. Raw start:\n{raw[:600]}")
             if parsed:
                 all_runs.append(parsed)
         except Exception as e:
@@ -503,23 +518,41 @@ def main():
     (OUTPUT_DIR / f"stage1_raw_{ts}.json").write_text(
         json.dumps(raw_all, ensure_ascii=False, indent=2))
 
-    merged    = aggregate_runs(all_runs)
-    html      = build_html(merged, NUM_RUNS)
+    merged = aggregate_runs(all_runs)
+
+    # Update and save state AFTER successful run
+    state = load_state()
+    state["next_offset"]              = next_offset
+    state["last_run_date"]            = TODAY
+    state["last_run_companies"]       = [c["company"] for c in batch_100]
+    state["total_processed_all_time"] = state.get("total_processed_all_time", 0) + len(batch_100)
+    save_state(state)
+
+    # Build HTML chart
+    batch_meta = {
+        "batch_start":     offset_start + 1,
+        "batch_end":       offset_start + len(batch_100),
+        "next_offset":     next_offset,
+        "total_processed": state["total_processed_all_time"],
+    }
+    html      = build_html(merged, NUM_RUNS, batch_meta)
     html_path = OUTPUT_DIR / f"stage1_chart_{ts}.html"
     html_path.write_text(html, encoding="utf-8")
     log.info(f"Stage 1 chart → {html_path}")
 
+    # Select top N for Stage 2
     tier1_only    = [r for r in merged if "1" in r["tier"]]
     top_n         = min(TOP_N_FOR_STAGE2, len(tier1_only))
     top_companies = tier1_only[:top_n]
 
-    log.info(f"Stage 2 input ({top_n} Tier 1 companies by score):")
+    log.info(f"Stage 2 input ({top_n} companies):")
     for r in top_companies:
         log.info(f"  → {r['company']:35s} | {r['_score_int']}/40")
 
     stage2_path = OUTPUT_DIR / "stage2_input.json"
     stage2_path.write_text(json.dumps(top_companies, ensure_ascii=False, indent=2))
     log.info(f"Stage 2 input saved → {stage2_path}")
+
     return html_path, stage2_path
 
 
