@@ -1,12 +1,12 @@
 """
 XIMPAX Intelligence Engine — Stage 1
 
-Architecture: single Gemini call per run, no Google Search tool.
-Gemini 2.0 Flash has strong knowledge of Swiss industrial/pharma/FMCG companies
-and their 2025 situations — sufficient for Stage 1 discovery.
-Real URL verification happens in Stage 2 via live search.
+Key design: SECTOR ROTATION across 10 runs to force company diversity.
+Each run is assigned a specific industry pair so 10 runs × 20 companies
+explore the full Swiss industrial landscape rather than repeating the
+same 5 famous names every run.
 
-10 runs × 20 companies = up to 200 raw entries → aggregated + deduped → top N to Stage 2.
+No web search — Gemini knowledge-based. Stage 2 does live research.
 """
 
 import os
@@ -31,30 +31,102 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 GEMINI_MODEL       = "gemini-2.0-flash"
-NUM_RUNS           = 10       # ← set to 10 for production
+NUM_RUNS           = 10
 RUNS_BETWEEN_SLEEP = 3
 SLEEP_SECONDS      = 20
-TOP_N_FOR_STAGE2   = 10       # ← set to 10 for production
-REVENUE_MIN_B      = 0.5
-REVENUE_MAX_B      = 15.0
+TOP_N_FOR_STAGE2   = 10
 
-CUTOFF_DATE = (datetime.utcnow() - timedelta(days=365)).strftime("%Y-%m-%d")
-TODAY       = datetime.utcnow().strftime("%Y-%m-%d")
+REVENUE_MIN_B = 0.5
+REVENUE_MAX_B = 15.0
+TODAY         = datetime.utcnow().strftime("%Y-%m-%d")
+
+# ── Sector rotation config ─────────────────────────────────────────────────────
+# 10 run slots mapped to industry focus + seed companies to include
+# This guarantees breadth across the Swiss industrial landscape
+SECTOR_ROTATION = [
+    # Run 0: Pharma & Life Sciences
+    {
+        "focus": "Pharmaceuticals, Biotechnology, CDMO, Life Sciences",
+        "seed_companies": "Lonza, Bachem, Siegfried, Molecular Partners, Idorsia, Relief Therapeutics, Obseva, Polyphor, Evolent Health, Vifor Pharma",
+        "exclude": "",
+    },
+    # Run 1: MedTech & Medical Devices
+    {
+        "focus": "Medical Devices, Dental, Diagnostics, MedTech",
+        "seed_companies": "Straumann, Sonova, Ypsomed, Tecan, Hamilton Medical, Schiller, Medela, Sensirion, Skan Group, Coltene",
+        "exclude": "",
+    },
+    # Run 2: Specialty Chemicals & Materials
+    {
+        "focus": "Specialty Chemicals, Coatings, Adhesives, Construction Chemicals, Plastics",
+        "seed_companies": "Sika, Clariant, EMS-Chemie, Dätwyler, Bossard, Huber+Suhner, Gurit, Komax, Bucher Industries, List",
+        "exclude": "",
+    },
+    # Run 3: Flavours, Fragrances & Consumer Ingredients
+    {
+        "focus": "Flavors, Fragrances, Cosmetics Ingredients, Personal Care, Consumer Chemicals",
+        "seed_companies": "Givaudan, Firmenich (pre-merger), Ineos Styrolution Switzerland, Carbogen Amcis, Lonza Consumer Health, Salvona, Alessa, Lipoid, Roquette Suisse, Ashland Switzerland",
+        "exclude": "",
+    },
+    # Run 4: Food & Beverage
+    {
+        "focus": "Food Processing, Dairy, Beverages, Nutrition, Food Ingredients",
+        "seed_companies": "Emmi, Lindt & Sprüngli, Orior, Bell Food Group, Hügli, Bernrain, Kambly, Wander (Ovomaltine), Hero Group, Rivella",
+        "exclude": "",
+    },
+    # Run 5: Industrial Manufacturing & Automation
+    {
+        "focus": "Industrial Machinery, Automation, Robotics, Precision Manufacturing, Tools",
+        "seed_companies": "Georg Fischer, Bobst, Komax, Bystronic, Schindler (lifts), Kistler, Endress+Hauser, Tornos, Fritz Studer, Liebherr Switzerland",
+        "exclude": "",
+    },
+    # Run 6: Packaging & Printing
+    {
+        "focus": "Packaging Machinery, Labels, Films, Printed Materials, Packaging Materials",
+        "seed_companies": "Bobst, SIG Group, Schweitzer-Mauduit International Switzerland, Vetropack, Aluflexpack, UNIQA, Hug Engineering, Constantia Flexibles Switzerland, Perlen Packaging, Billerudkorsnäs Switzerland",
+        "exclude": "",
+    },
+    # Run 7: Luxury, Watches & Consumer Goods
+    {
+        "focus": "Luxury Goods, Watches, Jewelry, Premium Consumer Brands",
+        "seed_companies": "Richemont (divisions only under $15B revenue threshold), Swatch Group divisions, Audemars Piguet, Patek Philippe, IWC Schaffhausen, TAG Heuer, Chopard, Breitling, Jaeger-LeCoultre, Vacheron Constantin",
+        "exclude": "",
+    },
+    # Run 8: Agribusiness, Crop Science & Animal Health
+    {
+        "focus": "Agribusiness, Crop Protection, Animal Health, Seeds, Fertilizers",
+        "seed_companies": "Syngenta (pre-merger Swiss ops), Virbac Switzerland, Elanco Switzerland, Bayer CropScience Switzerland, CEVA Santé Animale Switzerland, Omya, Fenaco, Landi, Debrunner Acifer, Landor",
+        "exclude": "",
+    },
+    # Run 9: Energy, Utilities & Logistics
+    {
+        "focus": "Energy, Utilities, Grid Technology, Logistics Services, Transportation",
+        "seed_companies": "Alpiq, BKW, Axpo, Meyer Burger, Landis+Gyr, ABB Switzerland divisions, Helion Energy, Kuehne+Nagel Switzerland ops, Planzer Transport, Camion Transport",
+        "exclude": "",
+    },
+]
 
 
 def load_file(path: Path) -> str:
     return path.read_text(encoding="utf-8").strip()
 
 
-# ── Prompt ────────────────────────────────────────────────────────────────────
-def build_prompt() -> str:
-    company_profile = load_file(CONFIG_DIR / "company_profile.txt")
-    icp_blueprint   = load_file(CONFIG_DIR / "icp_blueprint.txt")
-    instructions    = load_file(CONFIG_DIR / "instructions.txt")
-    prompt_template = load_file(PROMPTS_DIR / "prompt_1.txt")
+def build_prompt(run_index: int) -> str:
+    company_profile  = load_file(CONFIG_DIR / "company_profile.txt")
+    icp_blueprint    = load_file(CONFIG_DIR / "icp_blueprint.txt")
+    instructions     = load_file(CONFIG_DIR / "instructions.txt")
+    prompt_template  = load_file(PROMPTS_DIR / "prompt_1.txt")
+
+    sector = SECTOR_ROTATION[run_index % len(SECTOR_ROTATION)]
 
     return f"""
 You are a senior supply chain market intelligence analyst. Today is {TODAY}.
+This is run {run_index + 1} of {NUM_RUNS}.
+
+=== THIS RUN'S INDUSTRY FOCUS ===
+You must focus EXCLUSIVELY on: {sector['focus']}
+Seed companies to consider (you may include others in this sector too):
+{sector['seed_companies']}
 
 === FIRM PROFILE ===
 {company_profile}
@@ -66,105 +138,92 @@ You are a senior supply chain market intelligence analyst. Today is {TODAY}.
 {instructions}
 
 === HARD CAMPAIGN FILTERS ===
-Region: Switzerland or companies with strong Swiss operational presence (within ~200km)
-Revenue: USD {REVENUE_MIN_B}B minimum — USD {REVENUE_MAX_B}B MAXIMUM (hard cap)
-EXCLUDED (revenue >$15B): Roche, Novartis, Nestlé, ABB, Zurich Insurance, Swiss Re, UBS, Credit Suisse
-INCLUDED examples (revenue OK): Givaudan (~$7B ✓), Lonza (~$6B ✓), Sika (~$11B ✓),
-  Sonova (~$4B ✓), Straumann (~$2B ✓), Tecan (~$1B ✓), Georg Fischer (~$4B ✓),
-  Huber+Suhner (~$1B ✓), Emmi (~$4B ✓), Lindt & Sprüngli (~$5B ✓),
-  Orior (~$0.7B ✓), Dätwyler (~$1.5B ✓), Bossard (~$0.6B ✓)
-Industries: Pharma & Life Sciences, MedTech, FMCG, Luxury & Cosmetics,
-  Food & Beverage, Chemicals, Agribusiness, Packaging, Industrial Manufacturing,
-  Automotive Components, Energy & Utilities
+Revenue: USD {REVENUE_MIN_B}B minimum — USD {REVENUE_MAX_B}B MAXIMUM (hard cap, strictly enforced)
+Region: Switzerland or companies with strong Swiss manufacturing/SC presence
+EXCLUDED (too large): Roche, Novartis, Nestlé, ABB (group), Zurich Insurance, Swiss Re,
+  UBS, Credit Suisse, Richemont group (>$15B), Swatch Group (>$7B as group entity),
+  Kühne+Nagel group (>$33B)
+NOTE on conglomerates: if a division/subsidiary is in scope, include it as that entity
+  (e.g. "ABB Robotics Switzerland" not "ABB")
 
-=== MANDATORY EVALUATION RULES ===
-You MUST evaluate ALL FOUR situations for every company. Do not skip any situation.
-Score each situation independently — do not let one situation dominate.
+=== MANDATORY EVALUATION — ALL 4 SITUATIONS ===
+For EVERY company, explicitly score all four independently:
 
-For EVERY company you evaluate, explicitly work through these signal checks:
+SITUATION 1 — RESOURCE CONSTRAINTS:
+  Leadership churn (CPO/VP SC departed)? Explicit bandwidth/capacity mentions?
+  High SC/Procurement vacancy volumes? ERP/IBP/S&OP programs stalled?
+  Score: each confirmed signal → STRONG +2 or MEDIUM +1, cap 10
 
-SITUATION 1 — RESOURCE CONSTRAINTS: Does this company show...
-  ✓ Key SC/Procurement initiatives delayed due to lack of internal capacity?
-  ✓ Leadership churn: CPO, VP Supply Chain, Head of Planning departed/replaced?
-  ✓ Management explicitly mentioning "resource constraints" or "bandwidth" issues?
-  ✓ High volume of SC/Procurement job vacancies (planners, buyers, logistics)?
-  ✓ Contractor/interim reliance explicitly described for SC work?
+SITUATION 2 — MARGIN PRESSURE:
+  EBITDA or gross margin decline reported as structural?
+  Quantified savings/cost-out program with targets?
+  Guidance downgrade due to costs? Plant closure / SKU rationalization?
+  Score: each confirmed signal → STRONG +2 or MEDIUM +1, cap 10
 
-SITUATION 2 — MARGIN PRESSURE: Does this company show...
-  ✓ EBITDA or gross margin decline reported as structural (not one-off)?
-  ✓ Quantified cost-out/savings program announced with targets?
-  ✓ Guidance downgrade due to cost inflation or pricing pressure?
-  ✓ Restructuring, plant closure, or SKU rationalization tied to margins?
-  ✓ Procurement-driven savings program with specific targets?
+SITUATION 3 — SIGNIFICANT GROWTH:
+  M&A activity requiring SC integration? New plant/DC/capacity announced?
+  Revenue growth outpacing operational infrastructure? Geographic expansion?
+  Score: each confirmed signal → STRONG +2 or MEDIUM +1, cap 10
 
-SITUATION 3 — SIGNIFICANT GROWTH: Does this company show...
-  ✓ M&A activity requiring supply chain integration?
-  ✓ New production facility, DC, or capacity expansion announced?
-  ✓ Revenue growth outpacing operational infrastructure?
-  ✓ Explicit hiring ramp for SC execution roles due to growth?
-  ✓ Entry into new geographies/channels requiring operational redesign?
+SITUATION 4 — SUPPLY CHAIN DISRUPTION:
+  Production shutdown, recall, quality crisis? Missed guidance due to supply?
+  Supplier failure, force majeure, logistics disruption with material impact?
+  Score: each confirmed signal → STRONG +2 or MEDIUM +1, cap 10
 
-SITUATION 4 — SUPPLY CHAIN DISRUPTION: Does this company show...
-  ✓ Production shutdown, recall, or quality crisis affecting supply?
-  ✓ Missed sales/guidance explicitly due to supply disruption?
-  ✓ Supplier failure, force majeure, or logistics disruption with material impact?
-  ✓ Crisis stabilization actions (re-sourcing, task force, allocation controls)?
-  ✓ Inventory shock linked to disruption?
-
-Use this scoring:
-  STRONG signal confirmed = +2 pts | MEDIUM signal confirmed = +1 pt
-  Max 10 pts per situation | Total max 40 pts
-  CONFIRMED = 7-10 pts + ≥2 STRONG | LIKELY = 4-6 pts + ≥1 STRONG
-  UNCLEAR = 2-3 pts | NOT PRESENT = 0-1 pts
-
-TIER 1 = ICP match + at least one situation CONFIRMED or LIKELY
-TIER 2 = ICP match but all situations UNCLEAR or NOT PRESENT
+SCORING:
+  STRONG +2 | MEDIUM +1 | Max 10/situation | Total max 40
+  CONFIRMED = 7-10 pts | LIKELY = 4-6 pts | UNCLEAR = 2-3 pts | NOT PRESENT = 0-1 pts
+  TIER 1 = ICP match + ≥1 situation CONFIRMED or LIKELY
+  TIER 2 = ICP match but all situations UNCLEAR or NOT PRESENT
 
 === TASK ===
 {prompt_template}
 
 === OUTPUT RULES (CRITICAL) ===
-- Output ONLY the markdown table — no text before or after
-- Start directly with | Tier | Company Name | ...
+- Output ONLY the markdown table — no preamble, no commentary
 - Every row must start AND end with |
-- Include EXACTLY 20 companies (mix of Tier 1 and Tier 2)
-- You have strong knowledge of Swiss companies from 2024 news — use it fully
-- For each company, use your best knowledge of their 2024 annual results,
-  restructuring announcements, M&A activity, supply chain news
+- Include EXACTLY 20 companies from this run's sector focus
+- DO NOT repeat companies you already covered in other runs' typical picks
+  (avoid defaulting to: Lonza, Givaudan, Sika, Straumann, Sonova unless
+  they are specifically in this run's sector focus)
+- Use your knowledge of 2024 annual results, Q3/Q4 2024 earnings, restructurings,
+  M&A activity, management changes for these specific sector companies
 - Priority Score format: RC: X | MP: X | SG: X | SCD: X = XX/40
-- For Sources: cite real publication names (Reuters, Bloomberg, FT, Seeking Alpha,
-  earnings call Q3/Q4 2024, annual report 2024) — do not fabricate specific URLs
-  (Stage 2 will verify URLs; here just cite the source type and date)
+- Sources: cite publication type only (Reuters Q4 2024, Annual Report 2024, etc.)
+  Stage 2 will verify URLs — do not guess specific URLs here
+- Be generous with scoring: if a CDMO has a new plant, that's SG LIKELY minimum
 """
 
 
 # ── Gemini call ────────────────────────────────────────────────────────────────
 SYSTEM_INSTRUCTION = (
-    "You are a supply chain market intelligence analyst with deep knowledge of "
-    "Swiss and European industrial, pharma, FMCG and chemical companies. "
-    "You have comprehensive knowledge of 2024 corporate events: earnings results, "
-    "restructurings, M&A, supply chain news, management changes. "
-    "Output ONLY the markdown table. Start with the | character of the header row. "
-    "Every row must start AND end with |. Output all 20 rows. Do not truncate."
+    "You are a supply chain market intelligence analyst specialising in Swiss and "
+    "European companies. You have detailed knowledge of 2024 corporate events for "
+    "mid-market companies (not just large caps): earnings, restructurings, M&A, "
+    "management changes, supply chain news, capacity investments. "
+    "Output ONLY the markdown table. Start with the | header row. "
+    "Every row must start AND end with |. Output all 20 rows. Do not truncate. "
+    "Score companies generously based on what you know — do not leave scores at 0."
 )
+
 
 def call_gemini(prompt: str, run_index: int) -> str:
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-    log.info(f"Run {run_index+1}/{NUM_RUNS} → calling Gemini (knowledge-based, no search) …")
-
+    sector_name = SECTOR_ROTATION[run_index % len(SECTOR_ROTATION)]["focus"].split(",")[0]
+    log.info(f"Run {run_index+1}/{NUM_RUNS} → {sector_name} sector …")
     response = client.models.generate_content(
         model=GEMINI_MODEL,
         contents=prompt,
         config=types.GenerateContentConfig(
             system_instruction=SYSTEM_INSTRUCTION,
-            temperature=0.5,        # slight variation across runs for diversity
+            temperature=0.6,   # higher = more diverse company choices
             max_output_tokens=16000,
         ),
     )
     text = response.text or ""
     log.info(f"  → {len(text)} chars returned")
     if len(text) < 500:
-        log.warning(f"  → Very short response! Preview: {text[:300]}")
+        log.warning(f"  → Very short response: {text[:300]}")
     return text
 
 
@@ -183,7 +242,6 @@ def parse_markdown_table(raw: str) -> list[dict]:
 
     for line in pipe_lines:
         cells = [c.strip() for c in line.strip("|").split("|")]
-
         if all(re.match(r"^[-:\s]+$", c) for c in cells if c):
             header_skipped = True
             continue
@@ -194,9 +252,8 @@ def parse_markdown_table(raw: str) -> list[dict]:
             continue
         while len(cells) < 10:
             cells.append("")
-        if cells[0].strip().lower() in ("tier", "col a", "column a", "#", ""):
+        if cells[0].strip().lower() in ("tier", "col a", "#", ""):
             continue
-
         rows.append({
             "tier":           cells[0],
             "company":        cells[1],
@@ -245,6 +302,13 @@ def revenue_in_range(rev_str: str) -> bool:
 
 
 # ── Aggregation ────────────────────────────────────────────────────────────────
+def normalise_name(name: str) -> str:
+    n = name.strip().upper()
+    n = re.sub(r"\b(AG|SA|GMBH|LTD|PLC|INC|LLC|NV|BV|SE|SPA|SAS|HOLDING|GROUP)\b", "", n)
+    n = re.sub(r"\s+", " ", n).strip()
+    return n
+
+
 def aggregate_runs(all_runs: list[list[dict]]) -> list[dict]:
     seen: dict[str, dict] = {}
 
@@ -254,8 +318,7 @@ def aggregate_runs(all_runs: list[list[dict]]) -> list[dict]:
                 log.info(f"  ✗ Revenue filter: {row['company']} ({row['revenue']})")
                 continue
 
-            name  = row["company"].strip().upper()
-            name  = re.sub(r"\b(AG|SA|GMBH|LTD|PLC|INC|LLC|NV|BV|SE|SPA|SAS)\b", "", name).strip()
+            name  = normalise_name(row["company"])
             score = extract_total_score(row["priority_score"])
             row["_score_int"] = score
             row["_frequency"] = 1
@@ -277,12 +340,12 @@ def aggregate_runs(all_runs: list[list[dict]]) -> list[dict]:
     ))
 
     log.info(f"Aggregated: {len(merged)} unique companies after revenue filter")
-    for r in merged[:8]:
-        log.info(f"  {r['company']:30s} | {r['_score_int']:2d}/40 | {r['tier']} | seen {r['_frequency']}x")
+    for r in merged[:10]:
+        log.info(f"  {r['company']:35s} | {r['_score_int']:2d}/40 | {r['tier']} | {r['_frequency']}x")
     return merged
 
 
-# ── HTML output ────────────────────────────────────────────────────────────────
+# ── HTML chart ─────────────────────────────────────────────────────────────────
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -297,37 +360,40 @@ HTML_TEMPLATE = """<!DOCTYPE html>
   .sc {{ background: #1f2937; border-radius: 8px; padding: 12px 20px; border: 1px solid #374151; min-width: 130px; }}
   .sc .v {{ font-size: 28px; font-weight: 700; color: #60a5fa; }}
   .sc .l {{ font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: .5px; }}
-  table {{ width: 100%; border-collapse: collapse; font-size: 12px; background: #1f2937; border-radius: 8px; overflow: hidden; border: 1px solid #374151; }}
+  table {{ width: 100%; border-collapse: collapse; font-size: 12px; background: #1f2937;
+           border-radius: 8px; overflow: hidden; border: 1px solid #374151; }}
   thead {{ background: #0f172a; }}
-  thead th {{ padding: 10px 8px; text-align: left; font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: .5px; white-space: nowrap; border-bottom: 2px solid #2563eb; }}
+  thead th {{ padding: 10px 8px; text-align: left; font-size: 11px; color: #94a3b8;
+              text-transform: uppercase; letter-spacing: .5px; white-space: nowrap;
+              border-bottom: 2px solid #2563eb; }}
   tbody tr {{ border-bottom: 1px solid #374151; }}
   tbody tr:hover {{ background: #273548; }}
   tbody td {{ padding: 9px 8px; vertical-align: top; color: #d1d5db; }}
   .t1 {{ border-left: 3px solid #2563eb; }}
   .t2 {{ border-left: 3px solid #4b5563; }}
-  .b {{ display: inline-block; padding: 2px 7px; border-radius: 12px; font-size: 10px; font-weight: 600; }}
-  .bc {{ background:#14532d; color:#86efac; }}
-  .bl {{ background:#1e3a5f; color:#93c5fd; }}
-  .bu {{ background:#422006; color:#fcd34d; }}
-  .bn {{ background:#1f2937; color:#6b7280; border:1px solid #374151; }}
-  .sbw {{ width:100%; background:#374151; border-radius:4px; height:6px; margin-top:4px; }}
-  .sb  {{ height:6px; border-radius:4px; background:linear-gradient(90deg,#2563eb,#7c3aed); }}
-  .sn  {{ font-weight:700; font-size:13px; color:#60a5fa; }}
-  a    {{ color:#60a5fa; text-decoration:none; font-size:11px; }}
-  a:hover {{ text-decoration:underline; }}
-  .ev  {{ font-size:11px; line-height:1.5; color:#9ca3af; }}
+  .bc {{ display:inline-block;padding:2px 7px;border-radius:12px;font-size:10px;font-weight:600;background:#14532d;color:#86efac; }}
+  .bl {{ display:inline-block;padding:2px 7px;border-radius:12px;font-size:10px;font-weight:600;background:#1e3a5f;color:#93c5fd; }}
+  .bu {{ display:inline-block;padding:2px 7px;border-radius:12px;font-size:10px;font-weight:600;background:#422006;color:#fcd34d; }}
+  .bn {{ display:inline-block;padding:2px 7px;border-radius:12px;font-size:10px;font-weight:600;background:#1f2937;color:#6b7280;border:1px solid #374151; }}
+  .sbw {{ width:100%;background:#374151;border-radius:4px;height:6px;margin-top:4px; }}
+  .sb  {{ height:6px;border-radius:4px;background:linear-gradient(90deg,#2563eb,#7c3aed); }}
+  .sn  {{ font-weight:700;font-size:13px;color:#60a5fa; }}
+  a    {{ color:#60a5fa;text-decoration:none;font-size:11px; }}
+  .ev  {{ font-size:11px;line-height:1.5;color:#9ca3af; }}
   .hl td {{ background:#1e3a5f !important; }}
-  .cn  {{ color:#f9fafb; font-weight:600; }}
-  .note {{ margin-top:14px; font-size:11px; color:#6b7280; }}
+  .cn  {{ color:#f9fafb;font-weight:600; }}
+  .note {{ margin-top:14px;font-size:11px;color:#6b7280; }}
+  .sector-badge {{ display:inline-block;padding:1px 6px;border-radius:4px;font-size:9px;
+                   background:#1e293b;color:#64748b;border:1px solid #334155;margin-left:4px; }}
 </style>
 </head>
 <body>
 <h1>XIMPAX Market Intelligence — Stage 1 Report</h1>
-<p class="sub">Generated: {date} | {num_runs} AI runs | {total} companies found | Sorted by Priority Score ↓</p>
+<p class="sub">Generated: {date} | {num_runs} sector-rotated runs | {total} unique companies found</p>
 <div class="stats">
-  <div class="sc"><div class="v">{total}</div><div class="l">Companies</div></div>
+  <div class="sc"><div class="v">{total}</div><div class="l">Unique Companies</div></div>
+  <div class="sc"><div class="v">{sectors}</div><div class="l">Sectors Covered</div></div>
   <div class="sc"><div class="v">{tier1}</div><div class="l">Tier 1 Leads</div></div>
-  <div class="sc"><div class="v">{tier2}</div><div class="l">Tier 2</div></div>
   <div class="sc"><div class="v">{top10}</div><div class="l">→ Stage 2</div></div>
 </div>
 <table>
@@ -340,25 +406,17 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </thead>
 <tbody>{rows}</tbody>
 </table>
-<p class="note">🥇 Highlighted = Top {top10} Tier 1 companies forwarded to Stage 2 for deep research with live web search.</p>
+<p class="note">🥇 Highlighted = Top {top10} Tier 1 companies forwarded to Stage 2 for live Perplexity research.</p>
 </body>
 </html>"""
 
 
 def badge(cls: str) -> str:
     c = cls.lower()
-    if "confirmed" in c: return '<span class="b bc">✓ Confirmed</span>'
-    if "likely"    in c: return '<span class="b bl">~ Likely</span>'
-    if "unclear"   in c: return '<span class="b bu">? Unclear</span>'
-    return '<span class="b bn">— N/P</span>'
-
-
-def sources_html(s: str) -> str:
-    urls = re.findall(r"https?://[^\s,<>\"'\]]+", s)
-    if urls:
-        return "<br>".join(f'<a href="{u}" target="_blank">🔗</a>' for u in urls[:3])
-    # No URLs — show plain text (Stage 2 will verify)
-    return f'<span style="color:#6b7280;font-size:10px">{s[:100]}</span>'
+    if "confirmed" in c: return '<span class="bc">✓ Confirmed</span>'
+    if "likely"    in c: return '<span class="bl">~ Likely</span>'
+    if "unclear"   in c: return '<span class="bu">? Unclear</span>'
+    return '<span class="bn">— N/P</span>'
 
 
 def build_html(rows: list[dict], num_runs: int) -> str:
@@ -371,22 +429,24 @@ def build_html(rows: list[dict], num_runs: int) -> str:
 
     html_rows = []
     for i, row in enumerate(rows):
-        is_top     = id(row) in top_set
-        score      = row["_score_int"]
-        freq       = row["_frequency"]
-        tc         = "t1" if "1" in row["tier"] else "t2"
-        hl         = "hl" if is_top else ""
-        tcolor     = "#60a5fa" if "1" in row["tier"] else "#4b5563"
-        tlabel     = "★ Tier 1" if "1" in row["tier"] else "Tier 2"
-        bar        = min(100, int(score / 40 * 100))
-        marker     = "🥇 " if is_top else ""
-        sits       = row["situations"].replace(",", "<br>").replace(";", "<br>")
-        ev         = row["key_evidence"].replace("•", "<br>•").replace("* ", "<br>• ")
+        is_top = id(row) in top_set
+        score  = row["_score_int"]
+        freq   = row["_frequency"]
+        tc     = "t1" if "1" in row["tier"] else "t2"
+        hl     = "hl" if is_top else ""
+        tc_col = "#60a5fa" if "1" in row["tier"] else "#4b5563"
+        tl     = "★ T1" if "1" in row["tier"] else "T2"
+        bar    = min(100, int(score / 40 * 100))
+        marker = "🥇 " if is_top else ""
+        sits   = row["situations"].replace(",", "<br>").replace(";", "<br>")
+        ev     = row["key_evidence"][:260].replace("•", "<br>•")
+
+        src_html = f'<span style="color:#6b7280;font-size:10px">{row["sources"][:80]}</span>'
 
         html_rows.append(f"""
         <tr class="{tc} {hl}">
           <td><b style="color:#f9fafb">{marker}{i+1}</b></td>
-          <td><span style="font-weight:600;color:{tcolor}">{tlabel}</span></td>
+          <td><span style="font-weight:600;color:{tc_col}">{tl}</span></td>
           <td class="cn">{row['company']}</td>
           <td>{row['hq_country']}</td>
           <td>{row['industry']}</td>
@@ -395,33 +455,34 @@ def build_html(rows: list[dict], num_runs: int) -> str:
           <td>{badge(row['classification'])}</td>
           <td><span class="sn">{score}/40</span>
               <div class="sbw"><div class="sb" style="width:{bar}%"></div></div>
-              <small style="font-size:10px;color:#6b7280">{row['priority_score']}</small></td>
+              <small style="font-size:10px;color:#6b7280">{row['priority_score'][:40]}</small></td>
           <td><span style="font-size:10px;color:#6b7280">{freq}/{num_runs}</span></td>
-          <td class="ev">{ev[:260]}</td>
-          <td>{sources_html(row['sources'])}</td>
+          <td class="ev">{ev}</td>
+          <td>{src_html}</td>
         </tr>""")
 
     return HTML_TEMPLATE.format(
         date=date_str, num_runs=num_runs,
-        total=len(rows), tier1=tier1_count, tier2=tier2_count, top10=top_n,
+        total=len(rows), sectors=min(num_runs, len(SECTOR_ROTATION)),
+        tier1=tier1_count, top10=top_n,
         rows="\n".join(html_rows),
     )
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
-    prompt    = build_prompt()
     all_runs: list[list[dict]] = []
     raw_all:  list[str]        = []
 
     for i in range(NUM_RUNS):
         try:
+            prompt = build_prompt(i)
             raw    = call_gemini(prompt, i)
             raw_all.append(raw)
             parsed = parse_markdown_table(raw)
             log.info(f"  → Parsed {len(parsed)} companies from run {i+1}")
             if len(parsed) == 0:
-                log.warning(f"  → 0 companies. Raw preview:\n{raw[:1500]}")
+                log.warning(f"  → 0 companies. Raw:\n{raw[:800]}")
             if parsed:
                 all_runs.append(parsed)
         except Exception as e:
@@ -432,12 +493,11 @@ def main():
             time.sleep(SLEEP_SECONDS)
 
     if not all_runs:
-        raise RuntimeError("No runs produced output. Check API key and response preview above.")
+        raise RuntimeError("No runs produced output.")
 
     ts = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
     (OUTPUT_DIR / f"stage1_raw_{ts}.json").write_text(
-        json.dumps(raw_all, ensure_ascii=False, indent=2)
-    )
+        json.dumps(raw_all, ensure_ascii=False, indent=2))
 
     merged    = aggregate_runs(all_runs)
     html      = build_html(merged, NUM_RUNS)
@@ -451,7 +511,7 @@ def main():
 
     log.info(f"Stage 2 input ({top_n} Tier 1 companies by score):")
     for r in top_companies:
-        log.info(f"  → {r['company']:30s} | {r['_score_int']}/40")
+        log.info(f"  → {r['company']:35s} | {r['_score_int']}/40")
 
     stage2_path = OUTPUT_DIR / "stage2_input.json"
     stage2_path.write_text(json.dumps(top_companies, ensure_ascii=False, indent=2))
