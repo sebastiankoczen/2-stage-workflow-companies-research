@@ -1,13 +1,18 @@
 """
 XIMPAX Intelligence Engine — Stage 2
-Two-call architecture per company:
-  Call A → Gemini + Google Search → prose research with real grounding URLs
-  Call B → Gemini (no tools) → formats research into 4-column signal table
 
-HTML report includes visual quality flags:
-  🔴 Stale evidence (>12 months old)
-  🟡 Forbidden source (company website / IR page)
-  ✅ Clean signal
+Architecture per company:
+  Call A → Perplexity sonar-pro (live web search, cited sources, real URLs)
+  Call B → Gemini flash (formats prose into 4-column signal table, no search)
+
+Why Perplexity for research:
+  - Built-in web search with proper citation (Reuters, Bloomberg, FT etc.)
+  - Does NOT default to company IR pages or careers sites
+  - Returns specific quotes with publication dates
+  - More reliable than Gemini+Google Search grounding for structured research
+
+Requires env vars: PERPLEXITY_API_KEY, GEMINI_API_KEY, GMAIL_ADDRESS,
+                   GMAIL_APP_PASSWORD, RECIPIENT_EMAIL
 """
 
 import os
@@ -16,6 +21,8 @@ import json
 import time
 import smtplib
 import logging
+import urllib.request
+import urllib.error
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
@@ -35,37 +42,13 @@ PROMPTS_DIR = ROOT / "prompts"
 OUTPUT_DIR  = ROOT / "output"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
-GEMINI_MODEL  = "gemini-2.0-flash"
-SLEEP_BETWEEN = 12   # seconds between companies
+GEMINI_MODEL      = "gemini-2.0-flash"
+PERPLEXITY_MODEL  = "sonar-pro"   # sonar-pro has deeper search; fallback: "sonar"
+SLEEP_BETWEEN     = 12            # seconds between companies
 
-CUTOFF_DATE  = datetime.utcnow() - timedelta(days=365)
-CUTOFF_STR   = CUTOFF_DATE.strftime("%Y-%m-%d")
-TODAY        = datetime.utcnow().strftime("%Y-%m-%d")
-
-# Sources that are explicitly forbidden per the framework
-FORBIDDEN_SOURCE_PATTERNS = [
-    r"\bcompany\s+website\b", r"\bcompany\s+site\b", r"\bIR\s+page\b",
-    r"\binvestor\s+relations\b", r"\bpress\s+release\b",
-    r"\bvendor\s+blog\b", r"\bswot\b",
-    # Careers / jobs pages = company's own domain
-    r"\bcareers?\b", r"\bjobs?\s+page\b", r"\bnewsroom\b",
-    # Explicitly forbidden AI/SWOT analysis aggregator sites
-    r"portersfiveforce", r"comparably", r"craft\.co", r"macroaxis",
-    r"stockanalysis\.com", r"wisesheets", r"marketbeat", r"simplywall",
-]
-
-# When the model labels a source as just the company name (or company name + suffix)
-# it means it used the company's own website / press room.
-FORBIDDEN_SOURCE_LABELS = {
-    "lonza", "givaudan", "novartis", "roche", "nestle", "abb", "sika",
-    "sonova", "straumann", "georg fischer", "lindt", "emmi", "dätwyler",
-    "tecan", "bossard", "orior", "huber", "bucher", "bobst",
-}
-# Suffixes that combined with a company name = company-owned page
-COMPANY_PAGE_SUFFIXES = {
-    "careers", "career", "jobs", "newsroom", "press", "news",
-    "investor", "investors", "ir", "annual report", "sustainability report",
-}
+CUTOFF_DATE = datetime.utcnow() - timedelta(days=365)
+CUTOFF_STR  = CUTOFF_DATE.strftime("%Y-%m-%d")
+TODAY       = datetime.utcnow().strftime("%Y-%m-%d")
 
 
 def load_file(path: Path) -> str:
@@ -78,96 +61,80 @@ def load_stage2_input() -> list[dict]:
         raise FileNotFoundError(f"Stage 2 input not found at {path}. Run stage1_run.py first.")
     data = json.loads(path.read_text())
     data.sort(key=lambda r: r.get("_score_int", 0), reverse=True)
-    log.info(f"Stage 2 input: {len(data)} companies (sorted by score):")
+    log.info(f"Stage 2 input: {len(data)} companies:")
     for r in data:
-        log.info(f"  → {r['company']:30s} | {r.get('_score_int', '?')}/40")
+        log.info(f"  → {r['company']:35s} | {r.get('_score_int','?')}/40")
     return data
 
 
-# ── CALL A: Research prompt ────────────────────────────────────────────────────
-def build_research_prompt(company: dict) -> str:
+# ── CALL A: Perplexity research ────────────────────────────────────────────────
+def build_perplexity_prompt(company: dict) -> str:
     instructions  = load_file(CONFIG_DIR / "instructions.txt")
     icp_blueprint = load_file(CONFIG_DIR / "icp_blueprint.txt")
 
-    return f"""
-You are a senior supply chain market intelligence analyst. Today is {TODAY}.
+    return f"""You are a senior supply chain intelligence analyst. Today is {TODAY}.
 
-Deep-scan this company for supply chain execution signals:
+Research this company for supply chain execution signals relevant to a consulting firm
+that sells rapid-deployment supply chain execution programs:
+
 Company:  {company['company']}
 Country:  {company['hq_country']}
 Industry: {company['industry']}
 Revenue:  {company['revenue']}
-Stage 1 preliminary findings: {company.get('situations', 'unknown')} | Score: {company.get('priority_score', 'unknown')}
+Stage 1 note: {company.get('situations','unknown')} | Score: {company.get('priority_score','unknown')}
 
 ══════════════════════════════════════════════════════
-MANDATORY DATE RULE — ZERO EXCEPTIONS
+SEARCH FOR ALL 4 SITUATIONS — DO NOT SKIP ANY
 ══════════════════════════════════════════════════════
-The cutoff date is {CUTOFF_STR}. Every single piece of evidence MUST be
-dated AFTER {CUTOFF_STR}. If you find an article and its publication date
-is before {CUTOFF_STR}, you MUST discard it and search for a newer source.
-Do NOT use any source older than 12 months. This is non-negotiable.
 
-══════════════════════════════════════════════════════
-MANDATORY SOURCE RULES — ZERO EXCEPTIONS  
-══════════════════════════════════════════════════════
-ALLOWED sources (use these):
-  Tier 1: Reuters, Bloomberg, Financial Times, regulatory filings,
-          earnings call transcripts (Seeking Alpha, Motley Fool, etc.)
-  Tier 2: Trade publications (Pharma Tech, Chemical Week, etc.),
-          Swissquote, NZZ, Neue Zürcher Zeitung, Swiss business press
-  Tier 3: Reputable business news (Forbes, WSJ, etc.)
+SITUATION 1 — RESOURCE CONSTRAINTS
+Search: "{company['company']} supply chain procurement staffing vacancy capacity gap {TODAY[:4]}"
+Search: "{company['company']} CPO supply chain director departure leadership change {TODAY[:4]}"
+Search: "{company['company']} ERP S4HANA IBP S&OP transformation delayed resource shortage {TODAY[:4]}"
+Look for: leadership churn, hiring freezes, explicit "bandwidth" or "capacity" language from management,
+delayed transformation programs, interim/contractor reliance
 
-FORBIDDEN — do NOT use any of these:
-  ✗ {company['company']} company website, press releases, newsroom, or careers page
-  ✗ Any company's own investor relations page
-  ✗ LinkedIn job posts (only acceptable for Organizational signals,
-    and ONLY if the posting itself is dated after {CUTOFF_STR})
-  ✗ Generic industry blogs or vendor content
-  ✗ ZipRecruiter, Indeed, or other job boards for non-job-specific signals
-  ✗ SWOT or AI analysis aggregator sites: PortersFiveForce.com, Comparably,
-    Craft.co, Macroaxis, StockAnalysis, WiseSheets, MarketBeat, SimplyWallSt
-  ✗ Generic industry articles that do NOT specifically name {company['company']}
-    (e.g. "supply chain professionals face staffing challenges in 2024" is NOT
-    evidence about {company['company']} — the article must name this company)
-  ✗ Generic company taglines or marketing language
-    (e.g. "world leader in X with lean manufacturing" is a company description,
-    NOT evidence of a supply chain situation — it must be an analyst or journalist
-    reporting a specific operational fact)
+SITUATION 2 — MARGIN PRESSURE
+Search: "{company['company']} EBITDA gross margin decline cost reduction restructuring {TODAY[:4]}"
+Search: "{company['company']} profit warning savings program layoffs plant closure {TODAY[:4]}"
+Look for: structural margin decline, quantified savings targets, guidance downgrades due to costs,
+restructuring programs with headcount or plant closure details
 
-STRICT COUNTING RULES — READ CAREFULLY:
-  ✗ The same article / URL may only be counted for ONE signal, not multiple
-  ✗ If you use Reuters article X for one signal, you cannot use it again
-  ✗ Maximum 2 signals from any single source publication per situation
-  ✗ Do NOT count a signal without a real confirmed URL — write "no evidence found"
+SITUATION 3 — SIGNIFICANT GROWTH
+Search: "{company['company']} acquisition merger new plant capacity expansion investment {TODAY[:4]}"
+Search: "{company['company']} revenue growth new markets supply chain scaling {TODAY[:4]}"
+Look for: M&A requiring SC integration, new manufacturing sites, capacity investments,
+revenue growth outpacing operational capability, geographic expansion
+
+SITUATION 4 — SUPPLY CHAIN DISRUPTION
+Search: "{company['company']} supply disruption shortage production halt recall quality {TODAY[:4]}"
+Look for: production stoppages, product recalls, supplier failures, logistics crises,
+missed guidance due to supply issues
 
 ══════════════════════════════════════════════════════
-SEARCH QUERIES — RUN ALL OF THESE
+STRICT EVIDENCE RULES
 ══════════════════════════════════════════════════════
-Run each search and evaluate results before scoring:
+REQUIRED: Every piece of evidence must be dated after {CUTOFF_STR}
+REQUIRED: Every evidence item must include a real, accessible URL
+REQUIRED: Source must be independent media — NOT the company's own website, press room,
+  careers page, or investor relations page
+PREFERRED sources: Reuters, Bloomberg, Financial Times, Seeking Alpha, trade press
+  (Fierce Pharma, Chemical Week, Food Ingredients First, etc.), Swissquote, NZZ,
+  GlobeNewswire (3rd party announcements only), Tipranks, Investing.com, MarketWatch
 
-SITUATION 1 — RESOURCE CONSTRAINTS:
-  Search: "{company['company']} supply chain procurement staffing shortage capacity gap {TODAY[:4]}"
-  Search: "{company['company']} CPO supply chain director departure vacancy hire {TODAY[:4]}"
-  Search: "{company['company']} ERP SAP S4 IBP S&OP transformation delayed resource {TODAY[:4]}"
+FORBIDDEN sources (do not cite these):
+  ✗ {company['company']} company website, press releases, annual reports, newsroom
+  ✗ {company['company']} careers/jobs pages
+  ✗ LinkedIn job posts
+  ✗ PortersFiveForce, Comparably, Craft.co, Macroaxis, SimplyWallSt, MarketBeat
+  ✗ Generic industry articles not specifically about {company['company']}
+  ✗ Any article dated before {CUTOFF_STR}
 
-SITUATION 2 — MARGIN PRESSURE:
-  Search: "{company['company']} EBITDA gross margin decline cost reduction restructuring {TODAY[:4]}"
-  Search: "{company['company']} profit warning savings program procurement efficiency {TODAY[:4]}"
-  Search: "{company['company']} layoffs plant closure footprint optimization {TODAY[:4]}"
-
-SITUATION 3 — SIGNIFICANT GROWTH:
-  Search: "{company['company']} acquisition merger plant expansion capacity investment {TODAY[:4]}"
-  Search: "{company['company']} revenue growth supply chain scaling backlog {TODAY[:4]}"
-
-SITUATION 4 — SUPPLY CHAIN DISRUPTION:
-  Search: "{company['company']} supply disruption shortage production halt recall {TODAY[:4]}"
-  Search: "{company['company']} supplier failure logistics disruption quality crisis {TODAY[:4]}"
-
-══════════════════════════════════════════════════════
-SCORING RULES
-══════════════════════════════════════════════════════
-STRONG signal = +2 pts | MEDIUM signal = +1 pt | Cap per situation = 10 pts
-CONFIRMED ≥ 10 pts | LIKELY 6–9 pts | UNCLEAR 3–5 pts | NOT PRESENT 0–2 pts
+SIGNAL WEIGHTS (apply strictly):
+  STRONG signal = +2 pts | MEDIUM signal = +1 pt
+  STRONG = management explicitly states, quantified data, formal announcement
+  MEDIUM = indirect evidence, analyst commentary, supporting data
+  Cap per situation = 10 pts max
 
 === SITUATION SIGNAL DEFINITIONS ===
 {instructions}
@@ -176,15 +143,14 @@ CONFIRMED ≥ 10 pts | LIKELY 6–9 pts | UNCLEAR 3–5 pts | NOT PRESENT 0–2 
 {icp_blueprint}
 
 ══════════════════════════════════════════════════════
-OUTPUT FORMAT
+OUTPUT FORMAT — write exactly this structure:
 ══════════════════════════════════════════════════════
-Write one block per situation:
 
 SITUATION 1 — RESOURCE CONSTRAINTS: [CONFIRMED/LIKELY/UNCLEAR/NOT PRESENT] ([X] pts)
-Signal: [exact signal name] | Strength: STRONG/MEDIUM | Weight: +2/+1
-Quote: "[verbatim quote, max 25 words, must name {company['company']} explicitly]"
-Date: YYYY-MM-DD (must be after {CUTOFF_STR}) | Source: [Publication name] | URL: [full https:// URL]
-[repeat for each signal, or write "No evidence found within the last 12 months from allowed sources"]
+Signal: [exact signal name from framework] | Strength: STRONG/MEDIUM | Weight: +2/+1
+Quote: "[verbatim quote ≤25 words from the article — not from company's own marketing]"
+Date: YYYY-MM-DD | Source: [Publication name] | URL: [full https:// URL]
+[repeat per signal, or write: No qualifying evidence found after {CUTOFF_STR} from independent sources]
 
 SITUATION 2 — MARGIN PRESSURE: [classification] ([X] pts)
 [same format]
@@ -199,13 +165,11 @@ TOTAL SCORE: RC:[n] | MP:[n] | SG:[n] | SCD:[n] = [total]/40
 """
 
 
-# ── CALL B: Format prompt ──────────────────────────────────────────────────────
+# ── CALL B: Gemini formatting ──────────────────────────────────────────────────
 def build_format_prompt(company: dict, research_text: str) -> str:
     prompt_template = load_file(PROMPTS_DIR / "prompt_2.txt")
-    return f"""
-You are a data formatting engine. Convert the research findings into the required
-markdown table. Do NOT do additional research. Do NOT change scores, quotes, or URLs.
-Just reformat exactly what is in the research findings below.
+    return f"""You are a data formatting engine. Convert research findings into a markdown table.
+Do NOT research further. Do NOT change scores, quotes or URLs. Just reformat.
 
 === RESEARCH FINDINGS ===
 {research_text}
@@ -213,65 +177,100 @@ Just reformat exactly what is in the research findings below.
 === TABLE FORMAT REQUIRED ===
 {prompt_template}
 
-CRITICAL RULES:
+RULES:
 1. Output ONLY the markdown table — no text before or after
 2. Every row must start with | and end with |
 3. Exactly 4 columns: Situation Status | Detected Signal | Evidence & Quote | Source & URL
-4. One row per signal detected
-5. In the Source & URL column: use ONLY URLs that appear verbatim in the research above
-   — never invent, guess, abbreviate, or modify any URL
-6. Include the publication date in the Evidence column: "(Published: YYYY-MM-DD)"
-7. If research shows "No evidence found" for a situation, write one row with "No signals detected"
-8. Signal weight labels MUST be exactly one of these two — nothing else:
-   "STRONG +2"  (for strong signals worth 2 points)
-   "MEDIUM +1"  (for medium signals worth 1 point)
-   NEVER write "MEDIUM +2" — that is a labeling error. Medium is always +1.
-9. The source label must be the publication name (Reuters, Bloomberg, FT, Swissquote etc.)
-   NOT the article headline. If you only know the article title, use the domain name.
+4. One row per detected signal
+5. Source & URL: use ONLY URLs that appear verbatim in the research above — never invent any
+6. Include the publication date in Evidence: "(Published: YYYY-MM-DD)"
+7. No evidence for a situation → one row: "No signals detected"
+8. Weight labels: STRONG is always +2, MEDIUM is always +1 — never write MEDIUM +2
+9. Source label = publication name (Reuters, Bloomberg etc.) not an article headline
 """
 
 
-# ── Gemini calls ───────────────────────────────────────────────────────────────
-def gemini_research(prompt: str, company_name: str) -> str:
-    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-    log.info(f"  → Call A: researching {company_name} with Google Search …")
-    response = client.models.generate_content(
-        model=GEMINI_MODEL,
-        contents=prompt,
-        config=types.GenerateContentConfig(
-            tools=[types.Tool(google_search=types.GoogleSearch())],
-            temperature=0.1,
-            max_output_tokens=16000,
-        ),
+# ── Perplexity API call ────────────────────────────────────────────────────────
+def call_perplexity(prompt: str, company_name: str) -> str:
+    """
+    Call Perplexity sonar-pro via its OpenAI-compatible REST API.
+    Uses urllib to avoid requiring the openai package.
+    """
+    api_key = os.environ["PERPLEXITY_API_KEY"]
+    log.info(f"  → Call A (Perplexity): researching {company_name} …")
+
+    payload = json.dumps({
+        "model": PERPLEXITY_MODEL,
+        "messages": [
+            {
+                "role": "system",
+                "content": (
+                    "You are a supply chain market intelligence researcher. "
+                    "Always search for the most recent news and cite real URLs. "
+                    "Never use company websites, IR pages, or careers pages as sources. "
+                    "Every evidence item must have a real accessible URL."
+                ),
+            },
+            {"role": "user", "content": prompt},
+        ],
+        "max_tokens": 4000,
+        "temperature": 0.1,
+        "search_recency_filter": "year",   # restrict to last 12 months
+        "return_citations": True,
+    }).encode("utf-8")
+
+    req = urllib.request.Request(
+        "https://api.perplexity.ai/chat/completions",
+        data=payload,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type":  "application/json",
+            "Accept":        "application/json",
+        },
+        method="POST",
     )
-    text = response.text or ""
-    log.info(f"  → Call A: {len(text)} chars returned")
-    if len(text) < 300:
-        log.warning(f"  → Very short Call A response: {text[:300]}")
+
+    try:
+        with urllib.request.urlopen(req, timeout=90) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        body = e.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"Perplexity HTTP {e.code}: {body[:400]}") from e
+
+    text = data["choices"][0]["message"]["content"]
+    log.info(f"  → Call A returned {len(text)} chars")
+
+    # Append inline citations if Perplexity returned them separately
+    citations = data.get("citations", [])
+    if citations:
+        text += "\n\n=== CITED SOURCES ===\n"
+        for i, url in enumerate(citations, 1):
+            text += f"[{i}] {url}\n"
+
     return text
 
 
-def gemini_format(research_text: str, company: dict) -> str:
+# ── Gemini formatting call ─────────────────────────────────────────────────────
+def call_gemini_format(research_text: str, company: dict) -> str:
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-    log.info(f"  → Call B: formatting {company['company']} into table …")
+    log.info(f"  → Call B (Gemini): formatting {company['company']} …")
     response = client.models.generate_content(
         model=GEMINI_MODEL,
         contents=build_format_prompt(company, research_text),
         config=types.GenerateContentConfig(
             system_instruction=(
                 "You are a data formatting engine. Output ONLY the markdown table. "
-                "Start with the | character of the header row. "
-                "Every row must start and end with |. "
+                "Start with | header row. Every row starts and ends with |. "
                 "No text before or after the table. "
-                "Never invent or modify URLs — only use URLs present in the input. "
-                "Always include the publication date in the Evidence column."
+                "Never invent or modify URLs — only use URLs from the input. "
+                "MEDIUM signals are always +1. STRONG signals are always +2."
             ),
             temperature=0.0,
             max_output_tokens=8000,
         ),
     )
     text = response.text or ""
-    log.info(f"  → Call B: {len(text)} chars returned")
+    log.info(f"  → Call B returned {len(text)} chars")
     return text
 
 
@@ -282,7 +281,7 @@ def parse_stage2_table(raw: str) -> list[dict]:
     pipe_lines = [l for l in lines if l.startswith("|")]
 
     if not pipe_lines:
-        log.warning("No pipe-delimited lines found in Stage 2 response.")
+        log.warning("No pipe-delimited lines in Stage 2 response.")
         return []
 
     rows           = []
@@ -290,7 +289,6 @@ def parse_stage2_table(raw: str) -> list[dict]:
 
     for line in pipe_lines:
         cells = [c.strip() for c in line.strip("|").split("|")]
-
         if all(re.match(r"^[-:\s]+$", c) for c in cells if c):
             header_skipped = True
             continue
@@ -301,7 +299,6 @@ def parse_stage2_table(raw: str) -> list[dict]:
             continue
         while len(cells) < 4:
             cells.append("")
-
         rows.append({
             "situation_status": cells[0],
             "detected_signal":  cells[1],
@@ -312,8 +309,66 @@ def parse_stage2_table(raw: str) -> list[dict]:
 
 
 # ── Signal quality validation ──────────────────────────────────────────────────
+FORBIDDEN_SOURCE_PATTERNS = [
+    r"\bcompany\s+website\b", r"\bcompany\s+site\b", r"\bIR\s+page\b",
+    r"\binvestor\s+relations\b", r"\bpress\s+release\b", r"\bvendor\s+blog\b",
+    r"\bnewsroom\b", r"\bjobs?\s+page\b",
+    # Explicit SWOT/aggregator sites
+    r"portersfiveforce", r"comparably", r"craft\.co", r"macroaxis",
+    r"stockanalysis\.com", r"wisesheets", r"marketbeat", r"simplywall",
+    # Z2Data is a generic supply chain risk aggregator — not company-specific
+    r"z2data",
+]
+
+FORBIDDEN_SOURCE_LABELS = {
+    "lonza", "givaudan", "novartis", "roche", "nestle", "abb", "sika",
+    "sonova", "straumann", "georg fischer", "lindt", "emmi", "dätwyler",
+    "tecan", "bossard", "orior", "huber", "bucher", "bobst", "bachem",
+    "siegfried", "ypsomed", "tecan", "clariant", "ems-chemie", "komax",
+    "bystronic", "endress", "sensirion", "skan", "coltene",
+}
+
+COMPANY_PAGE_SUFFIXES = {
+    "careers", "career", "jobs", "newsroom", "press", "investor",
+    "investors", "ir", "annual report", "sustainability report",
+}
+
+
+def classify_source(source_str: str) -> str:
+    s = source_str.lower().strip()
+
+    # 1. Explicit forbidden patterns
+    for pat in FORBIDDEN_SOURCE_PATTERNS:
+        if re.search(pat, s, re.IGNORECASE):
+            return "forbidden"
+
+    # 2. Bare company name or company name + page suffix
+    for label in FORBIDDEN_SOURCE_LABELS:
+        escaped = re.escape(label)
+        if re.match(rf"^{escaped}(\s*[\(\[]|$)", s):
+            return "forbidden"
+        for suffix in COMPANY_PAGE_SUFFIXES:
+            if re.match(rf"^{escaped}\s+{re.escape(suffix)}", s):
+                return "forbidden"
+
+    # 3. Source is clearly a URL-as-label starting with the company domain
+    #    e.g. "lonza.com/news/..." — extract domain and check
+    domain_m = re.match(r"https?://([^/]+)", s)
+    if domain_m:
+        domain = domain_m.group(1).lower().replace("www.", "")
+        for label in FORBIDDEN_SOURCE_LABELS:
+            if domain.startswith(label.replace("+", "").replace(" ", "")):
+                return "forbidden"
+
+    # NOTE: We intentionally do NOT flag long source labels as "headline detection"
+    # because Perplexity often returns article titles as source names for GlobeNewswire
+    # press releases etc. The quality of Perplexity citations is much higher so
+    # we rely on the URL itself being a real external domain.
+
+    return "clean"
+
+
 def parse_evidence_date(evidence: str) -> datetime | None:
-    """Extract date from evidence string. Handles Published: YYYY-MM-DD format."""
     m = re.search(r"(\d{4}-\d{2}-\d{2})", evidence)
     if m:
         try:
@@ -323,78 +378,25 @@ def parse_evidence_date(evidence: str) -> datetime | None:
     return None
 
 
-def classify_source(source_str: str) -> str:
-    """
-    Returns: 'forbidden' | 'clean'
-    Covers: company websites, careers pages, IR pages, SWOT/AI analysis sites,
-    article-headline-as-source-label (ambiguous).
-    """
-    s = source_str.lower().strip()
-
-    # 1. Direct pattern matches (company site, press release, SWOT sites, etc.)
-    for pat in FORBIDDEN_SOURCE_PATTERNS:
-        if re.search(pat, s, re.IGNORECASE):
-            return "forbidden"
-
-    # 2. Company name alone OR company name + page suffix
-    #    e.g. "Lonza" | "Lonza Careers" | "Sika Newsroom" | "Givaudan Press"
-    for label in FORBIDDEN_SOURCE_LABELS:
-        escaped = re.escape(label)
-        # Bare company name (possibly with page ref in parens)
-        if re.match(rf"^{escaped}(\s*[\(\[]|$)", s):
-            return "forbidden"
-        # Company name + forbidden suffix
-        for suffix in COMPANY_PAGE_SUFFIXES:
-            if re.match(rf"^{escaped}\s+{re.escape(suffix)}", s):
-                return "forbidden"
-
-    # 3. Source label looks like an article headline rather than a publication name
-    #    Heuristic: >8 words, or contains "announces|agrees|plans|reports|falls|rises"
-    #    These are unreliable because the publication can't be independently identified.
-    words = s.split()
-    if len(words) > 8:
-        return "forbidden"
-    headline_verbs = ["announces", "agreed", "plans", "reported", "falls", "rises",
-                      "expands", "acquires", "closes", "layoffs", "restructur"]
-    if any(v in s for v in headline_verbs):
-        return "forbidden"
-
-    return "clean"
-
-
 def signal_quality(row: dict) -> dict:
-    """
-    Returns a dict with quality flags for a signal row:
-      stale: bool  (evidence date before cutoff)
-      forbidden: bool  (source is a company website)
-      quality: 'clean' | 'stale' | 'forbidden' | 'stale+forbidden'
-    """
     ev_date   = parse_evidence_date(row.get("evidence", ""))
     src_class = classify_source(row.get("source_url", ""))
-
     stale     = ev_date is not None and ev_date < CUTOFF_DATE
     forbidden = src_class == "forbidden"
 
-    if stale and forbidden:
-        quality = "stale+forbidden"
-    elif stale:
-        quality = "stale"
-    elif forbidden:
-        quality = "forbidden"
-    else:
-        quality = "clean"
+    if stale and forbidden:  quality = "stale+forbidden"
+    elif stale:              quality = "stale"
+    elif forbidden:          quality = "forbidden"
+    else:                    quality = "clean"
 
     return {"stale": stale, "forbidden": forbidden, "quality": quality}
 
 
-# ── Score recalculation ────────────────────────────────────────────────────────
+# ── Score recalculation (clean signals only) ───────────────────────────────────
 def recalculate_score(rows: list[dict]) -> int:
-    """Sum STRONG(+2) MEDIUM(+1) per situation, cap 10, return total."""
     sit_scores: dict[str, int] = {
-        "resource constraints": 0,
-        "margin pressure": 0,
-        "significant growth": 0,
-        "supply chain disruption": 0,
+        "resource constraints": 0, "margin pressure": 0,
+        "significant growth": 0, "supply chain disruption": 0,
     }
     current = ""
     for row in rows:
@@ -403,9 +405,7 @@ def recalculate_score(rows: list[dict]) -> int:
         sig = row.get("detected_signal", "").lower()
         if "no signals" in sig or not sig:
             continue
-        # Only count clean signals in the score
-        q = signal_quality(row)
-        if q["quality"] != "clean":
+        if signal_quality(row)["quality"] != "clean":
             continue
         w = 2 if "strong" in sig else (1 if "medium" in sig else 0)
         for k in sit_scores:
@@ -415,21 +415,13 @@ def recalculate_score(rows: list[dict]) -> int:
     return sum(sit_scores.values())
 
 
-# ── HTML report builder ────────────────────────────────────────────────────────
+# ── HTML builder ───────────────────────────────────────────────────────────────
 SITUATION_STYLES = {
     "confirmed":   ("#86efac", "#14532d", "✅ CONFIRMED"),
     "likely":      ("#93c5fd", "#1e3a5f", "🔵 LIKELY"),
     "unclear":     ("#fcd34d", "#422006", "⚠️ UNCLEAR"),
     "not present": ("#9ca3af", "#1f2937", "⬜ NOT PRESENT"),
 }
-
-def situation_style(s: str):
-    t = s.lower()
-    for k, v in SITUATION_STYLES.items():
-        if k in t:
-            return v
-    return ("#d1d5db", "#1f2937", s[:40])
-
 
 QUALITY_BADGES = {
     "clean":          ("", ""),
@@ -443,18 +435,26 @@ QUALITY_BADGES = {
 }
 
 
+def situation_style(s: str):
+    t = s.lower()
+    for k, v in SITUATION_STYLES.items():
+        if k in t:
+            return v
+    return ("#d1d5db", "#1f2937", s[:40])
+
+
 def make_source_link(src: str, quality: str) -> str:
     urls  = re.findall(r"https?://[^\s<>\"'\]]+", src)
     label = re.sub(r"https?://[^\s<>\"'\]]+", "", src).strip(" —-–[]")
-    badge, _ = QUALITY_BADGES.get(quality, ("", ""))
+    badge_html, _ = QUALITY_BADGES.get(quality, ("", ""))
 
     if urls:
         link = f'<a href="{urls[0]}" target="_blank" style="color:#60a5fa">{label or "🔗 Source"}</a>'
     elif src.strip() and src.strip() not in ("-", "—"):
         link = f'<span style="color:#6b7280;font-size:10px">{src[:80]}</span>'
     else:
-        link = ""
-    return link + badge
+        link = '<span style="color:#6b7280;font-size:10px">No URL</span>'
+    return link + badge_html
 
 
 def build_company_section(company: dict, rows: list[dict], rank: int) -> str:
@@ -463,19 +463,18 @@ def build_company_section(company: dict, rows: list[dict], rank: int) -> str:
     bar_pct        = min(100, int(verified_score / 40 * 100))
     dom_color      = "#16a34a" if any("confirmed" in r["situation_status"].lower() for r in rows) else "#2563eb"
 
-    # Count clean vs flagged signals for the summary line
-    total_sig = sum(1 for r in rows if "no signals" not in r.get("detected_signal", "").lower() and r.get("detected_signal", ""))
-    clean_sig = sum(1 for r in rows if signal_quality(r)["quality"] == "clean" and "no signals" not in r.get("detected_signal", "").lower())
+    total_sig = sum(1 for r in rows if r.get("detected_signal","") and "no signals" not in r["detected_signal"].lower())
+    clean_sig = sum(1 for r in rows if signal_quality(r)["quality"] == "clean"
+                    and r.get("detected_signal","") and "no signals" not in r["detected_signal"].lower())
     flag_sig  = total_sig - clean_sig
 
-    quality_summary = (
+    quality_line = (
         f'<span style="font-size:11px;color:#6b7280;margin-top:4px;display:block">'
         f'✅ {clean_sig} clean signals'
-        + (f' &nbsp;|&nbsp; <span style="color:#fca5a5">⚠️ {flag_sig} flagged (stale/excluded source)</span>' if flag_sig else "")
+        + (f' &nbsp;|&nbsp; <span style="color:#fca5a5">⚠️ {flag_sig} flagged</span>' if flag_sig else "")
         + '</span>'
     )
 
-    # Group by situation
     groups: dict[str, list] = {}
     cur = ""
     for row in rows:
@@ -488,18 +487,16 @@ def build_company_section(company: dict, rows: list[dict], rank: int) -> str:
         tc, bg, label = situation_style(sit)
         first = True
         for r in sig_rows:
-            q     = signal_quality(r)
-            _, row_style = QUALITY_BADGES.get(q["quality"], ("", ""))
-
+            q         = signal_quality(r)
+            _, row_sty = QUALITY_BADGES.get(q["quality"], ("", ""))
             sit_td = (
                 f'<td style="background:{bg};color:{tc};font-weight:700;font-size:11px;'
                 f'white-space:nowrap;padding:10px 8px;border-right:1px solid #374151">'
                 f'{label}<br><small style="font-size:9px;font-weight:400;opacity:.8">{sit}</small></td>'
             ) if first else '<td style="background:#111827;border-right:1px solid #374151"></td>'
             first = False
-
             sig_rows_html.append(f"""
-            <tr style="border-bottom:1px solid #374151;{row_style}">
+            <tr style="border-bottom:1px solid #374151;{row_sty}">
               {sit_td}
               <td style="padding:10px 8px;font-size:12px;color:#d1d5db;border-right:1px solid #374151">{r['detected_signal']}</td>
               <td style="padding:10px 8px;font-size:11px;font-style:italic;color:#9ca3af;border-right:1px solid #374151">{r['evidence']}</td>
@@ -507,7 +504,7 @@ def build_company_section(company: dict, rows: list[dict], rank: int) -> str:
             </tr>""")
 
     no_sig = ('<tr><td colspan="4" style="padding:14px;color:#6b7280;text-align:center;'
-              'font-style:italic">No signals detected within allowed sources and date range</td></tr>')
+              'font-style:italic">No signals found within last 12 months from independent sources</td></tr>')
 
     return f"""
     <div style="background:#1f2937;border-radius:10px;margin-bottom:24px;overflow:hidden;border:1px solid #374151">
@@ -517,21 +514,19 @@ def build_company_section(company: dict, rows: list[dict], rank: int) -> str:
           <div style="font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">#{rank} Priority Lead</div>
           <h2 style="font-size:18px;margin:0;color:#f9fafb;font-weight:700">{company['company']}</h2>
           <p style="font-size:12px;color:#9ca3af;margin:5px 0 2px">{company['industry']} &nbsp;·&nbsp; {company['hq_country']} &nbsp;·&nbsp; {company['revenue']}</p>
-          {quality_summary}
+          {quality_line}
         </div>
         <div style="text-align:right;min-width:140px">
           <div style="font-size:30px;font-weight:800;color:#60a5fa">{verified_score}<small style="font-size:14px;color:#6b7280">/40</small></div>
           <div style="background:rgba(255,255,255,.1);border-radius:4px;height:6px;width:110px;margin:6px 0 2px;margin-left:auto">
             <div style="background:linear-gradient(90deg,#2563eb,#7c3aed);height:6px;border-radius:4px;width:{bar_pct}%"></div>
           </div>
-          <small style="font-size:10px;color:#6b7280">Verified score (clean signals only)</small>
-          {f'<small style="font-size:10px;color:#6b7280;display:block">Stage 1 estimate: {raw_score}/40</small>' if raw_score != verified_score else ""}
+          <small style="font-size:10px;color:#6b7280">Verified (clean signals only)</small>
+          {f'<small style="font-size:10px;color:#6b7280;display:block">S1 estimate: {raw_score}/40</small>' if raw_score != verified_score else ""}
         </div>
       </div>
-      <div style="background:#1a2535;padding:8px 16px;border-bottom:1px solid #374151;font-size:10px;color:#6b7280">
-        Legend: &nbsp;
-        <span style="background:#7f1d1d;color:#fca5a5;padding:1px 5px;border-radius:4px;font-weight:700">⏰ STALE</span> = evidence older than {CUTOFF_STR} &nbsp;|&nbsp;
-        <span style="background:#78350f;color:#fcd34d;padding:1px 5px;border-radius:4px;font-weight:700">🚫 EXCL.SOURCE</span> = company website / IR page (excluded by framework rules)
+      <div style="background:#1a2535;padding:6px 16px;border-bottom:1px solid #374151;font-size:10px;color:#6b7280">
+        ⏰ STALE = older than {CUTOFF_STR} &nbsp;|&nbsp; 🚫 EXCL.SOURCE = company website / IR page
       </div>
       <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif">
         <thead>
@@ -555,14 +550,12 @@ REPORT_HTML = """\
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;padding:24px 0">
 <tr><td>
 <table width="700" align="center" cellpadding="0" cellspacing="0" style="max-width:700px;margin:0 auto">
-
   <tr><td style="background:linear-gradient(135deg,#0f172a,#1e3a5f);border-radius:12px 12px 0 0;
                  padding:28px 32px;border-bottom:3px solid #2563eb">
     <div style="font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">XIMPAX Intelligence Engine</div>
     <h1 style="margin:0;font-size:22px;color:#f9fafb;font-weight:800">🎯 Weekly Deep Scan Report</h1>
-    <p style="margin:8px 0 0;color:#9ca3af;font-size:13px">Stage 2 · {date} · {num_companies} Companies · Evidence cutoff: {cutoff}</p>
+    <p style="margin:8px 0 0;color:#9ca3af;font-size:13px">Stage 2 · {date} · {num_companies} Companies · Powered by Perplexity sonar-pro</p>
   </td></tr>
-
   <tr><td style="background:#1f2937;padding:16px 32px;border-bottom:1px solid #374151">
     <table width="100%" cellpadding="0" cellspacing="0"><tr>
       <td style="text-align:center;padding:8px 0;border-right:1px solid #374151">
@@ -583,40 +576,35 @@ REPORT_HTML = """\
       </td>
     </tr></table>
   </td></tr>
-
   <tr><td style="background:#111827;padding:20px 24px">{company_sections}</td></tr>
-
   <tr><td style="background:#0f172a;border-radius:0 0 12px 12px;padding:16px 32px;
                  border-top:1px solid #374151;text-align:center;color:#4b5563;font-size:11px">
-    XIMPAX Intelligence Engine · Automated Weekly Report · Gemini AI + Google Search<br>
-    Evidence window: {cutoff} → {date} · Excluded sources: company websites, IR pages, vendor blogs
+    XIMPAX Intelligence Engine · Research: Perplexity sonar-pro · Formatting: Gemini 2.0 Flash<br>
+    Evidence window: {cutoff} → {date}
   </td></tr>
-
 </table></td></tr></table>
 </body></html>"""
 
 
 def build_report(companies_with_rows: list[tuple]) -> str:
     confirmed = likely = clean_signals = 0
+    sections  = []
 
-    sections = []
     for rank, (company, rows) in enumerate(companies_with_rows, 1):
         for row in rows:
             s = row["situation_status"].lower()
             q = signal_quality(row)
             if "confirmed" in s: confirmed += 1
             elif "likely"  in s: likely    += 1
-            if q["quality"] == "clean" and "no signals" not in row.get("detected_signal", "").lower() and row.get("detected_signal", ""):
+            if (q["quality"] == "clean" and row.get("detected_signal","")
+                    and "no signals" not in row["detected_signal"].lower()):
                 clean_signals += 1
         sections.append(build_company_section(company, rows, rank))
 
     return REPORT_HTML.format(
-        date=TODAY,
-        cutoff=CUTOFF_STR,
+        date=TODAY, cutoff=CUTOFF_STR,
         num_companies=len(companies_with_rows),
-        confirmed=confirmed,
-        likely=likely,
-        clean_signals=clean_signals,
+        confirmed=confirmed, likely=likely, clean_signals=clean_signals,
         company_sections="\n".join(sections),
     )
 
@@ -628,7 +616,7 @@ def send_email(html: str, attachment: Path):
     to_addr   = os.environ["RECIPIENT_EMAIL"]
     subject   = f"XIMPAX Weekly Intelligence Report — {datetime.utcnow().strftime('%d %b %Y')}"
 
-    msg            = MIMEMultipart("mixed")
+    msg = MIMEMultipart("mixed")
     msg["From"]    = smtp_user
     msg["To"]      = to_addr
     msg["Subject"] = subject
@@ -650,36 +638,35 @@ def send_email(html: str, attachment: Path):
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
     companies = load_stage2_input()
-    log.info(f"Stage 2: deep scanning {len(companies)} companies | Evidence cutoff: {CUTOFF_STR}")
+    log.info(f"Stage 2: researching {len(companies)} companies via Perplexity sonar-pro")
+    log.info(f"Evidence window: {CUTOFF_STR} → {TODAY}")
 
     companies_with_rows: list[tuple] = []
     raw_all: dict = {}
 
     for i, company in enumerate(companies):
+        log.info(f"[{i+1}/{len(companies)}] {company['company']}")
         try:
-            # Call A: live research with Google Search
-            research_text = gemini_research(
-                build_research_prompt(company), company["company"]
+            # Call A: Perplexity live research
+            research_text = call_perplexity(
+                build_perplexity_prompt(company), company["company"]
             )
             raw_all[company["company"]] = {"research": research_text}
-            time.sleep(5)
+            time.sleep(4)
 
-            # Call B: format into table
-            table_text = gemini_format(research_text, company)
+            # Call B: Gemini format into table
+            table_text = call_gemini_format(research_text, company)
             raw_all[company["company"]]["table"] = table_text
 
             rows = parse_stage2_table(table_text)
-            log.info(f"  → {len(rows)} signal rows for {company['company']}")
-
-            # Log quality breakdown
             clean = sum(1 for r in rows if signal_quality(r)["quality"] == "clean")
             flagged = len(rows) - clean
-            log.info(f"     ✅ {clean} clean | ⚠️  {flagged} flagged")
+            log.info(f"  → {len(rows)} rows | ✅ {clean} clean | ⚠️  {flagged} flagged")
 
             companies_with_rows.append((company, rows))
 
         except Exception as e:
-            log.warning(f"Failed for {company['company']}: {e}")
+            log.warning(f"  Failed: {e}")
             companies_with_rows.append((company, []))
 
         if i < len(companies) - 1:
