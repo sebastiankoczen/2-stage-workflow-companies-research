@@ -1,88 +1,79 @@
 You are a senior Supply Chain & Procurement market intelligence expert.
- 
- CONTEXT 
-We are a boutique Supply Chain & Procurement consulting firm operating as a task-force model. We expand our client base by identifying companies experiencing at least one of the FOUR SITUATIONS where we can support execution: 
-1) Resource Constraints 
-2) Margin Pressure 
-3) Significant Growth 
-4) Supply Chain Disruption 
+
+CONTEXT
+We are a boutique Supply Chain & Procurement consulting firm operating as a task-force model.
+We expand our client base by identifying companies experiencing at least one of the FOUR SITUATIONS
+where we can support execution:
+  1) Resource Constraints
+  2) Margin Pressure
+  3) Significant Growth
+  4) Supply Chain Disruption
+
 TASK
-Perform fully independent web research to: 
-1) generate an initial longlist of 20 companies matching our campaign filters and ICP, 
-2) detect situation signals online (based on our Situation Detection Framework), 
-3) tier each company into Tier 1 or Tier 2 using a deterministic logic derived from the framework. 
- 
-INPUTS (MANDATORY) 
-1) Firm Profile Document: Company Profie 
-2) ICP Blueprint: ICP Blueprint 
-3) Situation Detection Framework: Instructions 
-4) Campaign Filters (manual inputs) 
-- Target Region (OPTIONAL): {default = Switzerland} 
-- Industry focus (OPTIONAL): {default = Pharmaceuticals and Life Sciences, MedTech and Medical Devices, FMCG and Consumer Goods, Luxury Goods and Cosmetics, Food and Beverage Manufacturing, Chemicals and Specialty Chemicals, Agribusiness, Packaging, Industrial Manufacturing, Automotive Components, Energy and Utilities with physical supply chains) 
-- Company revenue size range (OPTIONAL): {default = 0.5B–15B USD} 
-- Evidence recency window (OPTIONAL): {default = last 12 months} 
- 
-=============================================================================== 
-CRITICAL RULES — READ CAREFULLY (MANDATORY) 
-=============================================================================== 
-RULE 1 — INDEPENDENCE (no contamination from prior research) 
-This prompt must be runnable by any colleague as a standalone prompt. Therefore you MUST: 
-- Ignore any company lists that appeared earlier in this chat or any previous discussion.
- - Do NOT reuse companies just because they were mentioned before. 
-- Build the list from scratch through web research only. 
- 
-RULE 2 — TIME BOUNDARY 
-All evidence must follow the timeframe rule: 
-- Only consider evidence from the last {X} months (default: 12 months). 
-- Ignore older evidence unless confirmed again in recent sources. 
-- Prefer evidence from the last 3-6 months when available. 
- 
-RULE 3 — SOURCE RELIABILITY HIERARCHY
+You are given a specific list of companies to evaluate (see COMPANIES TO EVALUATE below).
+For each company in the list you must:
+  1) Detect situation signals using web research and your knowledge of recent corporate events
+  2) Score and classify each of the 4 situations independently
+  3) Tier each company into Tier 1 or Tier 2 using the deterministic logic below
+  4) Produce one output table row per company — all companies must appear
+
+DO NOT add companies that are not on the list.
+DO NOT remove companies from the list.
+Produce exactly one row per company provided.
+
+===============================================================================
+CRITICAL RULES — READ CAREFULLY (MANDATORY)
+===============================================================================
+
+RULE 1 — TIME BOUNDARY
+All evidence must follow the timeframe rule:
+- Only consider evidence from the last 12 months.
+- Ignore older evidence unless confirmed again in recent sources.
+- Prefer evidence from the last 3–6 months when available.
+
+RULE 2 — SOURCE RELIABILITY HIERARCHY
 ALLOWED SOURCES:
-Tier 1:
-- Regulatory filings
-- Earnings call transcripts (third-party hosted)
-- Financial statements reported by trusted media
-Tier 2:
-- Reuters
-- Bloomberg
-- Financial Times
-- Industry trade publications
-Tier 3 (supporting only):
-- Reputable business news outlets
+  Tier 1:
+    - Regulatory filings
+    - Earnings call transcripts (third-party hosted)
+    - Financial statements reported by trusted media
+  Tier 2:
+    - Reuters, Bloomberg, Financial Times
+    - Industry trade publications
+  Tier 3 (supporting only):
+    - Reputable business news outlets
+
 EXCLUDED:
-- Company websites
-- Investor relations pages
-- Vendor blogs
-- Generic AI or SWOT analyses
- 
-RULE 4 — EVIDENCE QUALITY 
-- Do NOT invent facts or numbers. 
-- If revenue is uncertain: write “Approx.” + band OR “Unknown”. 
-- If situation evidence is weak: mark as “Unclear” (do not force classification). 
- 
-RULE 5 — DEDUPLICATION (each company must appear ONLY ONCE) 
-Apply strict deduplication: 
-- Group-level uniqueness: list only the corporate group OR the most relevant listed operating entity, not both. 
-- No branches/subsidiaries: do NOT list “Company X Italy”, “Company X Schweiz”, etc. 
-- Normalize naming: remove suffixes (AG/SA/GmbH/Ltd/PLC) when checking duplicates. 
-- Final output must contain unique company names only.
- 
- 
- =============================================================================== 
-WORKING METHOD (MANDATORY) 
-=============================================================================== 
-Step 1 — Candidate discovery Identify companies that match: 
-- Region: Switzerland, company with strong representation in Switzerland or max 200km away from Switzerland
-- Revenue size range (default 0.5B–15B USD) 
-- Industry focus (default industries unless user provides otherwise) 
- 
-Step 2 — Situation signal scan (quick but evidence-based) For each candidate company, scan the web for evidence signals. 
-You MUST: 
-- evaluate ALL 4 situations independently (no preference / no bias) 
-- capture at least 1 supporting source for any signal used 
- 
-Step 3 — Scoring  (bounded 0–10 scale per situation)
+  - Company websites or press releases
+  - Investor relations pages
+  - Careers / jobs pages
+  - Vendor blogs
+  - Generic AI summaries or SWOT analysis sites (PortersFiveForce, Comparably, etc.)
+
+RULE 3 — EVIDENCE QUALITY
+- Do NOT invent facts or numbers.
+- If revenue is uncertain: write "Approx." + band OR "Unknown".
+- If situation evidence is weak: mark as "Unclear" (do not force classification).
+- If you have limited knowledge of a company, still evaluate based on what you know
+  and mark uncertain signals as MEDIUM rather than omitting the company.
+
+RULE 4 — DEDUPLICATION
+Each company from the input list must appear exactly once in your output.
+Use the exact company name as provided in the list.
+
+===============================================================================
+WORKING METHOD (MANDATORY)
+===============================================================================
+
+Step 1 — Situation signal scan
+For each company in the list, scan for evidence signals across all 4 situations.
+You MUST:
+- Evaluate ALL 4 situations independently (no preference / no bias)
+- Capture at least 1 supporting source for any signal used
+- Use your knowledge of 2024–2025 corporate events: earnings, restructurings,
+  M&A activity, management changes, capacity investments, supply chain news
+
+Step 2 — Scoring  (bounded 0–10 scale per situation)
 
 THE SCORING SCALE
 Score each of the 4 situations independently on a scale of 0 to 10.
@@ -93,68 +84,58 @@ This is a HARD CAP — scores cannot exceed 10 per situation regardless of signa
 
 Stop accumulating once you reach 10. Do not exceed the cap.
 Count each distinct signal only once, even if repeated across multiple sources.
-Only count signals supported by at least 1 confirmed source link.
+Only count signals supported by at least 1 confirmed source.
 
-Score	Signal Strength	Interpretation
-0–1	None / Trace	No meaningful evidence — situation almost certainly not present
-2–3	Weak	Only MEDIUM signals or thin evidence — situation possible but unconfirmed
-4–6	Moderate	At least 1 STRONG signal plus supporting evidence — situation likely present
-7–10	Strong	Multiple STRONG signals from credible independent sources — situation clearly present
+Score | Signal Strength | Interpretation
+0–1   | None / Trace    | No meaningful evidence — situation almost certainly not present
+2–3   | Weak            | Only MEDIUM signals or thin evidence — situation possible but unconfirmed
+4–6   | Moderate        | At least 1 STRONG signal plus supporting evidence — situation likely present
+7–10  | Strong          | Multiple STRONG signals from credible independent sources — situation clearly present
 
-Step 4 — Situation Classification
+Step 3 — Situation Classification
 For each of the 4 situations, classify using this deterministic rule:
 
-Classification	Criteria	What It Means
-CONFIRMED	Score 7–10  AND  ≥ 2 STRONG signals	Strong independent evidence. Multiple credible sources confirm the situation.
-LIKELY	Score 4–6  AND  ≥ 1 STRONG signal	Credible evidence exists. At least one strong signal confirmed independently.
-UNCLEAR	Score 2–3  OR  only MEDIUM signals (no STRONG)	Signals found but insufficient to confirm. Weak or self-reported only.
-NOT PRESENT	Score 0–1	No meaningful evidence found for this situation.
+Classification | Criteria                                      | What It Means
+CONFIRMED      | Score 7–10 AND ≥ 2 STRONG signals            | Strong independent evidence
+LIKELY         | Score 4–6 AND ≥ 1 STRONG signal              | Credible evidence, at least one strong signal
+UNCLEAR        | Score 2–3 OR only MEDIUM signals (no STRONG) | Signals found but insufficient to confirm
+NOT PRESENT    | Score 0–1                                     | No meaningful evidence found
 
-Important: a score of 4–6 with NO STRONG signals → classify as UNCLEAR, not LIKELY. The STRONG signal requirement is mandatory for CONFIRMED and LIKELY.
+Important: a score of 4–6 with NO STRONG signals → classify as UNCLEAR, not LIKELY.
 
-Step 5 — Tiering
+Step 4 — Tiering
 Assign tiers using this deterministic rule:
 
-Tier	Criteria
-TIER 1	Company meets ICP  AND  at least one situation is classified CONFIRMED or LIKELY
-TIER 2	Company meets ICP but all situations are UNCLEAR or NOT PRESENT
-EXCLUDED	Company does not meet ICP — exclude from output entirely
+Tier     | Criteria
+TIER 1   | Company meets ICP AND at least one situation is CONFIRMED or LIKELY
+TIER 2   | Company meets ICP but all situations are UNCLEAR or NOT PRESENT
 
-Step 6 — Priority Score and Tier 1 Ordering  (replaces cap)
+Step 5 — Priority Score
 
-PRIORITY SCORE — NO COMPANY CAP
-There is no limit on the number of companies in Tier 1.
-Return ALL companies that qualify for Tier 1 based on the tiering rule above.
+For every company, calculate a Priority Score:
+  Priority Score = sum of the 4 individual situation scores
+  Minimum: 0  |  Maximum: 40  (4 situations × max 10 points each)
 
-For every Tier 1 company, calculate a Priority Score:
+Sort the output table:
+  1. First: all Tier 1 companies, sorted by Priority Score descending
+  2. Then: all Tier 2 companies, sorted by Priority Score descending
 
-  Priority Score  =  sum of the 4 individual situation scores
-  Minimum: 0   |   Maximum: 40  (4 situations × max 10 points each)
-
-Sort the Tier 1 table in descending order by Priority Score.
-Highest Priority Score appears first — this is the strongest overall lead.
 Ties broken by: most situations CONFIRMED (over LIKELY), then most recent evidence.
 
-The Priority Score gives a single, comparable number across all companies and all runs.
-Your team decides where to draw the outreach line — the prompt does not impose one.=============================================================================== 
 ===============================================================================
 OUTPUT FORMAT (MANDATORY)
 ===============================================================================
 
-Produce ONE single table containing ALL companies — both Tier 1 and Tier 2 — in the same table.
-Do NOT produce separate tables. Do NOT produce a separate output per company. One table, one row per company, all companies together.
-
-Sort the table as follows:
-  1. First: all Tier 1 companies, sorted by Priority Score descending (highest first)
-  2. Then: all Tier 2 companies, sorted by Priority Score descending
+Produce ONE single table containing ALL companies in the same table.
+Do NOT produce separate tables. One table, one row per company.
 
 The table must have exactly these 10 columns in this order:
 
 Column A — Tier
-  Write "Tier 1" or "Tier 2". Tier 1 = meets ICP and at least one situation is CONFIRMED or LIKELY. Tier 2 = meets ICP but all situations are UNCLEAR or NOT PRESENT.
+  "Tier 1" or "Tier 2".
 
 Column B — Company Name
-  Group level, deduplicated, no legal suffixes (AG / SA / GmbH / Ltd / PLC).
+  Use the exact name from the input list.
 
 Column C — HQ Country
   Country of headquarters.
@@ -163,33 +144,35 @@ Column D — Industry
   Specific sub-industry (e.g. Specialty Chemicals, OTC Pharma, Personal Care FMCG).
 
 Column E — Revenue (USD)
-  Exact figure, or "Approx." + band, or "Unknown". Must be within the campaign revenue range.
+  From the input list. Add "Approx." if uncertain.
 
 Column F — Situations Detected
-  List only situations classified as CONFIRMED or LIKELY. Write "None" for Tier 2 companies.
+  List only situations classified as CONFIRMED or LIKELY. Write "None" for Tier 2.
 
 Column G — Classification
-  For each situation in Column F, write CONFIRMED or LIKELY. Write "Unclear / Not Present" for Tier 2.
+  For each situation in Column F: CONFIRMED or LIKELY. Write "Unclear / Not Present" for Tier 2.
 
 Column H — Priority Score
-  Sum of all 4 situation scores (max 40). Show the breakdown and total.
   Format: RC: X | MP: X | SG: X | SCD: X = XX/40
-  RC = Resource Constraints, MP = Margin Pressure, SG = Significant Growth, SCD = Supply Chain Disruption.
+  RC = Resource Constraints, MP = Margin Pressure,
+  SG = Significant Growth, SCD = Supply Chain Disruption.
 
 Column I — Key Evidence
-  Maximum 3 short bullets describing the strongest signals found. Each bullet must reference a real source. Do not fabricate URLs. For Tier 2, write the strongest signal found even if weak.
+  Maximum 3 short bullets — strongest signals found.
+  Each bullet must reference a real source (publication name + approximate date).
+  Do not fabricate URLs. For Tier 2, write the strongest signal found even if weak.
 
 Column J — Sources
-  2 to 3 confirmed clickable URLs. Full links only — do not truncate. Do not fabricate links.
+  2–3 confirmed source references. Publication name + date + brief description.
+  Stage 2 will verify exact URLs — do not guess or fabricate links here.
 
 ===============================================================================
-QUALITY CHECK (MANDATORY)
+QUALITY CHECK (MANDATORY — append after the table)
 ===============================================================================
 
-Append after the table:
-- Total companies in Tier 1 and total in Tier 2
-- Confirmation that independence rule was applied (fresh research, no reused lists)
-- Confirmation that deduplication was applied (each company appears exactly once)
-- Priority Score distribution: how many companies scored 7-10, 4-6, 2-3, 0-1 per situation
+- Total companies evaluated, total in Tier 1, total in Tier 2
+- Confirmation that all companies from the input list are present in the output
+- Priority Score distribution: how many companies scored 7–10, 4–6, 2–3, 0–1
 - Any situations where evidence was consistently weak in this run
+- Any companies where knowledge was limited (flagged for manual review)
 - Any assumptions made or limitations of the evidence found
