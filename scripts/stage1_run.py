@@ -86,10 +86,10 @@ SECTOR_ROTATION = [
         "seed_companies": "Bobst, SIG Group, Schweitzer-Mauduit International Switzerland, Vetropack, Aluflexpack, UNIQA, Hug Engineering, Constantia Flexibles Switzerland, Perlen Packaging, Billerudkorsnäs Switzerland",
         "exclude": "",
     },
-    # Run 7: Luxury, Watches & Consumer Goods
+    # Run 7: Healthcare IT, Electronics & Instruments
     {
-        "focus": "Luxury Goods, Watches, Jewelry, Premium Consumer Brands",
-        "seed_companies": "Richemont (divisions only under $15B revenue threshold), Swatch Group divisions, Audemars Piguet, Patek Philippe, IWC Schaffhausen, TAG Heuer, Chopard, Breitling, Jaeger-LeCoultre, Vacheron Constantin",
+        "focus": "Healthcare IT, Electronic Components, Scientific Instruments, Sensors, Lab Equipment",
+        "seed_companies": "Tecan, Sensirion, Landis+Gyr, Burckhardt Compression, Inficon, Kistler, Meteogroup, Feintool, Kudelski Group, Schweiter Technologies",
         "exclude": "",
     },
     # Run 8: Agribusiness, Crop Science & Animal Health
@@ -333,10 +333,14 @@ def aggregate_runs(all_runs: list[list[dict]]) -> list[dict]:
                     seen[name]["_frequency"] = freq
 
     merged = list(seen.values())
+    # Sort: Tier 1 first, then by composite signal = score + (frequency bonus)
+    # When most scores are 0 (Gemini can't rate niche companies without search),
+    # frequency becomes the primary differentiator — seen in 3/10 runs > seen in 1/10 run
     merged.sort(key=lambda r: (
         0 if "1" in r["tier"] else 1,
-        -r["_score_int"],
+        -(r["_score_int"] * 3 + r["_frequency"]),  # weighted composite
         -r["_frequency"],
+        -r["_score_int"],
     ))
 
     log.info(f"Aggregated: {len(merged)} unique companies after revenue filter")
