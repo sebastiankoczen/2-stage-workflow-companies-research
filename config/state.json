@@ -1,6 +1,32 @@
 {
-  "next_offset": 0,
-  "last_run_date": null,
-  "last_run_companies": [],
-  "total_processed_all_time": 0
+  "next_offset": 25,
+  "last_run_date": "2026-02-27",
+  "last_run_companies": [
+    "Avolta (ex-Dufry)",
+    "Helvetia Insurance",
+    "DKSH",
+    "Swisscom",
+    "ALSO Holding",
+    "Rolex",
+    "fenaco",
+    "SGS SA",
+    "Baloise Group",
+    "AMAG Group",
+    "Omya",
+    "Logitech",
+    "Swissport",
+    "Implenia",
+    "Mettler-Toledo",
+    "SFS Group",
+    "Swiss Steel Group",
+    "On Holding",
+    "Pilatus Aircraft",
+    "Hero Group",
+    "Forbo Holding",
+    "CKW",
+    "DocMorris",
+    "Schweiter Technologies",
+    "SoftwareONE"
+  ],
+  "total_processed_all_time": 25
 }
