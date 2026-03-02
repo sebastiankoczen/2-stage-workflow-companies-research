@@ -1,72 +1,212 @@
 [
   {
-    "tier": "Tier 1",
-    "company": "Ascom",
-    "hq_country": "Switzerland",
-    "industry": "Healthcare IT",
-    "revenue": "Approx. $0.4B",
-    "situations": "Resource Constraints",
-    "classification": "LIKELY",
-    "priority_score": "RC: 4",
-    "key_evidence": "MP: 0",
-    "sources": "SG: 0",
-    "_score_int": 4,
-    "_frequency": 1
-  },
-  {
-    "tier": "Tier 1",
-    "company": "Georg Fischer (GF)",
-    "hq_country": "Switzerland",
-    "industry": "Industrial Mfg",
-    "revenue": "Approx. $4.4B",
-    "situations": "Significant Growth",
+    "company": "Coty Inc. (EMEA / Global Hub)",
+    "hq_country": "Geneva, GE",
+    "industry": "Beauty / Cosmetics",
+    "revenue": "Approx. ~$6.0B",
+    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts)",
     "classification": "CONFIRMED",
-    "priority_score": "RC: 0",
-    "key_evidence": "MP: 0",
-    "sources": "SG: 8",
-    "_score_int": 0,
-    "_frequency": 1
+    "priority_score": "RC:6 | MP:10 | SG:0 | SCD:0 = 16/40",
+    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+    "sources": "Earnings transcript; Annual report / 10-K / 20-F",
+    "summary": "Coty is facing margin pressure, as evidenced by declines in gross and EBITDA margins. To combat this, they are implementing cost-saving measures, including job cuts and supply chain efficiencies. While they aim to return to growth in the second half of FY26, they are also experiencing resource constraints and have withdrawn their FY26 guidance.",
+    "tier": "Tier 1",
+    "_score_int": 16,
+    "_frequency": 1,
+    "_raw": "COMPANY: Coty Inc. (EMEA / Global Hub)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 16/40\nSUMMARY: Coty is facing margin pressure, as evidenced by declines in gross and EBITDA margins. To combat this, they are implementing cost-saving measures, including job cuts and supply chain efficiencies. While they aim to return to growth in the second half of FY26, they are also experiencing resource constraints and have withdrawn their FY26 guidance.\n",
+    "_situations": {
+      "RC": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”",
+        "source": "Earnings transcript"
+      },
+      "MP": {
+        "status": "CONFIRMED",
+        "pts": 10,
+        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+        "source": "Annual report / 10-K / 20-F"
+      },
+      "SG": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
   },
   {
-    "tier": "Tier 1",
-    "company": "Endress+Hauser",
-    "hq_country": "Switzerland",
-    "industry": "Measurement Tech",
-    "revenue": "Approx. $4.0B",
-    "situations": "Significant Growth",
+    "company": "maxon motor",
+    "hq_country": "Sachseln, OW",
+    "industry": "Precision Motors",
+    "revenue": "Approx. ~$0.7B",
+    "situations": "RC: UNCLEAR (3pts) | MP: LIKELY (6pts) | SG: LIKELY (6pts)",
     "classification": "LIKELY",
-    "priority_score": "RC: 0",
-    "key_evidence": "MP: 0",
-    "sources": "SG: 5",
-    "_score_int": 0,
-    "_frequency": 1
+    "priority_score": "RC:3 | MP:6 | SG:6 | SCD:0 = 15/40",
+    "key_evidence": "RC: Persistent high volume of SC/Proc vacancies without urgency keywords • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: M&A integration / carve-out execution program active",
+    "sources": "LinkedIn Jobs; career site; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; investor announcement",
+    "summary": "Maxon motor shows signs of margin pressure and significant growth through M&A activity. There is also a potential resource constraint signal based on job postings, but without explicit urgency, it remains unclear. No strong signals of supply chain disruption were found.",
+    "tier": "Tier 1",
+    "_score_int": 15,
+    "_frequency": 1,
+    "_raw": "Okay, I will analyze maxon motor based on the provided information and the search queries.\n\nBased on the search results, here's the analysis of maxon motor:\n\nCOMPANY: maxon motor\nTIER: 1\n\nRC: UNCLEAR | 3 pts\nRC_SIGNAL: Persistent high volume of SC/Proc vacancies without urgency keywords\nRC_SOURCE: LinkedIn Jobs; career site\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: M&A integration / carve-out execution program active\nSG_SOURCE: Press release; investor announcement\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 15/40\nSUMMARY: Maxon motor shows signs of margin pressure and significant growth through M&A activity. There is also a potential resource constraint signal based on job postings, but without explicit urgency, it remains unclear. No strong signals of supply chain disruption were found.\n",
+    "_situations": {
+      "RC": {
+        "status": "UNCLEAR",
+        "pts": 3,
+        "signal": "Persistent high volume of SC/Proc vacancies without urgency keywords",
+        "source": "LinkedIn Jobs; career site"
+      },
+      "MP": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "M&A integration / carve-out execution program active",
+        "source": "Press release; investor announcement"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
   },
   {
+    "company": "Oetiker Group",
+    "hq_country": "Arbon, TG",
+    "industry": "Clamping Components",
+    "revenue": "Approx. ~$1.0B",
+    "situations": "SG: CONFIRMED (7pts) | SCD: LIKELY (6pts)",
+    "classification": "CONFIRMED",
+    "priority_score": "RC:1 | MP:0 | SG:7 | SCD:6 = 14/40",
+    "key_evidence": "SG: Acquisition • SCD: Semiconductor Shortage",
+    "sources": "Oaklins Germany, 2026; Automotive Technology Insight, 2026",
+    "summary": "Oetiker Group shows signals of significant growth due to the acquisition of Jiffy-tite Group and Levi Peterson Group. There are also likely supply chain disruptions due to the semiconductor shortage.",
     "tier": "Tier 1",
-    "company": "Geberit",
-    "hq_country": "Switzerland",
-    "industry": "Sanitary Products",
-    "revenue": "Approx. $3.4B",
-    "situations": "Margin Pressure",
+    "_score_int": 14,
+    "_frequency": 1,
+    "_raw": "Okay, I will analyze the Oetiker Group based on the provided information and the search results from the specified queries, focusing on evidence from the last 12 months.\n\nCOMPANY: Oetiker Group\nTIER: 1\n\nRC: NOT PRESENT | 1 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | 0 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: CONFIRMED | 7 pts\nSG_SIGNAL: Acquisition\nSG_SOURCE: Oaklins Germany, 2026\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Semiconductor Shortage\nSCD_SOURCE: Automotive Technology Insight, 2026\n\nTOTAL: 14/40\nSUMMARY: Oetiker Group shows signals of significant growth due to the acquisition of Jiffy-tite Group and Levi Peterson Group. There are also likely supply chain disruptions due to the semiconductor shortage.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 1,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SG": {
+        "status": "CONFIRMED",
+        "pts": 7,
+        "signal": "Acquisition",
+        "source": "Oaklins Germany, 2026"
+      },
+      "SCD": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Semiconductor Shortage",
+        "source": "Automotive Technology Insight, 2026"
+      }
+    }
+  },
+  {
+    "company": "L'Occitane International (Global HQ)",
+    "hq_country": "Geneva, GE",
+    "industry": "Beauty / Personal Care",
+    "revenue": "Approx. ~$2.2B",
+    "situations": "MP: LIKELY (6pts) | SG: LIKELY (6pts)",
     "classification": "LIKELY",
-    "priority_score": "RC: 0",
-    "key_evidence": "MP: 4",
-    "sources": "SG: 0",
-    "_score_int": 0,
-    "_frequency": 1
+    "priority_score": "RC:1 | MP:6 | SG:6 | SCD:0 = 13/40",
+    "key_evidence": "MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+    "sources": "EthiFinance [2026-01-03]; MatrixBCG.com [2025-11-04]",
+    "summary": "L'Occitane's EBITDA margin deteriorated in FY25, and is expected to improve slightly over the next few years. The company is planning to open 50 new Sol de Janeiro stores and 30 new L'Occitane en Provence stores in the Americas by 2026.",
+    "tier": "Tier 1",
+    "_score_int": 13,
+    "_frequency": 1,
+    "_raw": "COMPANY: L'Occitane International (Global HQ)\nTIER: 1\n\nRC: NOT PRESENT | 1 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: EthiFinance [2026-01-03]\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: MatrixBCG.com [2025-11-04]\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 13/40\nSUMMARY: L'Occitane's EBITDA margin deteriorated in FY25, and is expected to improve slightly over the next few years. The company is planning to open 50 new Sol de Janeiro stores and 30 new L'Occitane en Provence stores in the Americas by 2026.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 1,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+        "source": "EthiFinance [2026-01-03]"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+        "source": "MatrixBCG.com [2025-11-04]"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
   },
   {
+    "company": "Clarins Group (International HQ)",
+    "hq_country": "Geneva, GE",
+    "industry": "Luxury Beauty",
+    "revenue": "Approx. ~$2.0B",
+    "situations": "SG: LIKELY (0pts) | SCD: LIKELY (0pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:0 | MP:0 | SG:0 | SCD:0 = 12/40",
+    "key_evidence": "SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)",
+    "sources": "Clarins Group chooses Troyes as the location for its second production plant - 08/02/2023; 60 Day Notice 2026-00898 | State of California - Department of Justice - Attorney General - 02/27/2026",
+    "summary": "Clarins is expanding production capacity with a new plant in France. They are also facing supply chain disruptions, evidenced by a notice of violation related to product ingredients. The company is focused on sustainability, traceability, and ethical sourcing.",
     "tier": "Tier 1",
-    "company": "Schindler Group",
-    "hq_country": "Switzerland",
-    "industry": "Elevators / Escalators",
-    "revenue": "Approx. $12.5B",
-    "situations": "Margin Pressure, Significant Growth",
-    "classification": "CONFIRMED, LIKELY",
-    "priority_score": "RC: 0",
-    "key_evidence": "MP: 7",
-    "sources": "SG: 4",
-    "_score_int": 0,
-    "_frequency": 1
+    "_score_int": 12,
+    "_frequency": 1,
+    "_raw": "COMPANY: Clarins Group (International HQ)\nTIER: 1\n\nRC: NOT PRESENT | pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: LIKELY | pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Clarins Group chooses Troyes as the location for its second production plant - 08/02/2023\n\nSCD: LIKELY | pts\nSCD_SIGNAL: Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)\nSCD_SOURCE: 60 Day Notice 2026-00898 | State of California - Department of Justice - Attorney General - 02/27/2026\n\nTOTAL: 12/40\nSUMMARY: Clarins is expanding production capacity with a new plant in France. They are also facing supply chain disruptions, evidenced by a notice of violation related to product ingredients. The company is focused on sustainability, traceability, and ethical sourcing.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 0,
+        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+        "source": "Clarins Group chooses Troyes as the location for its second production plant - 08/02/2023"
+      },
+      "SCD": {
+        "status": "LIKELY",
+        "pts": 0,
+        "signal": "Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)",
+        "source": "60 Day Notice 2026-00898 | State of California - Department of Justice - Attorney General - 02/27/2026"
+      }
+    }
   }
 ]
