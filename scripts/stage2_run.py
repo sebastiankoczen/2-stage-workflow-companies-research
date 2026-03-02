@@ -35,8 +35,9 @@ PROMPTS_DIR = ROOT / "prompts"
 OUTPUT_DIR  = ROOT / "output"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
-GEMINI_MODEL  = "gemini-2.0-flash"
-SLEEP_BETWEEN = 12   # seconds between companies
+GEMINI_MODEL      = "gemini-2.0-flash"
+SLEEP_BETWEEN     = 12   # seconds between companies
+TOP_N_FOR_STAGE2  = 5    # hard cap — never process more than this regardless of input JSON
 
 CUTOFF_DATE  = datetime.utcnow() - timedelta(days=365)
 CUTOFF_STR   = CUTOFF_DATE.strftime("%Y-%m-%d")
@@ -78,7 +79,8 @@ def load_stage2_input() -> list[dict]:
         raise FileNotFoundError(f"Stage 2 input not found at {path}. Run stage1_run.py first.")
     data = json.loads(path.read_text())
     data.sort(key=lambda r: r.get("_score_int", 0), reverse=True)
-    log.info(f"Stage 2 input: {len(data)} companies (sorted by score):")
+    data = data[:TOP_N_FOR_STAGE2]   # hard cap — respect the configured limit
+    log.info(f"Stage 2 input: {len(data)} companies (capped at {TOP_N_FOR_STAGE2}, sorted by score):")
     for r in data:
         log.info(f"  → {r['company']:30s} | {r.get('_score_int', '?')}/40")
     return data
@@ -362,12 +364,13 @@ def classify_source(source_str: str) -> str:
     return "clean"
 
 
-def signal_quality(row: dict) -> dict:
+def signal_quality(row: dict, company_name: str = "") -> dict:
     """
-    Returns a dict with quality flags for a signal row:
-      stale: bool  (evidence date before cutoff)
-      forbidden: bool  (source is a company website)
-      quality: 'clean' | 'stale' | 'forbidden' | 'stale+forbidden'
+    Returns quality flags:
+      stale     — evidence older than cutoff
+      forbidden — company website / IR page / SWOT site
+      generic   — article doesn't mention this specific company (industry noise)
+      quality   — 'clean' | 'stale' | 'forbidden' | 'stale+forbidden' | 'generic'
     """
     ev_date   = parse_evidence_date(row.get("evidence", ""))
     src_class = classify_source(row.get("source_url", ""))
@@ -375,21 +378,26 @@ def signal_quality(row: dict) -> dict:
     stale     = ev_date is not None and ev_date < CUTOFF_DATE
     forbidden = src_class == "forbidden"
 
-    if stale and forbidden:
-        quality = "stale+forbidden"
-    elif stale:
-        quality = "stale"
-    elif forbidden:
-        quality = "forbidden"
-    else:
-        quality = "clean"
+    # Generic article: combined evidence+signal text doesn't mention this company
+    generic = False
+    if company_name and not forbidden:
+        combined   = (row.get("evidence", "") + " " + row.get("detected_signal", "")).lower()
+        name_parts = [p.lower() for p in company_name.replace("-", " ").split() if len(p) > 3]
+        if name_parts and not any(p in combined for p in name_parts):
+            generic = True
 
-    return {"stale": stale, "forbidden": forbidden, "quality": quality}
+    if stale and forbidden:  quality = "stale+forbidden"
+    elif stale:              quality = "stale"
+    elif forbidden:          quality = "forbidden"
+    elif generic:            quality = "generic"
+    else:                    quality = "clean"
+
+    return {"stale": stale, "forbidden": forbidden, "generic": generic, "quality": quality}
 
 
 # ── Score recalculation ────────────────────────────────────────────────────────
-def recalculate_score(rows: list[dict]) -> int:
-    """Sum STRONG(+2) MEDIUM(+1) per situation, cap 10, return total."""
+def recalculate_score(rows: list[dict], company_name: str = "") -> int:
+    """Sum STRONG(+2) MEDIUM(+1) per situation, cap 10, return total. Only counts clean signals."""
     sit_scores: dict[str, int] = {
         "resource constraints": 0,
         "margin pressure": 0,
@@ -403,8 +411,7 @@ def recalculate_score(rows: list[dict]) -> int:
         sig = row.get("detected_signal", "").lower()
         if "no signals" in sig or not sig:
             continue
-        # Only count clean signals in the score
-        q = signal_quality(row)
+        q = signal_quality(row, company_name)
         if q["quality"] != "clean":
             continue
         w = 2 if "strong" in sig else (1 if "medium" in sig else 0)
@@ -440,6 +447,8 @@ QUALITY_BADGES = {
     "stale+forbidden":(' <span style="background:#7f1d1d;color:#fca5a5;font-size:9px;padding:1px 5px;border-radius:4px;font-weight:700">⏰ STALE</span>'
                        ' <span style="background:#78350f;color:#fcd34d;font-size:9px;padding:1px 5px;border-radius:4px;font-weight:700">🚫 EXCL.SOURCE</span>',
                        "border-left:3px solid #ef4444;opacity:0.7;"),
+    "generic":        (' <span style="background:#1e293b;color:#64748b;font-size:9px;padding:1px 5px;border-radius:4px;font-weight:700">🌐 GENERIC</span>',
+                       "border-left:3px solid #475569;opacity:0.75;"),
 }
 
 
@@ -449,33 +458,49 @@ def make_source_link(src: str, quality: str) -> str:
     badge, _ = QUALITY_BADGES.get(quality, ("", ""))
 
     if urls:
-        link = f'<a href="{urls[0]}" target="_blank" style="color:#60a5fa">{label or "🔗 Source"}</a>'
-    elif src.strip() and src.strip() not in ("-", "—"):
+        url = urls[0]
+        # Grounding API URLs are real verified redirects from Google Search
+        is_grounded = "vertexaisearch.cloud.google.com" in url or "googleapis.com" in url
+        if is_grounded:
+            url_badge = ' <span style="background:#1e3a5f;color:#93c5fd;font-size:8px;padding:1px 4px;border-radius:3px;font-weight:700">🔗 verified</span>'
+        else:
+            url_badge = ' <span style="background:#374151;color:#9ca3af;font-size:8px;padding:1px 4px;border-radius:3px;font-weight:700">🔍 unverified</span>'
+        link = f'<a href="{url}" target="_blank" style="color:#60a5fa;text-decoration:none">{label or "Source"}</a>{url_badge}'
+    elif src.strip() and src.strip() not in ("-", "—", "No source", ""):
         link = f'<span style="color:#6b7280;font-size:10px">{src[:80]}</span>'
     else:
-        link = ""
+        link = '<span style="color:#4b5563;font-size:10px;font-style:italic">No source</span>'
     return link + badge
 
 
+# Fixed canonical situation order for every company card
+SITUATION_ORDER = [
+    "resource constraints",
+    "supply chain disruption",
+    "margin pressure",
+    "significant growth",
+]
+
+
 def build_company_section(company: dict, rows: list[dict], rank: int) -> str:
-    verified_score = recalculate_score(rows)
+    cname          = company.get("company", "")
+    verified_score = recalculate_score(rows, cname)
     raw_score      = company.get("_score_int", 0)
     bar_pct        = min(100, int(verified_score / 40 * 100))
     dom_color      = "#16a34a" if any("confirmed" in r["situation_status"].lower() for r in rows) else "#2563eb"
 
-    # Count clean vs flagged signals for the summary line
     total_sig = sum(1 for r in rows if "no signals" not in r.get("detected_signal", "").lower() and r.get("detected_signal", ""))
-    clean_sig = sum(1 for r in rows if signal_quality(r)["quality"] == "clean" and "no signals" not in r.get("detected_signal", "").lower())
+    clean_sig = sum(1 for r in rows if signal_quality(r, cname)["quality"] == "clean" and "no signals" not in r.get("detected_signal", "").lower())
     flag_sig  = total_sig - clean_sig
 
     quality_summary = (
         f'<span style="font-size:11px;color:#6b7280;margin-top:4px;display:block">'
         f'✅ {clean_sig} clean signals'
-        + (f' &nbsp;|&nbsp; <span style="color:#fca5a5">⚠️ {flag_sig} flagged (stale/excluded source)</span>' if flag_sig else "")
+        + (f' &nbsp;|&nbsp; <span style="color:#fca5a5">⚠️ {flag_sig} flagged</span>' if flag_sig else "")
         + '</span>'
     )
 
-    # Group by situation
+    # Group rows by situation
     groups: dict[str, list] = {}
     cur = ""
     for row in rows:
@@ -483,27 +508,48 @@ def build_company_section(company: dict, rows: list[dict], rank: int) -> str:
             cur = row["situation_status"]
         groups.setdefault(cur, []).append(row)
 
-    sig_rows_html = []
-    for sit, sig_rows in groups.items():
-        tc, bg, label = situation_style(sit)
-        first = True
-        for r in sig_rows:
-            q     = signal_quality(r)
-            _, row_style = QUALITY_BADGES.get(q["quality"], ("", ""))
+    # Re-order groups into canonical order: RC → SCD → MP → SG
+    def sit_sort_key(sit_label: str) -> int:
+        s = sit_label.lower()
+        for i, canonical in enumerate(SITUATION_ORDER):
+            if canonical in s:
+                return i
+        return 99
+    ordered_groups = sorted(groups.items(), key=lambda kv: sit_sort_key(kv[0]))
 
-            sit_td = (
-                f'<td style="background:{bg};color:{tc};font-weight:700;font-size:11px;'
-                f'white-space:nowrap;padding:10px 8px;border-right:1px solid #374151">'
-                f'{label}<br><small style="font-size:9px;font-weight:400;opacity:.8">{sit}</small></td>'
-            ) if first else '<td style="background:#111827;border-right:1px solid #374151"></td>'
-            first = False
+    sig_rows_html = []
+    for sit, sig_rows in ordered_groups:
+        tc, bg, label = situation_style(sit)
+        # Count actual signal rows (exclude "no signals" placeholders)
+        real_rows = [r for r in sig_rows if r.get("detected_signal", "").strip()
+                     and "no signals" not in r.get("detected_signal", "").lower()]
+        display_rows = real_rows if real_rows else sig_rows[:1]
+        rowspan = len(display_rows)
+
+        for i, r in enumerate(display_rows):
+            q          = signal_quality(r, cname)
+            _, row_sty = QUALITY_BADGES.get(q["quality"], ("", ""))
+
+            # Situation cell: use rowspan so it spans ALL signal rows for this situation
+            if i == 0:
+                sit_td = (
+                    f'<td rowspan="{rowspan}" style="background:{bg};color:{tc};font-weight:700;'
+                    f'font-size:11px;white-space:nowrap;padding:12px 10px;'
+                    f'border-right:1px solid #374151;vertical-align:middle;text-align:center;'
+                    f'border-bottom:2px solid #1e293b;min-width:140px">'
+                    f'{label}<br>'
+                    f'<small style="font-size:9px;font-weight:400;opacity:.75;display:block;margin-top:3px">'
+                    f'{sit.split(":")[0].strip()}</small></td>'
+                )
+            else:
+                sit_td = ""  # covered by rowspan — no td here
 
             sig_rows_html.append(f"""
-            <tr style="border-bottom:1px solid #374151;{row_style}">
+            <tr style="border-bottom:1px solid #2d3748;{row_sty}">
               {sit_td}
-              <td style="padding:10px 8px;font-size:12px;color:#d1d5db;border-right:1px solid #374151">{r['detected_signal']}</td>
-              <td style="padding:10px 8px;font-size:11px;font-style:italic;color:#9ca3af;border-right:1px solid #374151">{r['evidence']}</td>
-              <td style="padding:10px 8px;font-size:11px">{make_source_link(r['source_url'], q['quality'])}</td>
+              <td style="padding:10px 8px;font-size:12px;color:#d1d5db;border-right:1px solid #374151;vertical-align:top">{r['detected_signal']}</td>
+              <td style="padding:10px 8px;font-size:11px;font-style:italic;color:#9ca3af;border-right:1px solid #374151;vertical-align:top">{r['evidence']}</td>
+              <td style="padding:10px 8px;font-size:11px;vertical-align:top">{make_source_link(r['source_url'], q['quality'])}</td>
             </tr>""")
 
     no_sig = ('<tr><td colspan="4" style="padding:14px;color:#6b7280;text-align:center;'
@@ -528,15 +574,10 @@ def build_company_section(company: dict, rows: list[dict], rank: int) -> str:
           {f'<small style="font-size:10px;color:#6b7280;display:block">Stage 1 estimate: {raw_score}/40</small>' if raw_score != verified_score else ""}
         </div>
       </div>
-      <div style="background:#1a2535;padding:8px 16px;border-bottom:1px solid #374151;font-size:10px;color:#6b7280">
-        Legend: &nbsp;
-        <span style="background:#7f1d1d;color:#fca5a5;padding:1px 5px;border-radius:4px;font-weight:700">⏰ STALE</span> = evidence older than {CUTOFF_STR} &nbsp;|&nbsp;
-        <span style="background:#78350f;color:#fcd34d;padding:1px 5px;border-radius:4px;font-weight:700">🚫 EXCL.SOURCE</span> = company website / IR page (excluded by framework rules)
-      </div>
       <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif">
         <thead>
-          <tr style="background:#111827;border-bottom:2px solid #374151">
-            <th style="padding:8px;text-align:left;font-size:10px;color:#6b7280;text-transform:uppercase;width:155px;border-right:1px solid #374151">Situation</th>
+          <tr style="background:#0f172a;border-bottom:2px solid #374151">
+            <th style="padding:8px 10px;text-align:center;font-size:10px;color:#6b7280;text-transform:uppercase;width:140px;border-right:1px solid #374151">Situation</th>
             <th style="padding:8px;text-align:left;font-size:10px;color:#6b7280;text-transform:uppercase;border-right:1px solid #374151">Detected Signal</th>
             <th style="padding:8px;text-align:left;font-size:10px;color:#6b7280;text-transform:uppercase;border-right:1px solid #374151">Evidence & Quote</th>
             <th style="padding:8px;text-align:left;font-size:10px;color:#6b7280;text-transform:uppercase">Source</th>
@@ -554,7 +595,7 @@ REPORT_HTML = """\
 <body style="margin:0;padding:0;background:#0f172a;font-family:Arial,sans-serif;color:#e5e7eb">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;padding:24px 0">
 <tr><td>
-<table width="700" align="center" cellpadding="0" cellspacing="0" style="max-width:700px;margin:0 auto">
+<table width="760" align="center" cellpadding="0" cellspacing="0" style="max-width:760px;margin:0 auto">
 
   <tr><td style="background:linear-gradient(135deg,#0f172a,#1e3a5f);border-radius:12px 12px 0 0;
                  padding:28px 32px;border-bottom:3px solid #2563eb">
@@ -584,12 +625,20 @@ REPORT_HTML = """\
     </tr></table>
   </td></tr>
 
+  <tr><td style="background:#1a2535;padding:10px 32px;border-bottom:2px solid #374151;font-size:10px;color:#6b7280">
+    <b style="color:#94a3b8">Legend:</b> &nbsp;
+    <span style="background:#7f1d1d;color:#fca5a5;padding:1px 6px;border-radius:4px;font-weight:700">⏰ STALE</span> evidence older than {cutoff} &nbsp;|&nbsp;
+    <span style="background:#78350f;color:#fcd34d;padding:1px 6px;border-radius:4px;font-weight:700">🚫 EXCL.SOURCE</span> company website / IR page &nbsp;|&nbsp;
+    <span style="background:#1e3a5f;color:#93c5fd;padding:1px 6px;border-radius:4px;font-weight:700">🔗 verified</span> grounding API URL &nbsp;|&nbsp;
+    <span style="background:#374151;color:#9ca3af;padding:1px 6px;border-radius:4px;font-weight:700">🔍 unverified</span> AI-suggested URL — verify before use
+  </td></tr>
+
   <tr><td style="background:#111827;padding:20px 24px">{company_sections}</td></tr>
 
   <tr><td style="background:#0f172a;border-radius:0 0 12px 12px;padding:16px 32px;
                  border-top:1px solid #374151;text-align:center;color:#4b5563;font-size:11px">
     XIMPAX Intelligence Engine · Research: Gemini 2.0 Flash + Google Search · Formatting: Gemini 2.0 Flash<br>
-    Evidence window: {cutoff} → {date} · Excluded sources: company websites, IR pages, vendor blogs
+    Evidence window: {cutoff} → {date} · Sorted by verified score (clean signals only)
   </td></tr>
 
 </table></td></tr></table>
@@ -597,13 +646,20 @@ REPORT_HTML = """\
 
 
 def build_report(companies_with_rows: list[tuple]) -> str:
-    confirmed = likely = clean_signals = 0
+    # Sort companies by verified (clean-signal) score descending
+    companies_with_rows = sorted(
+        companies_with_rows,
+        key=lambda x: recalculate_score(x[1], x[0].get("company", "")),
+        reverse=True,
+    )
 
-    sections = []
+    confirmed = likely = clean_signals = 0
+    sections  = []
     for rank, (company, rows) in enumerate(companies_with_rows, 1):
+        cname = company.get("company", "")
         for row in rows:
             s = row["situation_status"].lower()
-            q = signal_quality(row)
+            q = signal_quality(row, cname)
             if "confirmed" in s: confirmed += 1
             elif "likely"  in s: likely    += 1
             if q["quality"] == "clean" and "no signals" not in row.get("detected_signal", "").lower() and row.get("detected_signal", ""):
@@ -672,7 +728,8 @@ def main():
             log.info(f"  → {len(rows)} signal rows for {company['company']}")
 
             # Log quality breakdown
-            clean = sum(1 for r in rows if signal_quality(r)["quality"] == "clean")
+            cname   = company["company"]
+            clean   = sum(1 for r in rows if signal_quality(r, cname)["quality"] == "clean")
             flagged = len(rows) - clean
             log.info(f"     ✅ {clean} clean | ⚠️  {flagged} flagged")
 
