@@ -102,6 +102,10 @@ UNCLEAR        | Score 2–3 OR only MEDIUM signals (no STRONG) | Signals found 
 NOT PRESENT    | Score 0–1                                     | No meaningful evidence found
 
 Important: a score of 4–6 with NO STRONG signals → classify as UNCLEAR, not LIKELY.
+Note: for large companies (revenue > $1B), a score of 0/40 is unusual and likely 
+means searches were too narrow. Try the company name in German/French if it's a 
+Swiss company. Try "[company] Stellenabbau" or "[company] Restrukturierung" for 
+German-language results.
 
 Step 4 — Tiering
 Assign tiers using this deterministic rule:
