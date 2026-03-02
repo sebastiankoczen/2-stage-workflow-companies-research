@@ -33,11 +33,11 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 GEMINI_MODEL       = "gemini-2.0-flash"
-COMPANIES_PER_RUN  = 5      # companies evaluated per Gemini call
-NUM_RUNS           = 5       # runs per week → 10 × 10 = 100 companies/week
+COMPANIES_PER_RUN  = 10       # companies evaluated per Gemini call
+NUM_RUNS           = 10       # runs per week → 10 × 10 = 100 companies/week
 RUNS_BETWEEN_SLEEP = 3
 SLEEP_SECONDS      = 20
-TOP_N_FOR_STAGE2   = 10
+TOP_N_FOR_STAGE2   = 5         # companies passed to Stage 2 for deep scan
 TODAY              = datetime.utcnow().strftime("%Y-%m-%d")
 
 COMPANIES_FILE = CONFIG_DIR / "companies.xlsx"
@@ -482,8 +482,9 @@ def main():
     # Get this week's 100 companies and advance the pointer
     batch_100, offset_start, next_offset = get_this_weeks_companies(all_companies)
 
+    batch_size = COMPANIES_PER_RUN * NUM_RUNS
     log.info(f"Stage 1: evaluating {len(batch_100)} companies | "
-             f"List positions #{offset_start+1}–#{min(offset_start+100, len(all_companies))}")
+             f"List positions #{offset_start+1}–#{min(offset_start+batch_size, len(all_companies))}")
 
     all_runs: list[list[dict]] = []
     raw_all:  list[str]        = []
