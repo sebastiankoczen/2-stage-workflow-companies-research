@@ -37,7 +37,6 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 
 GEMINI_MODEL      = "gemini-2.0-flash"
 SLEEP_BETWEEN     = 12   # seconds between companies
-TOP_N_FOR_STAGE2  = 5    # hard cap — never process more than this regardless of input JSON
 
 CUTOFF_DATE  = datetime.utcnow() - timedelta(days=365)
 CUTOFF_STR   = CUTOFF_DATE.strftime("%Y-%m-%d")
@@ -79,8 +78,7 @@ def load_stage2_input() -> list[dict]:
         raise FileNotFoundError(f"Stage 2 input not found at {path}. Run stage1_run.py first.")
     data = json.loads(path.read_text())
     data.sort(key=lambda r: r.get("_score_int", 0), reverse=True)
-    data = data[:TOP_N_FOR_STAGE2]   # hard cap — respect the configured limit
-    log.info(f"Stage 2 input: {len(data)} companies (capped at {TOP_N_FOR_STAGE2}, sorted by score):")
+    log.info(f"Stage 2 input: {len(data)} companies (sorted by score):")
     for r in data:
         log.info(f"  → {r['company']:30s} | {r.get('_score_int', '?')}/40")
     return data
@@ -328,40 +326,75 @@ def parse_evidence_date(evidence: str) -> datetime | None:
 def classify_source(source_str: str) -> str:
     """
     Returns: 'forbidden' | 'clean'
-    Covers: company websites, careers pages, IR pages, SWOT/AI analysis sites,
-    article-headline-as-source-label (ambiguous).
+    Principle: only flag sources we can positively identify as company-owned or
+    explicitly forbidden. Never flag based on length or headline words — those
+    cause false positives on legitimate article titles used as source labels.
     """
     s = source_str.lower().strip()
 
-    # 1. Direct pattern matches (company site, press release, SWOT sites, etc.)
+    # 1. Direct pattern matches (company domains, press rooms, SWOT aggregators)
     for pat in FORBIDDEN_SOURCE_PATTERNS:
         if re.search(pat, s, re.IGNORECASE):
             return "forbidden"
 
-    # 2. Company name alone OR company name + page suffix
-    #    e.g. "Lonza" | "Lonza Careers" | "Sika Newsroom" | "Givaudan Press"
+    # 2. Bare company name as the entire source label (Gemini used the company's own site)
+    #    Only match exact name or name + known domain suffix — NOT article headlines
     for label in FORBIDDEN_SOURCE_LABELS:
         escaped = re.escape(label)
-        # Bare company name (possibly with page ref in parens)
-        if re.match(rf"^{escaped}(\s*[\(\[]|$)", s):
+        # Exact match: "Lonza" or "Lonza (press release)" or "lonza.com" / "lonza.ch"
+        if re.match(rf"^{escaped}(\s*[\(\[]|$|\.com|\.ch|\.de|\.fr|\.co\.uk)", s):
             return "forbidden"
-        # Company name + forbidden suffix
+        # Company name + page suffix: "Lonza Newsroom", "Sika Careers"
         for suffix in COMPANY_PAGE_SUFFIXES:
-            if re.match(rf"^{escaped}\s+{re.escape(suffix)}", s):
+            if re.match(rf"^{escaped}\s+{re.escape(suffix)}\b", s):
                 return "forbidden"
 
-    # 3. Source label looks like an article headline rather than a publication name
-    #    Heuristic: >8 words, or contains "announces|agrees|plans|reports|falls|rises"
-    #    These are unreliable because the publication can't be independently identified.
-    words = s.split()
-    if len(words) > 8:
-        return "forbidden"
-    headline_verbs = ["announces", "agreed", "plans", "reported", "falls", "rises",
-                      "expands", "acquires", "closes", "layoffs", "restructur"]
-    if any(v in s for v in headline_verbs):
+    # 3. Source label ends with "- Company Name" / "| Company Name" (possibly + Group/AG/Holdings)
+    #    e.g. "Key Figures 2025 - Swatch Group" | "BC Next Level Plan | Barry Callebaut"
+    trailing_m = re.search(r"[-–|]\s*(.+)$", s)
+    if trailing_m:
+        trailing = trailing_m.group(1).strip()
+        for label in FORBIDDEN_SOURCE_LABELS:
+            if label in trailing:
+                return "forbidden"
+
+    # 4. Explicit press/news release labels
+    if re.search(r"\bnews\s+release\b|\bpress\s+release\b|\bofficial\s+statement\b", s):
         return "forbidden"
 
+    # 5. Company-as-subject press release headline: "Lonza Delivers...", "Siegfried Signs..."
+    #    Only flag when there is NO trailing "- [Publisher]" indicator (which signals 3rd party)
+    PR_VERBS = r"delivers?|reports?|signs?|announces?|confirms?|launches?|achieves?|posts?"
+    has_trailing_publisher = bool(re.search(r"\s[-–|]\s*\w", s))  # space before dash required
+    if not has_trailing_publisher:
+        for label in FORBIDDEN_SOURCE_LABELS:
+            escaped = re.escape(label)
+            if re.match(rf"^{escaped}\s+(?:{PR_VERBS})\b", s):
+                return "forbidden"
+
     return "clean"
+
+
+# Known generic industry-noise phrases — articles matching these are NOT company-specific signals
+GENERIC_ARTICLE_PATTERNS = [
+    r"procurement teams will be tested",
+    r"supply chain professionals will find",
+    r"global supply chain workforce shortage",
+    r"supply chain managers will confront",
+    r"geopolitical tensions continue to disrupt global supply chains",
+    r"supply chain management has emerged as the dominant strategic priority",
+    r"port disruptions from infrastructure",
+    r"biggest obstacles in 20\d\d",
+    r"everstream forecasts",
+    r"companies in this sector are so busy",
+    r"seven plus years of progressive leadership",
+    r"logistics is constantly evolving",
+    r"trade professionals.*nearly double",
+    r"supply chain professionals will confront",
+    r"rising costs and shifting trade dynamics",
+    r"in 2026, supply chain managers",
+    r"geopolitics has re-emerged as one of the biggest disruptors",
+]
 
 
 def signal_quality(row: dict, company_name: str = "") -> dict:
@@ -369,8 +402,12 @@ def signal_quality(row: dict, company_name: str = "") -> dict:
     Returns quality flags:
       stale     — evidence older than cutoff
       forbidden — company website / IR page / SWOT site
-      generic   — article doesn't mention this specific company (industry noise)
+      generic   — matches a known generic industry-noise article pattern
       quality   — 'clean' | 'stale' | 'forbidden' | 'stale+forbidden' | 'generic'
+
+    NOTE: generic detection uses a keyword blocklist, NOT word-in-text company name check.
+    The name-in-text approach causes false positives because verbatim quotes from articles
+    don't always repeat the company name inline (context was already established earlier).
     """
     ev_date   = parse_evidence_date(row.get("evidence", ""))
     src_class = classify_source(row.get("source_url", ""))
@@ -378,13 +415,8 @@ def signal_quality(row: dict, company_name: str = "") -> dict:
     stale     = ev_date is not None and ev_date < CUTOFF_DATE
     forbidden = src_class == "forbidden"
 
-    # Generic article: combined evidence+signal text doesn't mention this company
-    generic = False
-    if company_name and not forbidden:
-        combined   = (row.get("evidence", "") + " " + row.get("detected_signal", "")).lower()
-        name_parts = [p.lower() for p in company_name.replace("-", " ").split() if len(p) > 3]
-        if name_parts and not any(p in combined for p in name_parts):
-            generic = True
+    combined = (row.get("evidence", "") + " " + row.get("detected_signal", "")).lower()
+    generic  = any(re.search(pat, combined) for pat in GENERIC_ARTICLE_PATTERNS)
 
     if stale and forbidden:  quality = "stale+forbidden"
     elif stale:              quality = "stale"
