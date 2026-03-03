@@ -297,8 +297,10 @@ def parse_stage2_table(raw: str) -> list[dict]:
         if not header_skipped:
             header_skipped = True
             continue
-        if len(cells) < 4:
-            continue
+        # Pad to 4 cells first so partial rows (e.g. a "No signals detected"
+        # row formatted with only 3 cells) are recovered rather than silently
+        # dropped. Previously the `while` was dead code because the `continue`
+        # above it would always exit first.
         while len(cells) < 4:
             cells.append("")
 
@@ -446,7 +448,9 @@ def recalculate_score(rows: list[dict], company_name: str = "") -> int:
         q = signal_quality(row, company_name)
         if q["quality"] != "clean":
             continue
-        w = 2 if "strong" in sig else (1 if "medium" in sig else 0)
+        # Use the explicit "+2" / "+1" weight markers so a signal name that
+        # starts with the word "Strong…" is never mis-scored as STRONG +2.
+        w = 2 if "+2" in sig else (1 if "+1" in sig else 0)
         for k in sit_scores:
             if k in current:
                 sit_scores[k] = min(10, sit_scores[k] + w)
@@ -541,6 +545,15 @@ def build_company_section(company: dict, rows: list[dict], rank: int) -> str:
         groups.setdefault(cur, []).append(row)
 
     # Re-order groups into canonical order: RC → SCD → MP → SG
+    # Drop the "" key: rows that arrived before the first named situation
+    # (parse artefacts with blank situation_status) would otherwise render at
+    # the bottom of the card with an invisible empty situation label, hiding
+    # the signals from view. Re-attach them to the first real group instead.
+    orphans = groups.pop("", [])
+    if orphans and groups:
+        first_key = next(iter(groups))
+        groups[first_key] = orphans + groups[first_key]
+
     def sit_sort_key(sit_label: str) -> int:
         s = sit_label.lower()
         for i, canonical in enumerate(SITUATION_ORDER):
