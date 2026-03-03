@@ -1,23 +1,65 @@
 [
   {
-    "company": "Coty Inc. (EMEA / Global Hub)",
-    "hq_country": "Geneva, GE",
-    "industry": "Beauty / Cosmetics",
-    "revenue": "Approx. ~$6.0B",
-    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts)",
+    "company": "Astellas Pharma (EMEA HQ)",
+    "hq_country": "Zurich, ZH",
+    "industry": "Pharmaceuticals",
+    "revenue": "Approx. ~$12.5B",
+    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts) | SG: LIKELY (6pts) | SCD: LIKELY (6pts)",
     "classification": "CONFIRMED",
-    "priority_score": "RC:6 | MP:10 | SG:0 | SCD:0 = 16/40",
-    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-    "sources": "Earnings transcript; Annual report / 10-K / 20-F",
-    "summary": "Coty is facing margin pressure, as evidenced by declines in gross and EBITDA margins. To combat this, they are implementing cost-saving measures, including job cuts and supply chain efficiencies. While they aim to return to growth in the second half of FY26, they are also experiencing resource constraints and have withdrawn their FY26 guidance.",
+    "priority_score": "RC:6 | MP:10 | SG:6 | SCD:6 = 28/40",
+    "key_evidence": "RC: Urgent hiring for SC/Proc roles • MP: Quantified cost-out / savings program (value + timeframe) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: Recall / quality crisis causing supply interruption",
+    "sources": "The Supply Chain Talent Report, 2025-11-20; Investor deck; earnings call transcript; annual report, 2026-02-24; Press release; investor deck, 2024-03-25; Regulator notices; company press release, 2025-12-22",
+    "summary": "Astellas Pharma is showing signs of margin pressure with a cost savings program underway. They are also undergoing significant growth with capacity expansion through a new manufacturing facility in Ireland. There have been recalls of their products.",
     "tier": "Tier 1",
-    "_score_int": 16,
+    "_score_int": 28,
     "_frequency": 1,
-    "_raw": "COMPANY: Coty Inc. (EMEA / Global Hub)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 16/40\nSUMMARY: Coty is facing margin pressure, as evidenced by declines in gross and EBITDA margins. To combat this, they are implementing cost-saving measures, including job cuts and supply chain efficiencies. While they aim to return to growth in the second half of FY26, they are also experiencing resource constraints and have withdrawn their FY26 guidance.\n",
+    "_raw": "COMPANY: Astellas Pharma (EMEA HQ)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Urgent hiring for SC/Proc roles\nRC_SOURCE: The Supply Chain Talent Report, 2025-11-20\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Quantified cost-out / savings program (value + timeframe)\nMP_SOURCE: Investor deck; earnings call transcript; annual report, 2026-02-24\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck, 2024-03-25\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Recall / quality crisis causing supply interruption\nSCD_SOURCE: Regulator notices; company press release, 2025-12-22\n\nTOTAL: 28/40\nSUMMARY: Astellas Pharma is showing signs of margin pressure with a cost savings program underway. They are also undergoing significant growth with capacity expansion through a new manufacturing facility in Ireland. There have been recalls of their products.\n",
     "_situations": {
       "RC": {
         "status": "LIKELY",
         "pts": 6,
+        "signal": "Urgent hiring for SC/Proc roles",
+        "source": "The Supply Chain Talent Report, 2025-11-20"
+      },
+      "MP": {
+        "status": "CONFIRMED",
+        "pts": 10,
+        "signal": "Quantified cost-out / savings program (value + timeframe)",
+        "source": "Investor deck; earnings call transcript; annual report, 2026-02-24"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+        "source": "Press release; investor deck, 2024-03-25"
+      },
+      "SCD": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Recall / quality crisis causing supply interruption",
+        "source": "Regulator notices; company press release, 2025-12-22"
+      }
+    }
+  },
+  {
+    "company": "General Mills (European HQ)",
+    "hq_country": "Nyon, VD",
+    "industry": "Food & Bev",
+    "revenue": "Approx. ~$20.0B",
+    "situations": "RC: CONFIRMED (10pts) | MP: CONFIRMED (10pts) | SCD: LIKELY (6pts)",
+    "classification": "CONFIRMED",
+    "priority_score": "RC:10 | MP:10 | SG:0 | SCD:6 = 26/40",
+    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SCD: Recall / quality crisis causing supply interruption",
+    "sources": "Earnings transcript; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Regulator notices; company press release",
+    "summary": "General Mills faces resource constraints, as evidenced by management statements during earnings calls. The company is also experiencing margin pressure, with reported declines in gross and EBITDA margins. Additionally, a recall of Pillsbury Pizza Pops due to potential E. coli contamination indicates supply chain disruption.",
+    "tier": "Tier 1",
+    "_score_int": 26,
+    "_frequency": 1,
+    "_raw": "COMPANY: General Mills (European HQ)\nTIER: 1\n\nRC: CONFIRMED | 10 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Recall / quality crisis causing supply interruption\nSCD_SOURCE: Regulator notices; company press release\n\nTOTAL: 26/40\nSUMMARY: General Mills faces resource constraints, as evidenced by management statements during earnings calls. The company is also experiencing margin pressure, with reported declines in gross and EBITDA margins. Additionally, a recall of Pillsbury Pizza Pops due to potential E. coli contamination indicates supply chain disruption.\n",
+    "_situations": {
+      "RC": {
+        "status": "CONFIRMED",
+        "pts": 10,
         "signal": "Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”",
         "source": "Earnings transcript"
       },
@@ -25,7 +67,7 @@
         "status": "CONFIRMED",
         "pts": 10,
         "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "Annual report / 10-K / 20-F"
+        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
       },
       "SG": {
         "status": "NOT PRESENT",
@@ -34,178 +76,136 @@
         "source": "none"
       },
       "SCD": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Recall / quality crisis causing supply interruption",
+        "source": "Regulator notices; company press release"
       }
     }
   },
   {
-    "company": "maxon motor",
-    "hq_country": "Sachseln, OW",
-    "industry": "Precision Motors",
-    "revenue": "Approx. ~$0.7B",
-    "situations": "RC: UNCLEAR (3pts) | MP: LIKELY (6pts) | SG: LIKELY (6pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:3 | MP:6 | SG:6 | SCD:0 = 15/40",
-    "key_evidence": "RC: Persistent high volume of SC/Proc vacancies without urgency keywords • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: M&A integration / carve-out execution program active",
-    "sources": "LinkedIn Jobs; career site; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; investor announcement",
-    "summary": "Maxon motor shows signs of margin pressure and significant growth through M&A activity. There is also a potential resource constraint signal based on job postings, but without explicit urgency, it remains unclear. No strong signals of supply chain disruption were found.",
+    "company": "PepsiCo (European HQ)",
+    "hq_country": "Baar, ZG",
+    "industry": "Food & Bev",
+    "revenue": "Approx. ~$91.5B",
+    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts) | SG: LIKELY (6pts) | SCD: LIKELY (4pts)",
+    "classification": "CONFIRMED",
+    "priority_score": "RC:6 | MP:10 | SG:6 | SCD:4 = 26/40",
+    "key_evidence": "RC: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\" • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: Public shortage/backorder announcements impacting customers",
+    "sources": "Earnings transcript; investor deck; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; investor deck; Company notices; reputable business media",
+    "summary": "PepsiCo is facing margin pressure, leading to cost reduction programs, SKU rationalization, and plant closures. They are also undertaking capacity expansion initiatives, including investments in new plants and automation. Additionally, there have been instances of product recalls due to contamination.",
     "tier": "Tier 1",
-    "_score_int": 15,
+    "_score_int": 26,
     "_frequency": 1,
-    "_raw": "Okay, I will analyze maxon motor based on the provided information and the search queries.\n\nBased on the search results, here's the analysis of maxon motor:\n\nCOMPANY: maxon motor\nTIER: 1\n\nRC: UNCLEAR | 3 pts\nRC_SIGNAL: Persistent high volume of SC/Proc vacancies without urgency keywords\nRC_SOURCE: LinkedIn Jobs; career site\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: M&A integration / carve-out execution program active\nSG_SOURCE: Press release; investor announcement\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 15/40\nSUMMARY: Maxon motor shows signs of margin pressure and significant growth through M&A activity. There is also a potential resource constraint signal based on job postings, but without explicit urgency, it remains unclear. No strong signals of supply chain disruption were found.\n",
+    "_raw": "COMPANY: PepsiCo (European HQ)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"\nRC_SOURCE: Earnings transcript; investor deck\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: LIKELY | 4 pts\nSCD_SIGNAL: Public shortage/backorder announcements impacting customers\nSCD_SOURCE: Company notices; reputable business media\n\nTOTAL: 26/40\nSUMMARY: PepsiCo is facing margin pressure, leading to cost reduction programs, SKU rationalization, and plant closures. They are also undertaking capacity expansion initiatives, including investments in new plants and automation. Additionally, there have been instances of product recalls due to contamination.\n",
     "_situations": {
       "RC": {
-        "status": "UNCLEAR",
-        "pts": 3,
-        "signal": "Persistent high volume of SC/Proc vacancies without urgency keywords",
-        "source": "LinkedIn Jobs; career site"
-      },
-      "MP": {
         "status": "LIKELY",
         "pts": 6,
+        "signal": "Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"",
+        "source": "Earnings transcript; investor deck"
+      },
+      "MP": {
+        "status": "CONFIRMED",
+        "pts": 10,
         "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
         "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
       },
       "SG": {
         "status": "LIKELY",
         "pts": 6,
-        "signal": "M&A integration / carve-out execution program active",
-        "source": "Press release; investor announcement"
+        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+        "source": "Press release; investor deck"
       },
       "SCD": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
+        "status": "LIKELY",
+        "pts": 4,
+        "signal": "Public shortage/backorder announcements impacting customers",
+        "source": "Company notices; reputable business media"
       }
     }
   },
   {
-    "company": "Oetiker Group",
-    "hq_country": "Arbon, TG",
-    "industry": "Clamping Components",
-    "revenue": "Approx. ~$1.0B",
-    "situations": "SG: CONFIRMED (7pts) | SCD: LIKELY (6pts)",
+    "company": "Shiseido (EMEA HQ)",
+    "hq_country": "Geneva, GE",
+    "industry": "Beauty / Cosmetics",
+    "revenue": "Approx. ~$8.5B",
+    "situations": "RC: CONFIRMED (7pts) | MP: CONFIRMED (10pts) | SCD: LIKELY (6pts)",
     "classification": "CONFIRMED",
-    "priority_score": "RC:1 | MP:0 | SG:7 | SCD:6 = 14/40",
-    "key_evidence": "SG: Acquisition • SCD: Semiconductor Shortage",
-    "sources": "Oaklins Germany, 2026; Automotive Technology Insight, 2026",
-    "summary": "Oetiker Group shows signals of significant growth due to the acquisition of Jiffy-tite Group and Levi Peterson Group. There are also likely supply chain disruptions due to the semiconductor shortage.",
+    "priority_score": "RC:7 | MP:10 | SG:1 | SCD:6 = 24/40",
+    "key_evidence": "RC: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\" • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SCD: Supply chain disruptions, marketing that was criticized for being too focused on teenagers, and an influx of more affordable brands that had the same \"clean” ingredients caused a slide in sales",
+    "sources": "BeautyMatter, December 2025; Robust earnings set off Shiseido's biggest stock rally in almost eight years, February 2026; The Japan Times, January 2026",
+    "summary": "Shiseido is undergoing a significant transformation, driven by margin pressures and resource constraints. The company is implementing cost-cutting measures and restructuring its organization to improve profitability and efficiency. Supply chain disruptions and marketing missteps have also contributed to a decline in sales, particularly in the Americas and China.",
     "tier": "Tier 1",
-    "_score_int": 14,
+    "_score_int": 24,
     "_frequency": 1,
-    "_raw": "Okay, I will analyze the Oetiker Group based on the provided information and the search results from the specified queries, focusing on evidence from the last 12 months.\n\nCOMPANY: Oetiker Group\nTIER: 1\n\nRC: NOT PRESENT | 1 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | 0 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: CONFIRMED | 7 pts\nSG_SIGNAL: Acquisition\nSG_SOURCE: Oaklins Germany, 2026\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Semiconductor Shortage\nSCD_SOURCE: Automotive Technology Insight, 2026\n\nTOTAL: 14/40\nSUMMARY: Oetiker Group shows signals of significant growth due to the acquisition of Jiffy-tite Group and Levi Peterson Group. There are also likely supply chain disruptions due to the semiconductor shortage.\n",
+    "_raw": "COMPANY: Shiseido (EMEA HQ)\nTIER: 1\n\nRC: CONFIRMED | 7 pts\nRC_SIGNAL: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"\nRC_SOURCE: BeautyMatter, December 2025\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Robust earnings set off Shiseido's biggest stock rally in almost eight years, February 2026\n\nSG: NOT PRESENT | 1 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Supply chain disruptions, marketing that was criticized for being too focused on teenagers, and an influx of more affordable brands that had the same \"clean” ingredients caused a slide in sales\nSCD_SOURCE: The Japan Times, January 2026\n\nTOTAL: 24/40\nSUMMARY: Shiseido is undergoing a significant transformation, driven by margin pressures and resource constraints. The company is implementing cost-cutting measures and restructuring its organization to improve profitability and efficiency. Supply chain disruptions and marketing missteps have also contributed to a decline in sales, particularly in the Americas and China.\n",
     "_situations": {
       "RC": {
-        "status": "NOT PRESENT",
-        "pts": 1,
-        "signal": "none",
-        "source": "none"
-      },
-      "MP": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      },
-      "SG": {
         "status": "CONFIRMED",
         "pts": 7,
-        "signal": "Acquisition",
-        "source": "Oaklins Germany, 2026"
+        "signal": "Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"",
+        "source": "BeautyMatter, December 2025"
       },
-      "SCD": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Semiconductor Shortage",
-        "source": "Automotive Technology Insight, 2026"
-      }
-    }
-  },
-  {
-    "company": "L'Occitane International (Global HQ)",
-    "hq_country": "Geneva, GE",
-    "industry": "Beauty / Personal Care",
-    "revenue": "Approx. ~$2.2B",
-    "situations": "MP: LIKELY (6pts) | SG: LIKELY (6pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:1 | MP:6 | SG:6 | SCD:0 = 13/40",
-    "key_evidence": "MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-    "sources": "EthiFinance [2026-01-03]; MatrixBCG.com [2025-11-04]",
-    "summary": "L'Occitane's EBITDA margin deteriorated in FY25, and is expected to improve slightly over the next few years. The company is planning to open 50 new Sol de Janeiro stores and 30 new L'Occitane en Provence stores in the Americas by 2026.",
-    "tier": "Tier 1",
-    "_score_int": 13,
-    "_frequency": 1,
-    "_raw": "COMPANY: L'Occitane International (Global HQ)\nTIER: 1\n\nRC: NOT PRESENT | 1 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: EthiFinance [2026-01-03]\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: MatrixBCG.com [2025-11-04]\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 13/40\nSUMMARY: L'Occitane's EBITDA margin deteriorated in FY25, and is expected to improve slightly over the next few years. The company is planning to open 50 new Sol de Janeiro stores and 30 new L'Occitane en Provence stores in the Americas by 2026.\n",
-    "_situations": {
-      "RC": {
+      "MP": {
+        "status": "CONFIRMED",
+        "pts": 10,
+        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+        "source": "Robust earnings set off Shiseido's biggest stock rally in almost eight years, February 2026"
+      },
+      "SG": {
         "status": "NOT PRESENT",
         "pts": 1,
         "signal": "none",
         "source": "none"
       },
-      "MP": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "EthiFinance [2026-01-03]"
-      },
-      "SG": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "MatrixBCG.com [2025-11-04]"
-      },
       "SCD": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Supply chain disruptions, marketing that was criticized for being too focused on teenagers, and an influx of more affordable brands that had the same \"clean” ingredients caused a slide in sales",
+        "source": "The Japan Times, January 2026"
       }
     }
   },
   {
-    "company": "Clarins Group (International HQ)",
-    "hq_country": "Geneva, GE",
-    "industry": "Luxury Beauty",
-    "revenue": "Approx. ~$2.0B",
-    "situations": "SG: LIKELY (0pts) | SCD: LIKELY (0pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:0 | MP:0 | SG:0 | SCD:0 = 12/40",
-    "key_evidence": "SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)",
-    "sources": "Clarins Group chooses Troyes as the location for its second production plant - 08/02/2023; 60 Day Notice 2026-00898 | State of California - Department of Justice - Attorney General - 02/27/2026",
-    "summary": "Clarins is expanding production capacity with a new plant in France. They are also facing supply chain disruptions, evidenced by a notice of violation related to product ingredients. The company is focused on sustainability, traceability, and ethical sourcing.",
+    "company": "Essity (European HQ)",
+    "hq_country": "Zurich, ZH",
+    "industry": "Hygiene Products",
+    "revenue": "Approx. ~$14.5B",
+    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts) | SG: LIKELY (6pts) | SCD: UNCLEAR (2pts)",
+    "classification": "CONFIRMED",
+    "priority_score": "RC:6 | MP:10 | SG:6 | SCD:2 = 24/40",
+    "key_evidence": "RC: Management explicitly states organizational change and integration of Global Supply Chain into business areas. • MP: Quantified cost-out / savings program (value + timeframe) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: \"Supply constraints” repeatedly mentioned without quantified impact",
+    "sources": "PR Newswire, Oct 23 2025; Investor deck; earnings call transcript; annual report, Jan 22 2026; Press release, Feb 19 2026; Earnings call transcript; management updates",
+    "summary": "Essity is undergoing a significant restructuring and cost-saving program aimed at improving profitability and growth. They are also expanding capacity with a new recycled paper facility in the UK. There is a mention of supply constraints, but without quantified impact.",
     "tier": "Tier 1",
-    "_score_int": 12,
+    "_score_int": 24,
     "_frequency": 1,
-    "_raw": "COMPANY: Clarins Group (International HQ)\nTIER: 1\n\nRC: NOT PRESENT | pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: LIKELY | pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Clarins Group chooses Troyes as the location for its second production plant - 08/02/2023\n\nSCD: LIKELY | pts\nSCD_SIGNAL: Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)\nSCD_SOURCE: 60 Day Notice 2026-00898 | State of California - Department of Justice - Attorney General - 02/27/2026\n\nTOTAL: 12/40\nSUMMARY: Clarins is expanding production capacity with a new plant in France. They are also facing supply chain disruptions, evidenced by a notice of violation related to product ingredients. The company is focused on sustainability, traceability, and ethical sourcing.\n",
+    "_raw": "Okay, I will analyze Essity (European HQ) based on the provided information and the search results from the specified queries, focusing on evidence from the last 12 months.\n\nCOMPANY: Essity (European HQ)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states organizational change and integration of Global Supply Chain into business areas.\nRC_SOURCE: PR Newswire, Oct 23 2025\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Quantified cost-out / savings program (value + timeframe)\nMP_SOURCE: Investor deck; earnings call transcript; annual report, Jan 22 2026\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release, Feb 19 2026\n\nSCD: UNCLEAR | 2 pts\nSCD_SIGNAL: \"Supply constraints” repeatedly mentioned without quantified impact\nSCD_SOURCE: Earnings call transcript; management updates\n\nTOTAL: 24/40\nSUMMARY: Essity is undergoing a significant restructuring and cost-saving program aimed at improving profitability and growth. They are also expanding capacity with a new recycled paper facility in the UK. There is a mention of supply constraints, but without quantified impact.\n",
     "_situations": {
       "RC": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Management explicitly states organizational change and integration of Global Supply Chain into business areas.",
+        "source": "PR Newswire, Oct 23 2025"
       },
       "MP": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
+        "status": "CONFIRMED",
+        "pts": 10,
+        "signal": "Quantified cost-out / savings program (value + timeframe)",
+        "source": "Investor deck; earnings call transcript; annual report, Jan 22 2026"
       },
       "SG": {
         "status": "LIKELY",
-        "pts": 0,
+        "pts": 6,
         "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "Clarins Group chooses Troyes as the location for its second production plant - 08/02/2023"
+        "source": "Press release, Feb 19 2026"
       },
       "SCD": {
-        "status": "LIKELY",
-        "pts": 0,
-        "signal": "Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)",
-        "source": "60 Day Notice 2026-00898 | State of California - Department of Justice - Attorney General - 02/27/2026"
+        "status": "UNCLEAR",
+        "pts": 2,
+        "signal": "\"Supply constraints” repeatedly mentioned without quantified impact",
+        "source": "Earnings call transcript; management updates"
       }
     }
   }
