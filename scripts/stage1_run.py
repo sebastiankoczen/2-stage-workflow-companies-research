@@ -1,14 +1,12 @@
 """
-XIMPAX Intelligence Engine — Stage 1 (v2)
+XIMPAX Intelligence Engine — Stage 1 (v3)
 
-Architecture: one Gemini call per company WITH Google Search grounding.
-Processes 20 companies per week, one at a time, with sleep between calls.
-Top 5 by priority score → Stage 2 for full deep scan.
-
-Why this is better than batching 10 companies per call:
-  - Full model attention per company (vs 10-way split)
-  - Live Google Search fills knowledge gaps Gemini training misses
-  - Accurate scoring before Stage 2 so the right 5 get deep-scanned
+CHANGES FROM v2:
+  - COMPANIES_PER_WEEK: 20 → 100  (500-co list covered every 5 weeks / ~1.2 months)
+  - SLEEP_BETWEEN:      15 → 10s  (safe at ~6 RPM; saves ~8 min per run)
+  - TOP_N_FOR_STAGE2:    5 → 10   (doubles weekly deep-scan coverage)
+  - FIX: date cutoff formula — TODAY[:7]+"-01" instead of broken .replace()
+  - FIX: prompt — added explicit company-name rule to block generic industry articles
 """
 
 import os
@@ -34,9 +32,9 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 GEMINI_MODEL       = "gemini-2.0-flash"
-COMPANIES_PER_WEEK = 20    # companies scanned per weekly run (one call each)
-SLEEP_BETWEEN      = 15    # seconds between company calls
-TOP_N_FOR_STAGE2   = 5     # top companies forwarded to Stage 2
+COMPANIES_PER_WEEK = 100   # ↑ was 20 — covers 500-co list every 5 weeks
+SLEEP_BETWEEN      = 10    # ↓ was 15 — safe at ~6 RPM; saves ~8 min over 100 calls
+TOP_N_FOR_STAGE2   = 10    # ↑ was 5 — doubles weekly deep-scan coverage
 TODAY              = datetime.utcnow().strftime("%Y-%m-%d")
 
 COMPANIES_FILE = CONFIG_DIR / "companies.xlsx"
@@ -121,8 +119,12 @@ def build_scan_prompt(company: dict) -> str:
     instructions    = load_file(CONFIG_DIR / "instructions.txt")
     year            = TODAY[:4]
 
+    # FIX: was TODAY[:7].replace('-', '-01-', 1)
+    # which produced e.g. "2026-01-03" instead of "2026-03-01"
+    cutoff = TODAY[:7] + "-01"
+
     return f"""You are a senior supply chain market intelligence analyst. Today is {TODAY}.
-Only use evidence from the last 12 months (after {TODAY[:7]}-01).
+Only use evidence from the last 12 months (after {cutoff}).
 
 === COMPANY TO SCAN ===
 Company:   {company['company']}
@@ -147,6 +149,14 @@ TASK: Run these searches, then score
 2. "{company['company']} EBITDA margin cost savings program {year}"
 3. "{company['company']} acquisition merger capacity expansion plant {year}"
 4. "{company['company']} supply disruption production halt recall {year}"
+
+CRITICAL EVIDENCE RULE — COMPANY-SPECIFIC ONLY:
+Every signal MUST come from an article that EXPLICITLY NAMES {company['company']}
+as the subject of the reported fact. Generic industry articles (e.g. "supply chain
+professionals face staffing challenges in {year}") that do NOT name
+{company['company']} specifically are FORBIDDEN evidence — discard them entirely.
+If the only articles you find are sector-wide trend pieces that do not name this
+specific company, write "none" for that signal.
 
 Score all four situations using STRONG +2 / MEDIUM +1 signals, cap 10 per situation.
 
@@ -251,7 +261,6 @@ def parse_result(raw: str, company: dict) -> dict:
 
     summary = field("SUMMARY")
 
-    # Aggregate for HTML / Stage 2
     sit_labels = [
         f"{k}: {sit_results[k]['status']} ({sit_results[k]['pts']}pts)"
         for k in SIT_KEYS
@@ -417,7 +426,6 @@ def build_html(results: list[dict], batch_meta: dict) -> str:
             for k in SIT_KEYS
         )
 
-        # Top signal: first non-none MP or SG signal, then any
         top_sig = ""
         for k in ["MP", "SG", "RC", "SCD"]:
             s = row["_situations"][k]["signal"]
@@ -499,7 +507,6 @@ def main():
             log.info(f"  Sleeping {SLEEP_BETWEEN}s …")
             time.sleep(SLEEP_BETWEEN)
 
-    # Sort: Tier 1 first, then by score
     results.sort(key=lambda r: (
         0 if r["tier"] == "Tier 1" else (1 if r["tier"] == "Tier 2" else 2),
         -r["_score_int"],
@@ -532,7 +539,6 @@ def main():
     html_path.write_text(html, encoding="utf-8")
     log.info(f"Stage 1 chart → {html_path}")
 
-    # Top N Tier 1 → Stage 2. If not enough Tier 1, fill with Tier 2.
     tier1_only    = [r for r in results if r["tier"] == "Tier 1"]
     top_companies = tier1_only[:TOP_N_FOR_STAGE2]
     if len(top_companies) < TOP_N_FOR_STAGE2:
