@@ -1,109 +1,25 @@
 [
   {
-    "company": "Astellas Pharma (EMEA HQ)",
-    "hq_country": "Zurich, ZH",
-    "industry": "Pharmaceuticals",
-    "revenue": "Approx. ~$12.5B",
-    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts) | SG: LIKELY (6pts) | SCD: LIKELY (6pts)",
+    "company": "Campari Group (EMEA Hub)",
+    "hq_country": "Zug, ZG",
+    "industry": "Spirits / Beverages",
+    "revenue": "Approx. ~$3.0B",
+    "situations": "RC: CONFIRMED (7pts) | MP: CONFIRMED (10pts) | SG: LIKELY (6pts) | SCD: LIKELY (6pts)",
     "classification": "CONFIRMED",
-    "priority_score": "RC:6 | MP:10 | SG:6 | SCD:6 = 28/40",
-    "key_evidence": "RC: Urgent hiring for SC/Proc roles • MP: Quantified cost-out / savings program (value + timeframe) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: Recall / quality crisis causing supply interruption",
-    "sources": "The Supply Chain Talent Report, 2025-11-20; Investor deck; earnings call transcript; annual report, 2026-02-24; Press release; investor deck, 2024-03-25; Regulator notices; company press release, 2025-12-22",
-    "summary": "Astellas Pharma is showing signs of margin pressure with a cost savings program underway. They are also undergoing significant growth with capacity expansion through a new manufacturing facility in Ireland. There have been recalls of their products.",
+    "priority_score": "RC:7 | MP:10 | SG:6 | SCD:6 = 29/40",
+    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: Major logistics disruption with material impact (strikes, port closures, route disruption)",
+    "sources": "Earnings transcript; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; investor deck; Reputable media; trade publications",
+    "summary": "Campari Group is facing resource constraints and margin pressure, prompting restructuring and cost-saving measures. Despite these challenges, the company is undertaking capacity expansion initiatives to support growth. Additionally, Campari Group is dealing with supply chain disruptions, including potential tariffs and logistics issues.",
     "tier": "Tier 1",
-    "_score_int": 28,
+    "_score_int": 29,
     "_frequency": 1,
-    "_raw": "COMPANY: Astellas Pharma (EMEA HQ)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Urgent hiring for SC/Proc roles\nRC_SOURCE: The Supply Chain Talent Report, 2025-11-20\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Quantified cost-out / savings program (value + timeframe)\nMP_SOURCE: Investor deck; earnings call transcript; annual report, 2026-02-24\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck, 2024-03-25\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Recall / quality crisis causing supply interruption\nSCD_SOURCE: Regulator notices; company press release, 2025-12-22\n\nTOTAL: 28/40\nSUMMARY: Astellas Pharma is showing signs of margin pressure with a cost savings program underway. They are also undergoing significant growth with capacity expansion through a new manufacturing facility in Ireland. There have been recalls of their products.\n",
-    "_situations": {
-      "RC": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Urgent hiring for SC/Proc roles",
-        "source": "The Supply Chain Talent Report, 2025-11-20"
-      },
-      "MP": {
-        "status": "CONFIRMED",
-        "pts": 10,
-        "signal": "Quantified cost-out / savings program (value + timeframe)",
-        "source": "Investor deck; earnings call transcript; annual report, 2026-02-24"
-      },
-      "SG": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "Press release; investor deck, 2024-03-25"
-      },
-      "SCD": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Recall / quality crisis causing supply interruption",
-        "source": "Regulator notices; company press release, 2025-12-22"
-      }
-    }
-  },
-  {
-    "company": "General Mills (European HQ)",
-    "hq_country": "Nyon, VD",
-    "industry": "Food & Bev",
-    "revenue": "Approx. ~$20.0B",
-    "situations": "RC: CONFIRMED (10pts) | MP: CONFIRMED (10pts) | SCD: LIKELY (6pts)",
-    "classification": "CONFIRMED",
-    "priority_score": "RC:10 | MP:10 | SG:0 | SCD:6 = 26/40",
-    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SCD: Recall / quality crisis causing supply interruption",
-    "sources": "Earnings transcript; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Regulator notices; company press release",
-    "summary": "General Mills faces resource constraints, as evidenced by management statements during earnings calls. The company is also experiencing margin pressure, with reported declines in gross and EBITDA margins. Additionally, a recall of Pillsbury Pizza Pops due to potential E. coli contamination indicates supply chain disruption.",
-    "tier": "Tier 1",
-    "_score_int": 26,
-    "_frequency": 1,
-    "_raw": "COMPANY: General Mills (European HQ)\nTIER: 1\n\nRC: CONFIRMED | 10 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Recall / quality crisis causing supply interruption\nSCD_SOURCE: Regulator notices; company press release\n\nTOTAL: 26/40\nSUMMARY: General Mills faces resource constraints, as evidenced by management statements during earnings calls. The company is also experiencing margin pressure, with reported declines in gross and EBITDA margins. Additionally, a recall of Pillsbury Pizza Pops due to potential E. coli contamination indicates supply chain disruption.\n",
+    "_raw": "COMPANY: Campari Group (EMEA Hub)\nTIER: 1\n\nRC: CONFIRMED | 7 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Major logistics disruption with material impact (strikes, port closures, route disruption)\nSCD_SOURCE: Reputable media; trade publications\n\nTOTAL: 29/40\nSUMMARY: Campari Group is facing resource constraints and margin pressure, prompting restructuring and cost-saving measures. Despite these challenges, the company is undertaking capacity expansion initiatives to support growth. Additionally, Campari Group is dealing with supply chain disruptions, including potential tariffs and logistics issues.\n",
     "_situations": {
       "RC": {
         "status": "CONFIRMED",
-        "pts": 10,
+        "pts": 7,
         "signal": "Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”",
         "source": "Earnings transcript"
-      },
-      "MP": {
-        "status": "CONFIRMED",
-        "pts": 10,
-        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
-      },
-      "SG": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      },
-      "SCD": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Recall / quality crisis causing supply interruption",
-        "source": "Regulator notices; company press release"
-      }
-    }
-  },
-  {
-    "company": "PepsiCo (European HQ)",
-    "hq_country": "Baar, ZG",
-    "industry": "Food & Bev",
-    "revenue": "Approx. ~$91.5B",
-    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts) | SG: LIKELY (6pts) | SCD: LIKELY (4pts)",
-    "classification": "CONFIRMED",
-    "priority_score": "RC:6 | MP:10 | SG:6 | SCD:4 = 26/40",
-    "key_evidence": "RC: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\" • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: Public shortage/backorder announcements impacting customers",
-    "sources": "Earnings transcript; investor deck; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; investor deck; Company notices; reputable business media",
-    "summary": "PepsiCo is facing margin pressure, leading to cost reduction programs, SKU rationalization, and plant closures. They are also undertaking capacity expansion initiatives, including investments in new plants and automation. Additionally, there have been instances of product recalls due to contamination.",
-    "tier": "Tier 1",
-    "_score_int": 26,
-    "_frequency": 1,
-    "_raw": "COMPANY: PepsiCo (European HQ)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"\nRC_SOURCE: Earnings transcript; investor deck\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: LIKELY | 4 pts\nSCD_SIGNAL: Public shortage/backorder announcements impacting customers\nSCD_SOURCE: Company notices; reputable business media\n\nTOTAL: 26/40\nSUMMARY: PepsiCo is facing margin pressure, leading to cost reduction programs, SKU rationalization, and plant closures. They are also undertaking capacity expansion initiatives, including investments in new plants and automation. Additionally, there have been instances of product recalls due to contamination.\n",
-    "_situations": {
-      "RC": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"",
-        "source": "Earnings transcript; investor deck"
       },
       "MP": {
         "status": "CONFIRMED",
@@ -119,93 +35,387 @@
       },
       "SCD": {
         "status": "LIKELY",
-        "pts": 4,
-        "signal": "Public shortage/backorder announcements impacting customers",
-        "source": "Company notices; reputable business media"
+        "pts": 6,
+        "signal": "Major logistics disruption with material impact (strikes, port closures, route disruption)",
+        "source": "Reputable media; trade publications"
       }
     }
   },
   {
-    "company": "Shiseido (EMEA HQ)",
-    "hq_country": "Geneva, GE",
-    "industry": "Beauty / Cosmetics",
-    "revenue": "Approx. ~$8.5B",
-    "situations": "RC: CONFIRMED (7pts) | MP: CONFIRMED (10pts) | SCD: LIKELY (6pts)",
+    "company": "Smith & Nephew (EMEA HQ)",
+    "hq_country": "Baar, ZG",
+    "industry": "MedTech (Wound/Ortho)",
+    "revenue": "Approx. ~$5.5B",
+    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts) | SG: LIKELY (6pts) | SCD: UNCLEAR (3pts)",
     "classification": "CONFIRMED",
-    "priority_score": "RC:7 | MP:10 | SG:1 | SCD:6 = 24/40",
-    "key_evidence": "RC: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\" • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SCD: Supply chain disruptions, marketing that was criticized for being too focused on teenagers, and an influx of more affordable brands that had the same \"clean” ingredients caused a slide in sales",
-    "sources": "BeautyMatter, December 2025; Robust earnings set off Shiseido's biggest stock rally in almost eight years, February 2026; The Japan Times, January 2026",
-    "summary": "Shiseido is undergoing a significant transformation, driven by margin pressures and resource constraints. The company is implementing cost-cutting measures and restructuring its organization to improve profitability and efficiency. Supply chain disruptions and marketing missteps have also contributed to a decline in sales, particularly in the Americas and China.",
+    "priority_score": "RC:6 | MP:10 | SG:6 | SCD:3 = 25/40",
+    "key_evidence": "RC: Layoffs / hiring freeze explicitly justified by profitability pressure or cost control • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: M&A integration / carve-out execution program active • SCD: Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)",
+    "sources": "Investor comms; press releases; reputable media; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; investor announcement; Press release; earnings call transcript",
+    "summary": "Smith & Nephew is facing margin pressures, which they are trying to offset through cost savings programs and portfolio simplification. They are also experiencing growth through acquisitions, such as Integrity Orthopaedics, which requires integration. The company is managing potential supply chain disruptions related to the Middle East conflict and tariffs.",
     "tier": "Tier 1",
-    "_score_int": 24,
+    "_score_int": 25,
     "_frequency": 1,
-    "_raw": "COMPANY: Shiseido (EMEA HQ)\nTIER: 1\n\nRC: CONFIRMED | 7 pts\nRC_SIGNAL: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"\nRC_SOURCE: BeautyMatter, December 2025\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Robust earnings set off Shiseido's biggest stock rally in almost eight years, February 2026\n\nSG: NOT PRESENT | 1 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Supply chain disruptions, marketing that was criticized for being too focused on teenagers, and an influx of more affordable brands that had the same \"clean” ingredients caused a slide in sales\nSCD_SOURCE: The Japan Times, January 2026\n\nTOTAL: 24/40\nSUMMARY: Shiseido is undergoing a significant transformation, driven by margin pressures and resource constraints. The company is implementing cost-cutting measures and restructuring its organization to improve profitability and efficiency. Supply chain disruptions and marketing missteps have also contributed to a decline in sales, particularly in the Americas and China.\n",
+    "_raw": "COMPANY: Smith & Nephew (EMEA HQ)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Layoffs / hiring freeze explicitly justified by profitability pressure or cost control\nRC_SOURCE: Investor comms; press releases; reputable media\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: M&A integration / carve-out execution program active\nSG_SOURCE: Press release; investor announcement\n\nSCD: UNCLEAR | 3 pts\nSCD_SIGNAL: Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)\nSCD_SOURCE: Press release; earnings call transcript\n\nTOTAL: 25/40\nSUMMARY: Smith & Nephew is facing margin pressures, which they are trying to offset through cost savings programs and portfolio simplification. They are also experiencing growth through acquisitions, such as Integrity Orthopaedics, which requires integration. The company is managing potential supply chain disruptions related to the Middle East conflict and tariffs.\n",
     "_situations": {
       "RC": {
-        "status": "CONFIRMED",
-        "pts": 7,
-        "signal": "Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"",
-        "source": "BeautyMatter, December 2025"
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Layoffs / hiring freeze explicitly justified by profitability pressure or cost control",
+        "source": "Investor comms; press releases; reputable media"
       },
       "MP": {
         "status": "CONFIRMED",
         "pts": 10,
         "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "Robust earnings set off Shiseido's biggest stock rally in almost eight years, February 2026"
+        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "M&A integration / carve-out execution program active",
+        "source": "Press release; investor announcement"
+      },
+      "SCD": {
+        "status": "UNCLEAR",
+        "pts": 3,
+        "signal": "Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)",
+        "source": "Press release; earnings call transcript"
+      }
+    }
+  },
+  {
+    "company": "Dexcom (EMEA HQ)",
+    "hq_country": "Zurich, ZH",
+    "industry": "MedTech (CGM Devices)",
+    "revenue": "Approx. ~$3.5B",
+    "situations": "RC: LIKELY (6pts) | MP: LIKELY (6pts) | SG: LIKELY (6pts) | SCD: LIKELY (6pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:6 | MP:6 | SG:6 | SCD:6 = 24/40",
+    "key_evidence": "RC: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\" • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Sustained high growth explicitly linked to scaling capacity and execution limits • SCD: Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)",
+    "sources": "Fierce Biotech, January 2026; GuruFocus, February 2026; Investing.com, March 2026",
+    "summary": "Dexcom is experiencing resource constraints, as evidenced by their efforts to improve supply chain infrastructure and quality management systems following previous supply shortages. Despite these challenges, Dexcom is projecting revenue growth and improved margins for 2026, driven by new product launches and international expansion. The company is also taking steps to address supply chain disruptions and ensure manufacturing stability.",
+    "tier": "Tier 1",
+    "_score_int": 24,
+    "_frequency": 1,
+    "_raw": "Okay, I will analyze Dexcom (EMEA HQ) based on the provided information and the search results, focusing on evidence from the last 12 months.\n\nCOMPANY: Dexcom (EMEA HQ)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"\nRC_SOURCE: Fierce Biotech, January 2026\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: GuruFocus, February 2026\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Sustained high growth explicitly linked to scaling capacity and execution limits\nSG_SOURCE: Investing.com, March 2026\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)\nSCD_SOURCE: Fierce Biotech, January 2026\n\nTOTAL: 24/40\nSUMMARY: Dexcom is experiencing resource constraints, as evidenced by their efforts to improve supply chain infrastructure and quality management systems following previous supply shortages. Despite these challenges, Dexcom is projecting revenue growth and improved margins for 2026, driven by new product launches and international expansion. The company is also taking steps to address supply chain disruptions and ensure manufacturing stability.\n",
+    "_situations": {
+      "RC": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"",
+        "source": "Fierce Biotech, January 2026"
+      },
+      "MP": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+        "source": "GuruFocus, February 2026"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Sustained high growth explicitly linked to scaling capacity and execution limits",
+        "source": "Investing.com, March 2026"
+      },
+      "SCD": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)",
+        "source": "Fierce Biotech, January 2026"
+      }
+    }
+  },
+  {
+    "company": "Biogen (EMEA HQ)",
+    "hq_country": "Baar, ZG",
+    "industry": "Biopharmaceuticals",
+    "revenue": "Approx. ~$9.8B",
+    "situations": "RC: CONFIRMED (10pts) | MP: CONFIRMED (8pts) | SG: LIKELY (6pts)",
+    "classification": "CONFIRMED",
+    "priority_score": "RC:10 | MP:8 | SG:6 | SCD:0 = 24/40",
+    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: M&A integration / carve-out execution program active",
+    "sources": "Earnings transcript; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; investor announcement",
+    "summary": "Biogen is experiencing resource constraints, as evidenced by management statements during earnings calls. The company is also facing margin pressure due to declining revenue from its multiple sclerosis franchise and is implementing cost-saving measures, including workforce reductions. Additionally, Biogen is actively involved in M&A activities to expand its pipeline.",
+    "tier": "Tier 1",
+    "_score_int": 24,
+    "_frequency": 1,
+    "_raw": "COMPANY: Biogen (EMEA HQ)\nTIER: 1\n\nRC: CONFIRMED | 10 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript\n\nMP: CONFIRMED | 8 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: M&A integration / carve-out execution program active\nSG_SOURCE: Press release; investor announcement\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 24/40\nSUMMARY: Biogen is experiencing resource constraints, as evidenced by management statements during earnings calls. The company is also facing margin pressure due to declining revenue from its multiple sclerosis franchise and is implementing cost-saving measures, including workforce reductions. Additionally, Biogen is actively involved in M&A activities to expand its pipeline.\n",
+    "_situations": {
+      "RC": {
+        "status": "CONFIRMED",
+        "pts": 10,
+        "signal": "Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”",
+        "source": "Earnings transcript"
+      },
+      "MP": {
+        "status": "CONFIRMED",
+        "pts": 8,
+        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "M&A integration / carve-out execution program active",
+        "source": "Press release; investor announcement"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "Huntsman Corporation (EMEA HQ)",
+    "hq_country": "Basel, BS",
+    "industry": "Specialty Chemicals",
+    "revenue": "Approx. ~$6.0B",
+    "situations": "RC: CONFIRMED (7pts) | MP: CONFIRMED (10pts) | SCD: LIKELY (6pts)",
+    "classification": "CONFIRMED",
+    "priority_score": "RC:7 | MP:10 | SG:0 | SCD:6 = 23/40",
+    "key_evidence": "RC: Management stated that 2026 “will continue to be another year of changing market dynamics,” pointing to further opportunities for mergers, joint ventures, and industry consolidation. • MP: Huntsman is targeting $45 million of in-year savings for 2026, having achieved a $100 million annualized cost savings run rate by the end of 2025. • SCD: Huntsman experienced an unplanned outage at its Polyurethanes facility located in Rotterdam, Netherlands which will likely have a negative impact on fourth quarter 2025 adjusted EBITDA of approximately $10 million.",
+    "sources": "Seeking Alpha, Feb 18 2026; PRNewswire, Dec 1 2025",
+    "summary": "Huntsman Corporation is facing resource constraints and margin pressure, as evidenced by restructuring activities, cost-saving programs, and facility closures. The company experienced a supply chain disruption due to an unplanned outage at its Rotterdam facility. Despite these challenges, Huntsman is aiming for margin expansion and is open to industry consolidation opportunities.",
+    "tier": "Tier 1",
+    "_score_int": 23,
+    "_frequency": 1,
+    "_raw": "COMPANY: Huntsman Corporation (EMEA HQ)\nTIER: 1\n\nRC: CONFIRMED | 7 pts\nRC_SIGNAL: Management stated that 2026 “will continue to be another year of changing market dynamics,” pointing to further opportunities for mergers, joint ventures, and industry consolidation.\nRC_SOURCE: Seeking Alpha, Feb 18 2026\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Huntsman is targeting $45 million of in-year savings for 2026, having achieved a $100 million annualized cost savings run rate by the end of 2025.\nMP_SOURCE: Seeking Alpha, Feb 18 2026\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Huntsman experienced an unplanned outage at its Polyurethanes facility located in Rotterdam, Netherlands which will likely have a negative impact on fourth quarter 2025 adjusted EBITDA of approximately $10 million.\nSCD_SOURCE: PRNewswire, Dec 1 2025\n\nTOTAL: 23/40\nSUMMARY: Huntsman Corporation is facing resource constraints and margin pressure, as evidenced by restructuring activities, cost-saving programs, and facility closures. The company experienced a supply chain disruption due to an unplanned outage at its Rotterdam facility. Despite these challenges, Huntsman is aiming for margin expansion and is open to industry consolidation opportunities.\n",
+    "_situations": {
+      "RC": {
+        "status": "CONFIRMED",
+        "pts": 7,
+        "signal": "Management stated that 2026 “will continue to be another year of changing market dynamics,” pointing to further opportunities for mergers, joint ventures, and industry consolidation.",
+        "source": "Seeking Alpha, Feb 18 2026"
+      },
+      "MP": {
+        "status": "CONFIRMED",
+        "pts": 10,
+        "signal": "Huntsman is targeting $45 million of in-year savings for 2026, having achieved a $100 million annualized cost savings run rate by the end of 2025.",
+        "source": "Seeking Alpha, Feb 18 2026"
       },
       "SG": {
         "status": "NOT PRESENT",
-        "pts": 1,
+        "pts": 0,
         "signal": "none",
         "source": "none"
       },
       "SCD": {
         "status": "LIKELY",
         "pts": 6,
-        "signal": "Supply chain disruptions, marketing that was criticized for being too focused on teenagers, and an influx of more affordable brands that had the same \"clean” ingredients caused a slide in sales",
-        "source": "The Japan Times, January 2026"
+        "signal": "Huntsman experienced an unplanned outage at its Polyurethanes facility located in Rotterdam, Netherlands which will likely have a negative impact on fourth quarter 2025 adjusted EBITDA of approximately $10 million.",
+        "source": "PRNewswire, Dec 1 2025"
       }
     }
   },
   {
-    "company": "Essity (European HQ)",
+    "company": "Integra LifeSciences (EMEA HQ)",
     "hq_country": "Zurich, ZH",
-    "industry": "Hygiene Products",
-    "revenue": "Approx. ~$14.5B",
-    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts) | SG: LIKELY (6pts) | SCD: UNCLEAR (2pts)",
+    "industry": "MedTech (Neurosurgery)",
+    "revenue": "Approx. ~$1.9B",
+    "situations": "RC: LIKELY (6pts) | MP: LIKELY (7pts) | SCD: CONFIRMED (10pts)",
     "classification": "CONFIRMED",
-    "priority_score": "RC:6 | MP:10 | SG:6 | SCD:2 = 24/40",
-    "key_evidence": "RC: Management explicitly states organizational change and integration of Global Supply Chain into business areas. • MP: Quantified cost-out / savings program (value + timeframe) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: \"Supply constraints” repeatedly mentioned without quantified impact",
-    "sources": "PR Newswire, Oct 23 2025; Investor deck; earnings call transcript; annual report, Jan 22 2026; Press release, Feb 19 2026; Earnings call transcript; management updates",
-    "summary": "Essity is undergoing a significant restructuring and cost-saving program aimed at improving profitability and growth. They are also expanding capacity with a new recycled paper facility in the UK. There is a mention of supply constraints, but without quantified impact.",
+    "priority_score": "RC:6 | MP:7 | SG:0 | SCD:10 = 23/40",
+    "key_evidence": "RC: Layoffs / hiring freeze explicitly justified by profitability pressure or cost control • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SCD: Recall / quality crisis causing supply interruption",
+    "sources": "Investor comms; press releases; reputable media; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Regulator notices; company press release",
+    "summary": "Integra LifeSciences is facing challenges. They have announced layoffs at a New Jersey production site, and are experiencing margin pressure with gross and EBITDA margins declining. Additionally, they have had a recall of wound and burn treatments due to packaging failures.",
     "tier": "Tier 1",
-    "_score_int": 24,
+    "_score_int": 23,
     "_frequency": 1,
-    "_raw": "Okay, I will analyze Essity (European HQ) based on the provided information and the search results from the specified queries, focusing on evidence from the last 12 months.\n\nCOMPANY: Essity (European HQ)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states organizational change and integration of Global Supply Chain into business areas.\nRC_SOURCE: PR Newswire, Oct 23 2025\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Quantified cost-out / savings program (value + timeframe)\nMP_SOURCE: Investor deck; earnings call transcript; annual report, Jan 22 2026\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release, Feb 19 2026\n\nSCD: UNCLEAR | 2 pts\nSCD_SIGNAL: \"Supply constraints” repeatedly mentioned without quantified impact\nSCD_SOURCE: Earnings call transcript; management updates\n\nTOTAL: 24/40\nSUMMARY: Essity is undergoing a significant restructuring and cost-saving program aimed at improving profitability and growth. They are also expanding capacity with a new recycled paper facility in the UK. There is a mention of supply constraints, but without quantified impact.\n",
+    "_raw": "COMPANY: Integra LifeSciences (EMEA HQ)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Layoffs / hiring freeze explicitly justified by profitability pressure or cost control\nRC_SOURCE: Investor comms; press releases; reputable media\n\nMP: LIKELY | 7 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: CONFIRMED | 10 pts\nSCD_SIGNAL: Recall / quality crisis causing supply interruption\nSCD_SOURCE: Regulator notices; company press release\n\nTOTAL: 23/40\nSUMMARY: Integra LifeSciences is facing challenges. They have announced layoffs at a New Jersey production site, and are experiencing margin pressure with gross and EBITDA margins declining. Additionally, they have had a recall of wound and burn treatments due to packaging failures.\n",
     "_situations": {
       "RC": {
         "status": "LIKELY",
         "pts": 6,
-        "signal": "Management explicitly states organizational change and integration of Global Supply Chain into business areas.",
-        "source": "PR Newswire, Oct 23 2025"
+        "signal": "Layoffs / hiring freeze explicitly justified by profitability pressure or cost control",
+        "source": "Investor comms; press releases; reputable media"
+      },
+      "MP": {
+        "status": "LIKELY",
+        "pts": 7,
+        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
+      },
+      "SG": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SCD": {
+        "status": "CONFIRMED",
+        "pts": 10,
+        "signal": "Recall / quality crisis causing supply interruption",
+        "source": "Regulator notices; company press release"
+      }
+    }
+  },
+  {
+    "company": "Vetoquinol (International HQ)",
+    "hq_country": "Bern, BE",
+    "industry": "Veterinary Pharma",
+    "revenue": "Approx. ~$0.6B",
+    "situations": "RC: LIKELY (6pts) | MP: LIKELY (6pts) | SG: UNCLEAR (3pts) | SCD: LIKELY (7pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:6 | MP:6 | SG:3 | SCD:7 = 22/40",
+    "key_evidence": "RC: Key initiatives delayed explicitly due to lack of internal execution capacity • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: M&A integration / carve-out execution program active • SCD: Production shutdown due to material shortage / supplier failure",
+    "sources": "Investing.com, Oct 2025; Vetoquinol SA (PINC:VETO.F) - Investing.com NG, Unknown date; Business Development & Regulatory Pathways, Jan 2026",
+    "summary": "Vetoquinol is facing supply chain disruptions due to manufacturing issues related to the internalization of production, which has led to revenue shortfalls. The company is also experiencing margin pressure, with a decline in EBITDA. However, Vetoquinol is actively pursuing acquisitions and integrations to expand its portfolio.",
+    "tier": "Tier 1",
+    "_score_int": 22,
+    "_frequency": 1,
+    "_raw": "COMPANY: Vetoquinol (International HQ)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Key initiatives delayed explicitly due to lack of internal execution capacity\nRC_SOURCE: Investing.com, Oct 2025\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Vetoquinol SA (PINC:VETO.F) - Investing.com NG, Unknown date\n\nSG: UNCLEAR | 3 pts\nSG_SIGNAL: M&A integration / carve-out execution program active\nSG_SOURCE: Business Development & Regulatory Pathways, Jan 2026\n\nSCD: LIKELY | 7 pts\nSCD_SIGNAL: Production shutdown due to material shortage / supplier failure\nSCD_SOURCE: Investing.com, Oct 2025\n\nTOTAL: 22/40\nSUMMARY: Vetoquinol is facing supply chain disruptions due to manufacturing issues related to the internalization of production, which has led to revenue shortfalls. The company is also experiencing margin pressure, with a decline in EBITDA. However, Vetoquinol is actively pursuing acquisitions and integrations to expand its portfolio.\n",
+    "_situations": {
+      "RC": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Key initiatives delayed explicitly due to lack of internal execution capacity",
+        "source": "Investing.com, Oct 2025"
+      },
+      "MP": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+        "source": "Vetoquinol SA (PINC:VETO.F) - Investing.com NG, Unknown date"
+      },
+      "SG": {
+        "status": "UNCLEAR",
+        "pts": 3,
+        "signal": "M&A integration / carve-out execution program active",
+        "source": "Business Development & Regulatory Pathways, Jan 2026"
+      },
+      "SCD": {
+        "status": "LIKELY",
+        "pts": 7,
+        "signal": "Production shutdown due to material shortage / supplier failure",
+        "source": "Investing.com, Oct 2025"
+      }
+    }
+  },
+  {
+    "company": "Moderna (EMEA HQ / Mfg)",
+    "hq_country": "Zurich, ZH",
+    "industry": "mRNA / Vaccines",
+    "revenue": "Approx. ~$6.8B",
+    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts) | SG: LIKELY (6pts)",
+    "classification": "CONFIRMED",
+    "priority_score": "RC:6 | MP:10 | SG:6 | SCD:0 = 22/40",
+    "key_evidence": "RC: Layoffs / hiring freeze explicitly justified by profitability pressure or cost control • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+    "sources": "Investor comms; press releases; reputable media; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; investor deck",
+    "summary": "Moderna is experiencing margin pressure, leading to cost-cutting measures such as workforce reductions and operating expense reductions. Despite these challenges, Moderna is also undertaking strategic growth initiatives, including expanding manufacturing capabilities and targeting revenue growth. There is no evidence of supply chain disruptions.",
+    "tier": "Tier 1",
+    "_score_int": 22,
+    "_frequency": 1,
+    "_raw": "COMPANY: Moderna (EMEA HQ / Mfg)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Layoffs / hiring freeze explicitly justified by profitability pressure or cost control\nRC_SOURCE: Investor comms; press releases; reputable media\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 22/40\nSUMMARY: Moderna is experiencing margin pressure, leading to cost-cutting measures such as workforce reductions and operating expense reductions. Despite these challenges, Moderna is also undertaking strategic growth initiatives, including expanding manufacturing capabilities and targeting revenue growth. There is no evidence of supply chain disruptions.\n",
+    "_situations": {
+      "RC": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Layoffs / hiring freeze explicitly justified by profitability pressure or cost control",
+        "source": "Investor comms; press releases; reputable media"
       },
       "MP": {
         "status": "CONFIRMED",
         "pts": 10,
-        "signal": "Quantified cost-out / savings program (value + timeframe)",
-        "source": "Investor deck; earnings call transcript; annual report, Jan 22 2026"
+        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
       },
       "SG": {
         "status": "LIKELY",
         "pts": 6,
         "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "Press release, Feb 19 2026"
+        "source": "Press release; investor deck"
       },
       "SCD": {
-        "status": "UNCLEAR",
-        "pts": 2,
-        "signal": "\"Supply constraints” repeatedly mentioned without quantified impact",
-        "source": "Earnings call transcript; management updates"
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "Sun Pharma (EMEA HQ)",
+    "hq_country": "Basel, BS",
+    "industry": "Pharmaceuticals",
+    "revenue": "Approx. ~$5.5B",
+    "situations": "MP: LIKELY (6pts) | SG: LIKELY (6pts) | SCD: CONFIRMED (10pts)",
+    "classification": "CONFIRMED",
+    "priority_score": "RC:0 | MP:6 | SG:6 | SCD:10 = 22/40",
+    "key_evidence": "MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: Production shutdown due to material shortage / supplier failure",
+    "sources": "Sun Pharma Q3 FY26 Earnings Call Transcript 06:30 pm Jan 31, 2026; Sun Pharma Approves £285M Capex for Capacity Expansion - HDFC Sky; China regulators suspend sale of Sun Pharma's dementia med after site inspection",
+    "summary": "Sun Pharma is facing supply chain disruptions due to the halt of sales of its dementia drug in China following a remote inspection that revealed production process shortcomings. The company is also undertaking a major capacity expansion with a new manufacturing facility in Madhya Pradesh. While the company's Q3 FY26 earnings call transcript indicates improved EBITDA margins due to better product mix, there was also an exceptional charge taken.",
+    "tier": "Tier 1",
+    "_score_int": 22,
+    "_frequency": 1,
+    "_raw": "COMPANY: Sun Pharma (EMEA HQ)\nTIER: 1\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Sun Pharma Q3 FY26 Earnings Call Transcript 06:30 pm Jan 31, 2026\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Sun Pharma Approves £285M Capex for Capacity Expansion - HDFC Sky\n\nSCD: CONFIRMED | 10 pts\nSCD_SIGNAL: Production shutdown due to material shortage / supplier failure\nSCD_SOURCE: China regulators suspend sale of Sun Pharma's dementia med after site inspection\n\nTOTAL: 22/40\nSUMMARY: Sun Pharma is facing supply chain disruptions due to the halt of sales of its dementia drug in China following a remote inspection that revealed production process shortcomings. The company is also undertaking a major capacity expansion with a new manufacturing facility in Madhya Pradesh. While the company's Q3 FY26 earnings call transcript indicates improved EBITDA margins due to better product mix, there was also an exceptional charge taken.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+        "source": "Sun Pharma Q3 FY26 Earnings Call Transcript 06:30 pm Jan 31, 2026"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+        "source": "Sun Pharma Approves £285M Capex for Capacity Expansion - HDFC Sky"
+      },
+      "SCD": {
+        "status": "CONFIRMED",
+        "pts": 10,
+        "signal": "Production shutdown due to material shortage / supplier failure",
+        "source": "China regulators suspend sale of Sun Pharma's dementia med after site inspection"
+      }
+    }
+  },
+  {
+    "company": "Ciba Specialty Chemicals (now BASF Schweiz)",
+    "hq_country": "Basel, BS",
+    "industry": "Specialty Chemicals",
+    "revenue": "Approx. ~$1.5B",
+    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts) | SG: LIKELY (6pts)",
+    "classification": "CONFIRMED",
+    "priority_score": "RC:6 | MP:10 | SG:6 | SCD:0 = 22/40",
+    "key_evidence": "RC: \"BASF said it intends to reduce administrative positions, including roles at its major business services hub in Berlin\" • MP: \"Due to persistent weak demand, BASF is focusing on significant cost reductions and strengthening its balance sheet. The company now expects €2.3 billion in annual savings by the end of 2026, up from the previously planned €2.1 billion.\" • SG: \"BASF announced a major expansion of its medium molecular weight polyisobutylene production capacity.\"",
+    "sources": "News.Az, February 27 2026; Harici, February 27 2026; Investing.com, February 08 2026",
+    "summary": "BASF is facing margin pressure and is implementing cost-cutting measures, including reducing administrative positions and increasing savings targets. Despite these challenges, BASF is also undertaking capacity expansion in specific areas, indicating a focus on growth in certain specialty chemical segments. There is no evidence of supply chain disruptions specific to Ciba Specialty Chemicals (now BASF Schweiz) within the search results.",
+    "tier": "Tier 1",
+    "_score_int": 22,
+    "_frequency": 1,
+    "_raw": "Okay, I will analyze Ciba Specialty Chemicals (now BASF Schweiz) based on the provided information and search results, adhering to the specified guidelines and time constraints.\n\nCOMPANY: Ciba Specialty Chemicals (now BASF Schweiz)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: \"BASF said it intends to reduce administrative positions, including roles at its major business services hub in Berlin\"\nRC_SOURCE: News.Az, February 27 2026\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: \"Due to persistent weak demand, BASF is focusing on significant cost reductions and strengthening its balance sheet. The company now expects €2.3 billion in annual savings by the end of 2026, up from the previously planned €2.1 billion.\"\nMP_SOURCE: Harici, February 27 2026\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: \"BASF announced a major expansion of its medium molecular weight polyisobutylene production capacity.\"\nSG_SOURCE: Investing.com, February 08 2026\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 22/40\nSUMMARY: BASF is facing margin pressure and is implementing cost-cutting measures, including reducing administrative positions and increasing savings targets. Despite these challenges, BASF is also undertaking capacity expansion in specific areas, indicating a focus on growth in certain specialty chemical segments. There is no evidence of supply chain disruptions specific to Ciba Specialty Chemicals (now BASF Schweiz) within the search results.\n",
+    "_situations": {
+      "RC": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "\"BASF said it intends to reduce administrative positions, including roles at its major business services hub in Berlin\"",
+        "source": "News.Az, February 27 2026"
+      },
+      "MP": {
+        "status": "CONFIRMED",
+        "pts": 10,
+        "signal": "\"Due to persistent weak demand, BASF is focusing on significant cost reductions and strengthening its balance sheet. The company now expects €2.3 billion in annual savings by the end of 2026, up from the previously planned €2.1 billion.\"",
+        "source": "Harici, February 27 2026"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "\"BASF announced a major expansion of its medium molecular weight polyisobutylene production capacity.\"",
+        "source": "Investing.com, February 08 2026"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
       }
     }
   }
