@@ -1,13 +1,20 @@
 """
-XIMPAX Intelligence Engine — Stage 2
-Two-call architecture per company:
-  Call A → Gemini + Google Search → prose research with real grounding URLs
-  Call B → Gemini (no tools) → formats research into 4-column signal table
+XIMPAX Intelligence Engine — Stage 2 (v2)
 
-HTML report includes visual quality flags:
-  🔴 Stale evidence (>12 months old)
-  🟡 Forbidden source (company website / IR page)
-  ✅ Clean signal
+CHANGES FROM v1:
+  - FIX: recalculate_score — weight detection now uses "+2"/"+1" markers
+    instead of "strong"/"medium" word-match (which false-scored MEDIUM signals
+    whose name started with "Strong…" as +2)
+  - FIX: parse_stage2_table — padding to 4 cells now runs BEFORE the length
+    check, so partial rows (e.g. "No signals detected" rows with 3 cells)
+    are recovered instead of silently dropped
+  - FIX: build_company_section — orphaned rows (blank situation_status before
+    the first named situation) are now re-attached to the first real group
+    instead of rendering invisible under an empty label
+  - FIX: signal_quality — added company-name presence check: evidence that
+    does not name the company at all is flagged as "generic"
+  - FIX: build_research_prompt — stricter "company-specific only" rule added
+    to block generic industry articles at the prompt level
 """
 
 import os
@@ -47,25 +54,36 @@ FORBIDDEN_SOURCE_PATTERNS = [
     r"\bcompany\s+website\b", r"\bcompany\s+site\b", r"\bIR\s+page\b",
     r"\binvestor\s+relations\b", r"\bpress\s+release\b",
     r"\bvendor\s+blog\b", r"\bswot\b",
-    # Careers / jobs pages = company's own domain
     r"\bcareers?\b", r"\bjobs?\s+page\b", r"\bnewsroom\b",
-    # Explicitly forbidden AI/SWOT analysis aggregator sites
     r"portersfiveforce", r"comparably", r"craft\.co", r"macroaxis",
     r"stockanalysis\.com", r"wisesheets", r"marketbeat", r"simplywall",
 ]
 
-# When the model labels a source as just the company name (or company name + suffix)
-# it means it used the company's own website / press room.
 FORBIDDEN_SOURCE_LABELS = {
     "lonza", "givaudan", "novartis", "roche", "nestle", "abb", "sika",
     "sonova", "straumann", "georg fischer", "lindt", "emmi", "dätwyler",
     "tecan", "bossard", "orior", "huber", "bucher", "bobst",
 }
-# Suffixes that combined with a company name = company-owned page
+
 COMPANY_PAGE_SUFFIXES = {
     "careers", "career", "jobs", "newsroom", "press", "news",
     "investor", "investors", "ir", "annual report", "sustainability report",
 }
+
+# Words to strip when checking if the company name appears in evidence text.
+# Prevents false-positives from generic qualifiers like "EMEA HQ" or "Group".
+_NAME_NOISE = {
+    "emea", "hq", "global", "european", "international", "travel",
+    "retail", "group", "ag", "inc", "ltd", "gmbh", "corp", "sa", "nv",
+    "pharma", "pharmaceuticals", "sciences", "consumer", "care", "brands",
+    "swiss", "holding", "holdings", "the",
+}
+
+
+def _core_name_words(company_name: str) -> list[str]:
+    """Return significant lowercase words from a company name for presence checks."""
+    words = re.sub(r"[^\w\s]", " ", company_name.lower()).split()
+    return [w for w in words if w not in _NAME_NOISE and len(w) > 2]
 
 
 def load_file(path: Path) -> str:
@@ -108,7 +126,7 @@ is before {CUTOFF_STR}, you MUST discard it and search for a newer source.
 Do NOT use any source older than 12 months. This is non-negotiable.
 
 ══════════════════════════════════════════════════════
-MANDATORY SOURCE RULES — ZERO EXCEPTIONS  
+MANDATORY SOURCE RULES — ZERO EXCEPTIONS
 ══════════════════════════════════════════════════════
 ALLOWED sources (use these):
   Tier 1: Reuters, Bloomberg, Financial Times, regulatory filings,
@@ -126,13 +144,11 @@ FORBIDDEN — do NOT use any of these:
   ✗ ZipRecruiter, Indeed, or other job boards for non-job-specific signals
   ✗ SWOT or AI analysis aggregator sites: PortersFiveForce.com, Comparably,
     Craft.co, Macroaxis, StockAnalysis, WiseSheets, MarketBeat, SimplyWallSt
-  ✗ Generic industry articles that do NOT specifically name {company['company']}
-    (e.g. "supply chain professionals face staffing challenges in 2024" is NOT
-    evidence about {company['company']} — the article must name this company)
-  ✗ Generic company taglines or marketing language
-    (e.g. "world leader in X with lean manufacturing" is a company description,
-    NOT evidence of a supply chain situation — it must be an analyst or journalist
-    reporting a specific operational fact)
+  ✗ Generic industry trend articles that do NOT explicitly name
+    {company['company']} as the subject of the reported fact.
+    An article must report a specific operational fact ABOUT {company['company']}
+    — sector-wide trend pieces (e.g. "supply chain professionals face headwinds
+    in 2025") are NOT evidence about {company['company']} and must be discarded.
 
 STRICT COUNTING RULES — READ CAREFULLY:
   ✗ The same article / URL may only be counted for ONE signal, not multiple
@@ -297,10 +313,12 @@ def parse_stage2_table(raw: str) -> list[dict]:
         if not header_skipped:
             header_skipped = True
             continue
-        # Pad to 4 cells first so partial rows (e.g. a "No signals detected"
-        # row formatted with only 3 cells) are recovered rather than silently
-        # dropped. Previously the `while` was dead code because the `continue`
-        # above it would always exit first.
+
+        # FIX: pad to 4 cells BEFORE the length check so partial rows
+        # (e.g. "No signals detected" rows the model emits with 3 cells)
+        # are recovered instead of silently dropped.
+        # Previously the while-pad was dead code because the continue above
+        # would always exit first for short rows.
         while len(cells) < 4:
             cells.append("")
 
@@ -328,31 +346,23 @@ def parse_evidence_date(evidence: str) -> datetime | None:
 def classify_source(source_str: str) -> str:
     """
     Returns: 'forbidden' | 'clean'
-    Principle: only flag sources we can positively identify as company-owned or
-    explicitly forbidden. Never flag based on length or headline words — those
-    cause false positives on legitimate article titles used as source labels.
+    Only flag sources we can positively identify as company-owned or
+    explicitly forbidden. Never flag based on length or headline words.
     """
     s = source_str.lower().strip()
 
-    # 1. Direct pattern matches (company domains, press rooms, SWOT aggregators)
     for pat in FORBIDDEN_SOURCE_PATTERNS:
         if re.search(pat, s, re.IGNORECASE):
             return "forbidden"
 
-    # 2. Bare company name as the entire source label (Gemini used the company's own site)
-    #    Only match exact name or name + known domain suffix — NOT article headlines
     for label in FORBIDDEN_SOURCE_LABELS:
         escaped = re.escape(label)
-        # Exact match: "Lonza" or "Lonza (press release)" or "lonza.com" / "lonza.ch"
         if re.match(rf"^{escaped}(\s*[\(\[]|$|\.com|\.ch|\.de|\.fr|\.co\.uk)", s):
             return "forbidden"
-        # Company name + page suffix: "Lonza Newsroom", "Sika Careers"
         for suffix in COMPANY_PAGE_SUFFIXES:
             if re.match(rf"^{escaped}\s+{re.escape(suffix)}\b", s):
                 return "forbidden"
 
-    # 3. Source label ends with "- Company Name" / "| Company Name" (possibly + Group/AG/Holdings)
-    #    e.g. "Key Figures 2025 - Swatch Group" | "BC Next Level Plan | Barry Callebaut"
     trailing_m = re.search(r"[-–|]\s*(.+)$", s)
     if trailing_m:
         trailing = trailing_m.group(1).strip()
@@ -360,14 +370,11 @@ def classify_source(source_str: str) -> str:
             if label in trailing:
                 return "forbidden"
 
-    # 4. Explicit press/news release labels
     if re.search(r"\bnews\s+release\b|\bpress\s+release\b|\bofficial\s+statement\b", s):
         return "forbidden"
 
-    # 5. Company-as-subject press release headline: "Lonza Delivers...", "Siegfried Signs..."
-    #    Only flag when there is NO trailing "- [Publisher]" indicator (which signals 3rd party)
     PR_VERBS = r"delivers?|reports?|signs?|announces?|confirms?|launches?|achieves?|posts?"
-    has_trailing_publisher = bool(re.search(r"\s[-–|]\s*\w", s))  # space before dash required
+    has_trailing_publisher = bool(re.search(r"\s[-–|]\s*\w", s))
     if not has_trailing_publisher:
         for label in FORBIDDEN_SOURCE_LABELS:
             escaped = re.escape(label)
@@ -377,7 +384,7 @@ def classify_source(source_str: str) -> str:
     return "clean"
 
 
-# Known generic industry-noise phrases — articles matching these are NOT company-specific signals
+# Known generic industry-noise phrases — articles matching these are NOT company-specific
 GENERIC_ARTICLE_PATTERNS = [
     r"procurement teams will be tested",
     r"supply chain professionals will find",
@@ -404,12 +411,9 @@ def signal_quality(row: dict, company_name: str = "") -> dict:
     Returns quality flags:
       stale     — evidence older than cutoff
       forbidden — company website / IR page / SWOT site
-      generic   — matches a known generic industry-noise article pattern
+      generic   — matches a known generic industry-noise pattern OR
+                  the company name does not appear anywhere in the evidence
       quality   — 'clean' | 'stale' | 'forbidden' | 'stale+forbidden' | 'generic'
-
-    NOTE: generic detection uses a keyword blocklist, NOT word-in-text company name check.
-    The name-in-text approach causes false positives because verbatim quotes from articles
-    don't always repeat the company name inline (context was already established earlier).
     """
     ev_date   = parse_evidence_date(row.get("evidence", ""))
     src_class = classify_source(row.get("source_url", ""))
@@ -418,7 +422,18 @@ def signal_quality(row: dict, company_name: str = "") -> dict:
     forbidden = src_class == "forbidden"
 
     combined = (row.get("evidence", "") + " " + row.get("detected_signal", "")).lower()
-    generic  = any(re.search(pat, combined) for pat in GENERIC_ARTICLE_PATTERNS)
+
+    # Pattern-based generic check (existing blocklist)
+    generic = any(re.search(pat, combined) for pat in GENERIC_ARTICLE_PATTERNS)
+
+    # FIX: company-name presence check — if the evidence text is substantial
+    # but contains none of the company's significant name words, it's a generic
+    # industry article that the model accepted despite the prompt rules.
+    if not generic and company_name and len(combined.strip()) > 30:
+        core_words = _core_name_words(company_name)
+        if core_words and not any(w in combined for w in core_words):
+            generic = True
+            log.debug(f"  → Generic flag (name absent): {combined[:80]}")
 
     if stale and forbidden:  quality = "stale+forbidden"
     elif stale:              quality = "stale"
@@ -448,8 +463,9 @@ def recalculate_score(rows: list[dict], company_name: str = "") -> int:
         q = signal_quality(row, company_name)
         if q["quality"] != "clean":
             continue
-        # Use the explicit "+2" / "+1" weight markers so a signal name that
-        # starts with the word "Strong…" is never mis-scored as STRONG +2.
+        # FIX: use "+2"/"+1" markers instead of "strong"/"medium" word-match.
+        # The old approach false-matched signal names that START with "Strong…"
+        # (e.g. "Strong supplier renegotiation narrative (MEDIUM +1)") as +2.
         w = 2 if "+2" in sig else (1 if "+1" in sig else 0)
         for k in sit_scores:
             if k in current:
@@ -495,7 +511,6 @@ def make_source_link(src: str, quality: str) -> str:
 
     if urls:
         url = urls[0]
-        # Grounding API URLs are real verified redirects from Google Search
         is_grounded = "vertexaisearch.cloud.google.com" in url or "googleapis.com" in url
         if is_grounded:
             url_badge = ' <span style="background:#1e3a5f;color:#93c5fd;font-size:8px;padding:1px 4px;border-radius:3px;font-weight:700">🔗 verified</span>'
@@ -544,16 +559,16 @@ def build_company_section(company: dict, rows: list[dict], rank: int) -> str:
             cur = row["situation_status"]
         groups.setdefault(cur, []).append(row)
 
-    # Re-order groups into canonical order: RC → SCD → MP → SG
-    # Drop the "" key: rows that arrived before the first named situation
-    # (parse artefacts with blank situation_status) would otherwise render at
-    # the bottom of the card with an invisible empty situation label, hiding
-    # the signals from view. Re-attach them to the first real group instead.
+    # FIX: rows that arrived before the first named situation (blank cur="")
+    # previously fell into groups[""] and rendered at the bottom of the card
+    # under an invisible empty situation label, hiding the signals from view.
+    # Now we pop them and prepend to the first real situation group.
     orphans = groups.pop("", [])
     if orphans and groups:
         first_key = next(iter(groups))
         groups[first_key] = orphans + groups[first_key]
 
+    # Re-order groups into canonical order: RC → SCD → MP → SG
     def sit_sort_key(sit_label: str) -> int:
         s = sit_label.lower()
         for i, canonical in enumerate(SITUATION_ORDER):
@@ -565,17 +580,15 @@ def build_company_section(company: dict, rows: list[dict], rank: int) -> str:
     sig_rows_html = []
     for sit, sig_rows in ordered_groups:
         tc, bg, label = situation_style(sit)
-        # Count actual signal rows (exclude "no signals" placeholders)
-        real_rows = [r for r in sig_rows if r.get("detected_signal", "").strip()
-                     and "no signals" not in r.get("detected_signal", "").lower()]
+        real_rows    = [r for r in sig_rows if r.get("detected_signal", "").strip()
+                        and "no signals" not in r.get("detected_signal", "").lower()]
         display_rows = real_rows if real_rows else sig_rows[:1]
-        rowspan = len(display_rows)
+        rowspan      = len(display_rows)
 
         for i, r in enumerate(display_rows):
             q          = signal_quality(r, cname)
             _, row_sty = QUALITY_BADGES.get(q["quality"], ("", ""))
 
-            # Situation cell: use rowspan so it spans ALL signal rows for this situation
             if i == 0:
                 sit_td = (
                     f'<td rowspan="{rowspan}" style="background:{bg};color:{tc};font-weight:700;'
@@ -587,7 +600,7 @@ def build_company_section(company: dict, rows: list[dict], rank: int) -> str:
                     f'{sit.split(":")[0].strip()}</small></td>'
                 )
             else:
-                sit_td = ""  # covered by rowspan — no td here
+                sit_td = ""
 
             sig_rows_html.append(f"""
             <tr style="border-bottom:1px solid #2d3748;{row_sty}">
@@ -674,6 +687,7 @@ REPORT_HTML = """\
     <b style="color:#94a3b8">Legend:</b> &nbsp;
     <span style="background:#7f1d1d;color:#fca5a5;padding:1px 6px;border-radius:4px;font-weight:700">⏰ STALE</span> evidence older than {cutoff} &nbsp;|&nbsp;
     <span style="background:#78350f;color:#fcd34d;padding:1px 6px;border-radius:4px;font-weight:700">🚫 EXCL.SOURCE</span> company website / IR page &nbsp;|&nbsp;
+    <span style="background:#1e293b;color:#64748b;padding:1px 6px;border-radius:4px;font-weight:700">🌐 GENERIC</span> industry article not specific to company &nbsp;|&nbsp;
     <span style="background:#1e3a5f;color:#93c5fd;padding:1px 6px;border-radius:4px;font-weight:700">🔗 verified</span> grounding API URL &nbsp;|&nbsp;
     <span style="background:#374151;color:#9ca3af;padding:1px 6px;border-radius:4px;font-weight:700">🔍 unverified</span> AI-suggested URL — verify before use
   </td></tr>
@@ -691,7 +705,6 @@ REPORT_HTML = """\
 
 
 def build_report(companies_with_rows: list[tuple]) -> str:
-    # Sort companies by verified (clean-signal) score descending
     companies_with_rows = sorted(
         companies_with_rows,
         key=lambda x: recalculate_score(x[1], x[0].get("company", "")),
@@ -758,21 +771,18 @@ def main():
 
     for i, company in enumerate(companies):
         try:
-            # Call A: live research with Google Search
             research_text = gemini_research(
                 build_research_prompt(company), company["company"]
             )
             raw_all[company["company"]] = {"research": research_text}
             time.sleep(5)
 
-            # Call B: format into table
             table_text = gemini_format(research_text, company)
             raw_all[company["company"]]["table"] = table_text
 
             rows = parse_stage2_table(table_text)
             log.info(f"  → {len(rows)} signal rows for {company['company']}")
 
-            # Log quality breakdown
             cname   = company["company"]
             clean   = sum(1 for r in rows if signal_quality(r, cname)["quality"] == "clean")
             flagged = len(rows) - clean
