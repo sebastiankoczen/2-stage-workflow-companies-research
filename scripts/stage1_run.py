@@ -122,7 +122,7 @@ def build_scan_prompt(company: dict) -> str:
     year            = TODAY[:4]
 
     return f"""You are a senior supply chain market intelligence analyst. Today is {TODAY}.
-Only use evidence from the last 12 months (after {TODAY[:7].replace('-', '-01-', 1)}).
+Only use evidence from the last 12 months (after {TODAY[:7]}-01).
 
 === COMPANY TO SCAN ===
 Company:   {company['company']}
