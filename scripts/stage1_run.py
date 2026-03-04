@@ -1,12 +1,14 @@
 """
-XIMPAX Intelligence Engine — Stage 1 (v3)
+XIMPAX Intelligence Engine — Stage 1 (v2)
 
-CHANGES FROM v2:
-  - COMPANIES_PER_WEEK: 20 → 100  (500-co list covered every 5 weeks / ~1.2 months)
-  - SLEEP_BETWEEN:      15 → 10s  (safe at ~6 RPM; saves ~8 min per run)
-  - TOP_N_FOR_STAGE2:    5 → 10   (doubles weekly deep-scan coverage)
-  - FIX: date cutoff formula — TODAY[:7]+"-01" instead of broken .replace()
-  - FIX: prompt — added explicit company-name rule to block generic industry articles
+Architecture: one Gemini call per company WITH Google Search grounding.
+Processes 20 companies per week, one at a time, with sleep between calls.
+Top 5 by priority score → Stage 2 for full deep scan.
+
+Why this is better than batching 10 companies per call:
+  - Full model attention per company (vs 10-way split)
+  - Live Google Search fills knowledge gaps Gemini training misses
+  - Accurate scoring before Stage 2 so the right 5 get deep-scanned
 """
 
 import os
@@ -32,11 +34,9 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 GEMINI_MODEL       = "gemini-2.0-flash"
-COMPANIES_PER_WEEK = 100   # ↑ was 20 — covers 500-co list every 5 weeks
-SLEEP_BETWEEN      = 10    # ↓ was 15 — safe at ~6 RPM; saves ~8 min over 100 calls
-TOP_N_FOR_STAGE2   = 10    # ↑ was 5 — doubles weekly deep-scan coverage
-RESERVE_N_FOR_STAGE2 = 10 # backup pool; Stage 2 draws from this if a primary
-                            # turns out to be a false signal after deep scan
+COMPANIES_PER_WEEK = 20    # companies scanned per weekly run (one call each)
+SLEEP_BETWEEN      = 15    # seconds between company calls
+TOP_N_FOR_STAGE2   = 5     # top companies forwarded to Stage 2
 TODAY              = datetime.utcnow().strftime("%Y-%m-%d")
 
 COMPANIES_FILE = CONFIG_DIR / "companies.xlsx"
@@ -121,12 +121,8 @@ def build_scan_prompt(company: dict) -> str:
     instructions    = load_file(CONFIG_DIR / "instructions.txt")
     year            = TODAY[:4]
 
-    # FIX: was TODAY[:7].replace('-', '-01-', 1)
-    # which produced e.g. "2026-01-03" instead of "2026-03-01"
-    cutoff = TODAY[:7] + "-01"
-
     return f"""You are a senior supply chain market intelligence analyst. Today is {TODAY}.
-Only use evidence from the last 12 months (after {cutoff}).
+Only use evidence from the last 12 months (after {TODAY[:7].replace('-', '-01-', 1)}).
 
 === COMPANY TO SCAN ===
 Company:   {company['company']}
@@ -152,26 +148,17 @@ TASK: Run these searches, then score
 3. "{company['company']} acquisition merger capacity expansion plant {year}"
 4. "{company['company']} supply disruption production halt recall {year}"
 
-CRITICAL EVIDENCE RULE — COMPANY-SPECIFIC ONLY:
-Every signal MUST come from an article that EXPLICITLY NAMES {company['company']}
-as the subject of the reported fact. Generic industry articles (e.g. "supply chain
-professionals face staffing challenges in {year}") that do NOT name
-{company['company']} specifically are FORBIDDEN evidence — discard them entirely.
-If the only articles you find are sector-wide trend pieces that do not name this
-specific company, write "none" for that signal.
-
 Score all four situations using STRONG +2 / MEDIUM +1 signals, cap 10 per situation.
 
 CONFIRMED >= 7pts | LIKELY 4-6pts | UNCLEAR 2-3pts | NOT PRESENT 0-1pts
-TIER 1 = ICP match + at least one CONFIRMED or LIKELY
-TIER 2 = ICP match but all UNCLEAR or NOT PRESENT
-OUT    = does not match ICP (bank, utility, insurer, transport, real estate)
+ICP: ELIGIBLE = matches ICP profile (manufacturing, pharma, chemicals, food/bev, medtech etc.)
+     OUT      = bank, utility, insurer, transport, real estate — score these but mark OUT
 
 ═══════════════════════════════════════
 OUTPUT — use EXACTLY this format
 ═══════════════════════════════════════
 COMPANY: {company['company']}
-TIER: [1 or 2 or OUT]
+ICP: [ELIGIBLE or OUT]
 
 RC: [CONFIRMED/LIKELY/UNCLEAR/NOT PRESENT] | [X] pts
 RC_SIGNAL: [strongest signal found, or "none"]
@@ -230,13 +217,8 @@ def parse_result(raw: str, company: dict) -> dict:
         m = re.search(rf"^{re.escape(key)}\s*:\s*(.+)$", raw, re.MULTILINE | re.IGNORECASE)
         return m.group(1).strip() if m else ""
 
-    tier_raw = field("TIER").upper()
-    if "1" in tier_raw:
-        tier = "Tier 1"
-    elif "OUT" in tier_raw:
-        tier = "Out of ICP"
-    else:
-        tier = "Tier 2"
+    icp_raw = field("ICP").upper()
+    tier = "Out of ICP" if "OUT" in icp_raw else "Eligible"
 
     sit_results = {}
     total_score = 0
@@ -263,6 +245,7 @@ def parse_result(raw: str, company: dict) -> dict:
 
     summary = field("SUMMARY")
 
+    # Aggregate for HTML / Stage 2
     sit_labels = [
         f"{k}: {sit_results[k]['status']} ({sit_results[k]['pts']}pts)"
         for k in SIT_KEYS
@@ -375,7 +358,7 @@ tbody td{{padding:9px 8px;vertical-align:top;color:#d1d5db}}
 </div>
 <div class="stats">
   <div class="sc"><div class="v">{scanned}</div><div class="l">Scanned</div></div>
-  <div class="sc"><div class="v">{tier1}</div><div class="l">Tier 1</div></div>
+  <div class="sc"><div class="v">{tier1}</div><div class="l">Eligible</div></div>
   <div class="sc"><div class="v">{top_n}</div><div class="l">→ Stage 2</div></div>
   <div class="sc"><div class="v">{avg_score}</div><div class="l">Avg Score</div></div>
 </div>
@@ -406,7 +389,7 @@ def badge(status: str) -> str:
 
 def build_html(results: list[dict], batch_meta: dict) -> str:
     date_str   = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
-    tier1_rows = [r for r in results if r["tier"] == "Tier 1"]
+    tier1_rows = [r for r in results if r["tier"] == "Eligible"]
     top_n      = min(TOP_N_FOR_STAGE2, len(tier1_rows))
     top_set    = set(id(r) for r in tier1_rows[:top_n])
     avg        = round(sum(r["_score_int"] for r in results) / max(len(results), 1), 1)
@@ -418,16 +401,17 @@ def build_html(results: list[dict], batch_meta: dict) -> str:
         bar    = min(100, int(score / 40 * 100))
         marker = "🥇 " if is_top else ""
         hl     = "hl" if is_top else ""
-        tc     = {"Tier 1": "t1", "Tier 2": "t2"}.get(row["tier"], "tout")
-        tl_map = {"Tier 1": '<span style="font-weight:600;color:#60a5fa">★ T1</span>',
-                  "Tier 2": '<span style="font-weight:600;color:#4b5563">T2</span>'}
-        tl     = tl_map.get(row["tier"], '<span style="color:#374151">OUT</span>')
+        tc     = "t1" if row["tier"] == "Eligible" else "tout"
+        tl_map = {"Eligible": '<span style="font-weight:600;color:#60a5fa">✓</span>',
+                  "Out of ICP": '<span style="color:#374151">OUT</span>'}
+        tl     = tl_map.get(row["tier"], '<span style="color:#374151">—</span>')
 
         sits_html = "".join(
             sit_chip(k, row["_situations"][k]["status"], row["_situations"][k]["pts"])
             for k in SIT_KEYS
         )
 
+        # Top signal: first non-none MP or SG signal, then any
         top_sig = ""
         for k in ["MP", "SG", "RC", "SCD"]:
             s = row["_situations"][k]["signal"]
@@ -509,8 +493,9 @@ def main():
             log.info(f"  Sleeping {SLEEP_BETWEEN}s …")
             time.sleep(SLEEP_BETWEEN)
 
+    # Sort: Tier 1 first, then by score
     results.sort(key=lambda r: (
-        0 if r["tier"] == "Tier 1" else (1 if r["tier"] == "Tier 2" else 2),
+        0 if r["tier"] != "Out of ICP" else 1,
         -r["_score_int"],
     ))
 
@@ -541,40 +526,16 @@ def main():
     html_path.write_text(html, encoding="utf-8")
     log.info(f"Stage 1 chart → {html_path}")
 
-    tier1_only = [r for r in results if r.get("tier") == "Tier 1"]
-    tier2_only = [r for r in results if r.get("tier") == "Tier 2"]
+    # Top N by score → Stage 2 (OUT-of-ICP companies excluded, all others sorted by score).
+    eligible      = [r for r in results if r["tier"] != "Out of ICP"]
+    top_companies = eligible[:TOP_N_FOR_STAGE2]
 
-    # ── Primary pool: top N Tier 1, fill from Tier 2 if needed ──────────────
-    primary = tier1_only[:TOP_N_FOR_STAGE2]
-    if len(primary) < TOP_N_FOR_STAGE2:
-        primary += tier2_only[: TOP_N_FOR_STAGE2 - len(primary)]
-
-    # ── Reserve pool: next N after primary ───────────────────────────────────
-    primary_names = {r["company"] for r in primary}
-    reserve = [r for r in tier1_only + tier2_only
-               if r["company"] not in primary_names][:RESERVE_N_FOR_STAGE2]
-
-    # Tag each entry so Stage 2 knows its role
-    for idx, r in enumerate(primary):
-        r["_priority"]      = "primary"
-        r["_priority_rank"] = idx + 1
-
-    for idx, r in enumerate(reserve):
-        r["_priority"]      = "reserve"
-        r["_priority_rank"] = idx + 1
-
-    all_stage2 = primary + reserve
-
-    log.info(f"Stage 2 input ({len(primary)} primary + {len(reserve)} reserve):")
-    log.info("  PRIMARY:")
-    for r in primary:
-        log.info(f"  -> {r['company']:35s} | {r.get('_score_int', '?')}/40")
-    log.info("  RESERVE (substitution pool):")
-    for r in reserve:
-        log.info(f"     {r['company']:35s} | {r.get('_score_int', '?')}/40")
+    log.info(f"Stage 2 input ({len(top_companies)} companies):")
+    for r in top_companies:
+        log.info(f"  → {r['company']:35s} | {r['_score_int']}/40")
 
     stage2_path = OUTPUT_DIR / "stage2_input.json"
-    stage2_path.write_text(json.dumps(all_stage2, ensure_ascii=False, indent=2))
+    stage2_path.write_text(json.dumps(top_companies, ensure_ascii=False, indent=2))
     log.info(f"Stage 2 input saved → {stage2_path}")
 
     return html_path, stage2_path
