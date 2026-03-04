@@ -35,6 +35,8 @@ GEMINI_MODEL       = "gemini-2.0-flash"
 COMPANIES_PER_WEEK = 5   # ↑ was 20 — covers 500-co list every 5 weeks
 SLEEP_BETWEEN      = 10    # ↓ was 15 — safe at ~6 RPM; saves ~8 min over 100 calls
 TOP_N_FOR_STAGE2   = 2    # ↑ was 5 — doubles weekly deep-scan coverage
+RESERVE_N_FOR_STAGE2 = 10 # backup pool; Stage 2 draws from this if a primary
+                            # turns out to be a false signal after deep scan
 TODAY              = datetime.utcnow().strftime("%Y-%m-%d")
 
 COMPANIES_FILE = CONFIG_DIR / "companies.xlsx"
@@ -539,18 +541,40 @@ def main():
     html_path.write_text(html, encoding="utf-8")
     log.info(f"Stage 1 chart → {html_path}")
 
-    tier1_only    = [r for r in results if r["tier"] == "Tier 1"]
-    top_companies = tier1_only[:TOP_N_FOR_STAGE2]
-    if len(top_companies) < TOP_N_FOR_STAGE2:
-        tier2_fill = [r for r in results if r["tier"] == "Tier 2"]
-        top_companies += tier2_fill[:TOP_N_FOR_STAGE2 - len(top_companies)]
+    tier1_only = [r for r in results if r.get("tier") == "Tier 1"]
+    tier2_only = [r for r in results if r.get("tier") == "Tier 2"]
 
-    log.info(f"Stage 2 input ({len(top_companies)} companies):")
-    for r in top_companies:
-        log.info(f"  → {r['company']:35s} | {r['_score_int']}/40")
+    # ── Primary pool: top N Tier 1, fill from Tier 2 if needed ──────────────
+    primary = tier1_only[:TOP_N_FOR_STAGE2]
+    if len(primary) < TOP_N_FOR_STAGE2:
+        primary += tier2_only[: TOP_N_FOR_STAGE2 - len(primary)]
+
+    # ── Reserve pool: next N after primary ───────────────────────────────────
+    primary_names = {r["company"] for r in primary}
+    reserve = [r for r in tier1_only + tier2_only
+               if r["company"] not in primary_names][:RESERVE_N_FOR_STAGE2]
+
+    # Tag each entry so Stage 2 knows its role
+    for idx, r in enumerate(primary):
+        r["_priority"]      = "primary"
+        r["_priority_rank"] = idx + 1
+
+    for idx, r in enumerate(reserve):
+        r["_priority"]      = "reserve"
+        r["_priority_rank"] = idx + 1
+
+    all_stage2 = primary + reserve
+
+    log.info(f"Stage 2 input ({len(primary)} primary + {len(reserve)} reserve):")
+    log.info("  PRIMARY:")
+    for r in primary:
+        log.info(f"  -> {r['company']:35s} | {r.get('_score_int', '?')}/40")
+    log.info("  RESERVE (substitution pool):")
+    for r in reserve:
+        log.info(f"     {r['company']:35s} | {r.get('_score_int', '?')}/40")
 
     stage2_path = OUTPUT_DIR / "stage2_input.json"
-    stage2_path.write_text(json.dumps(top_companies, ensure_ascii=False, indent=2))
+    stage2_path.write_text(json.dumps(all_stage2, ensure_ascii=False, indent=2))
     log.info(f"Stage 2 input saved → {stage2_path}")
 
     return html_path, stage2_path
