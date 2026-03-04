@@ -778,7 +778,7 @@ def send_email(html: str, attachment: Path):
     smtp_user = os.environ["GMAIL_ADDRESS"]
     smtp_pass = os.environ["GMAIL_APP_PASSWORD"]
     to_addr   = os.environ["RECIPIENT_EMAIL"]
-    subject   = f"XIMPAX Weekly Intelligence Report - {datetime.utcnow().strftime('%d %b %Y')}"
+    subject = f"XIMPAX Weekly Intelligence Report | {datetime.utcnow().strftime('%Y-%m-%d')}"
 
     msg         = MIMEMultipart("mixed")
     msg["From"] = smtp_user
