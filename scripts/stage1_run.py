@@ -32,9 +32,9 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 GEMINI_MODEL       = "gemini-2.0-flash"
-COMPANIES_PER_WEEK = 100   # ↑ was 20 — covers 500-co list every 5 weeks
+COMPANIES_PER_WEEK = 5   # ↑ was 20 — covers 500-co list every 5 weeks
 SLEEP_BETWEEN      = 10    # ↓ was 15 — safe at ~6 RPM; saves ~8 min over 100 calls
-TOP_N_FOR_STAGE2   = 10    # ↑ was 5 — doubles weekly deep-scan coverage
+TOP_N_FOR_STAGE2   = 2    # ↑ was 5 — doubles weekly deep-scan coverage
 TODAY              = datetime.utcnow().strftime("%Y-%m-%d")
 
 COMPANIES_FILE = CONFIG_DIR / "companies.xlsx"
