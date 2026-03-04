@@ -1,12 +1,17 @@
 {
-  "next_offset": 520,
+  "next_offset": 530,
   "last_run_date": "2026-03-04",
   "last_run_companies": [
-    "Novasep (now PharmaZell/Axplora Hub)",
-    "Kem One (Global HQ)",
-    "Vencorex (Global HQ)",
-    "SBM Life Science",
-    "Marie Brizard Wine & Spirits"
+    "Blédina (Danone Hub)",
+    "Aoste (Campofrio Food Group)",
+    "Pochet Group",
+    "Aenova Group (Global HQ)",
+    "Wörwag Pharma",
+    "Stada Arzneimittel (Regional Ops/Hub)",
+    "Biontech (Marburg / Regional Hubs)",
+    "Wieland Group",
+    "Mann+Hummel",
+    "Hansgrohe Group"
   ],
-  "total_processed_all_time": 520
+  "total_processed_all_time": 530
 }
