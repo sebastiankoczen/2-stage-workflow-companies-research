@@ -1,325 +1,31 @@
 [
   {
-    "company": "Mahle GmbH (Global HQ)",
-    "hq_country": "Stuttgart, BW, DE",
-    "industry": "Automotive Components",
-    "revenue": "Approx. ~$13.5B",
-    "situations": "RC: CONFIRMED (10pts) | MP: CONFIRMED (10pts) | SG: UNCLEAR (3pts) | SCD: LIKELY (6pts)",
-    "classification": "CONFIRMED",
-    "priority_score": "RC:10 | MP:10 | SG:3 | SCD:6 = 29/40",
-    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Quantified cost-out / savings program (value + timeframe) • SG: Entry into multiple new geographies/channels requiring operational redesign • SCD: Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)",
-    "sources": "Earnings transcript; investor deck; Investor deck; earnings call transcript; annual report; Investor deck; annual report; press release; Press release; earnings call transcript",
-    "summary": "Mahle GmbH is facing resource constraints and margin pressure, leading to restructuring and cost-saving initiatives, including job cuts. The company is also undergoing a strategic overhaul to focus on electrification and thermal management, while navigating supply chain disruptions and market challenges.",
-    "tier": "Tier 1",
-    "_score_int": 29,
-    "_frequency": 1,
-    "_raw": "COMPANY: Mahle GmbH (Global HQ)\nTIER: 1\n\nRC: CONFIRMED | 10 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript; investor deck\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Quantified cost-out / savings program (value + timeframe)\nMP_SOURCE: Investor deck; earnings call transcript; annual report\n\nSG: UNCLEAR | 3 pts\nSG_SIGNAL: Entry into multiple new geographies/channels requiring operational redesign\nSG_SOURCE: Investor deck; annual report; press release\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)\nSCD_SOURCE: Press release; earnings call transcript\n\nTOTAL: 29/40\nSUMMARY: Mahle GmbH is facing resource constraints and margin pressure, leading to restructuring and cost-saving initiatives, including job cuts. The company is also undergoing a strategic overhaul to focus on electrification and thermal management, while navigating supply chain disruptions and market challenges.\n",
-    "_situations": {
-      "RC": {
-        "status": "CONFIRMED",
-        "pts": 10,
-        "signal": "Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”",
-        "source": "Earnings transcript; investor deck"
-      },
-      "MP": {
-        "status": "CONFIRMED",
-        "pts": 10,
-        "signal": "Quantified cost-out / savings program (value + timeframe)",
-        "source": "Investor deck; earnings call transcript; annual report"
-      },
-      "SG": {
-        "status": "UNCLEAR",
-        "pts": 3,
-        "signal": "Entry into multiple new geographies/channels requiring operational redesign",
-        "source": "Investor deck; annual report; press release"
-      },
-      "SCD": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)",
-        "source": "Press release; earnings call transcript"
-      }
-    }
-  },
-  {
-    "company": "Buzzi Unicem",
-    "hq_country": "Casale Monferrato, IT",
-    "industry": "Cement",
-    "revenue": "Approx. ~$4.0B",
-    "situations": "RC: CONFIRMED (7pts) | MP: LIKELY (6pts) | SG: LIKELY (6pts) | SCD: CONFIRMED (10pts)",
-    "classification": "CONFIRMED",
-    "priority_score": "RC:7 | MP:6 | SG:6 | SCD:10 = 29/40",
-    "key_evidence": "RC: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage” • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: Production shutdown due to material shortage / supplier failure",
-    "sources": "[Buzzi SpA, June 30 2025]; [International Cement Review, Feb 27 2026]; [Global Cement, Feb 05 2026]",
-    "summary": "Buzzi Unicem is facing supply chain disruptions due to a worker death at a plant in Italy. Despite this, Buzzi Unicem is undertaking a major capacity expansion at its Maryneal, Texas plant. The company's EBITDA margin has declined.",
-    "tier": "Tier 1",
-    "_score_int": 29,
-    "_frequency": 1,
-    "_raw": "COMPANY: Buzzi Unicem\nTIER: 1\n\nRC: CONFIRMED | 7 pts\nRC_SIGNAL: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: none\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: [Buzzi SpA, June 30 2025]\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: [International Cement Review, Feb 27 2026]\n\nSCD: CONFIRMED | 10 pts\nSCD_SIGNAL: Production shutdown due to material shortage / supplier failure\nSCD_SOURCE: [Global Cement, Feb 05 2026]\n\nTOTAL: 29/40\nSUMMARY: Buzzi Unicem is facing supply chain disruptions due to a worker death at a plant in Italy. Despite this, Buzzi Unicem is undertaking a major capacity expansion at its Maryneal, Texas plant. The company's EBITDA margin has declined.",
-    "_situations": {
-      "RC": {
-        "status": "CONFIRMED",
-        "pts": 7,
-        "signal": "Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage”",
-        "source": "none"
-      },
-      "MP": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "[Buzzi SpA, June 30 2025]"
-      },
-      "SG": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "[International Cement Review, Feb 27 2026]"
-      },
-      "SCD": {
-        "status": "CONFIRMED",
-        "pts": 10,
-        "signal": "Production shutdown due to material shortage / supplier failure",
-        "source": "[Global Cement, Feb 05 2026]"
-      }
-    }
-  },
-  {
-    "company": "Knorr-Bremse AG (Global HQ)",
-    "hq_country": "Munich, BY, DE",
-    "industry": "Rail / Commercial Vehicles",
-    "revenue": "Approx. ~$8.0B",
-    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts) | SG: CONFIRMED (8pts)",
-    "classification": "CONFIRMED",
-    "priority_score": "RC:6 | MP:10 | SG:8 | SCD:0 = 24/40",
-    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Quantified cost-out / savings program (value + timeframe) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-    "sources": "Earnings transcript [assumed, based on content]; Investor deck; earnings call transcript; annual report [assumed, based on content]; Press release; investor deck [assumed, based on content]",
-    "summary": "Knorr-Bremse is showing signals of margin pressure and significant growth. The company is implementing a cost-cutting program and restructuring efforts, including potential job cuts and production relocations, while also making strategic acquisitions and expanding its rail signaling operations. The BOOST 2026 program is focused on operational streamlining and long-term profitability.",
-    "tier": "Tier 1",
-    "_score_int": 24,
-    "_frequency": 1,
-    "_raw": "COMPANY: Knorr-Bremse AG (Global HQ)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript [assumed, based on content]\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Quantified cost-out / savings program (value + timeframe)\nMP_SOURCE: Investor deck; earnings call transcript; annual report [assumed, based on content]\n\nSG: CONFIRMED | 8 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck [assumed, based on content]\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 24/40\nSUMMARY: Knorr-Bremse is showing signals of margin pressure and significant growth. The company is implementing a cost-cutting program and restructuring efforts, including potential job cuts and production relocations, while also making strategic acquisitions and expanding its rail signaling operations. The BOOST 2026 program is focused on operational streamlining and long-term profitability.\n",
-    "_situations": {
-      "RC": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”",
-        "source": "Earnings transcript [assumed, based on content]"
-      },
-      "MP": {
-        "status": "CONFIRMED",
-        "pts": 10,
-        "signal": "Quantified cost-out / savings program (value + timeframe)",
-        "source": "Investor deck; earnings call transcript; annual report [assumed, based on content]"
-      },
-      "SG": {
-        "status": "CONFIRMED",
-        "pts": 8,
-        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "Press release; investor deck [assumed, based on content]"
-      },
-      "SCD": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      }
-    }
-  },
-  {
-    "company": "Bracco Diagnostics",
-    "hq_country": "Milan, IT",
-    "industry": "Diagnostic Contrast Media",
-    "revenue": "Approx. ~$1.0B",
-    "situations": "RC: LIKELY (6pts) | MP: UNCLEAR (3pts) | SG: LIKELY (6pts) | SCD: LIKELY (7pts)",
+    "company": "Vencorex (Global HQ)",
+    "hq_country": "Pierre-Bénite, FR",
+    "industry": "Isocyanates / Chemicals",
+    "revenue": "Approx. ~$0.5B",
+    "situations": "RC: LIKELY (6pts) | MP: UNCLEAR (3pts) | SG: LIKELY (7pts) | SCD: LIKELY (6pts)",
     "classification": "LIKELY",
-    "priority_score": "RC:6 | MP:3 | SG:6 | SCD:7 = 22/40",
-    "key_evidence": "RC: Urgent hiring for SC/Proc roles (“urgent”, “immediate start”, “critical hire”) • MP: Input costs / inflation described as headwind without quantified structural margin impact • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: Recall / quality crisis causing supply interruption",
-    "sources": "Bracco Careers - Myworkdayjobs.com and Director, Procurement Strategic Sourcing - BDI – Bracco Diagnostics Inc – Job Princeton; Bracco Media and News and Life-Sciences-Europe.com; AuntMinnie",
-    "summary": "Bracco Diagnostics shows signals of likely resource constraints, significant growth, and supply chain disruption. There is a recent recall of Isovue prefilled syringes. Bracco is expanding into cell therapy manufacturing and has announced a new manufacturing facility in Geneva to triple production of an ultrasound contrast agent. There is also urgent hiring for supply chain and procurement roles.",
+    "priority_score": "RC:6 | MP:3 | SG:7 | SCD:6 = 22/40",
+    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Input costs / inflation described as headwind without quantified structural margin impact • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: Production shutdown due to material shortage / supplier failure",
+    "sources": "Earnings transcript; investor deck; Annual report; earnings call; Press release; investor deck; Press release; trade media; investor comms",
+    "summary": "Vencorex faces likely resource constraints, as evidenced by management statements. There are signs of significant growth with major capacity expansion plans. Supply chain disruptions are also likely, indicated by production shutdowns.",
     "tier": "Tier 1",
     "_score_int": 22,
     "_frequency": 1,
-    "_raw": "Okay, I will analyze Bracco Diagnostics based on the provided information and the search results, focusing on evidence from the last 12 months (after 2026-03-01).\n\nOkay, I have reviewed the search results. Here's my assessment of Bracco Diagnostics:\n\nCOMPANY: Bracco Diagnostics\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Urgent hiring for SC/Proc roles (“urgent”, “immediate start”, “critical hire”)\nRC_SOURCE: Bracco Careers - Myworkdayjobs.com and Director, Procurement Strategic Sourcing - BDI – Bracco Diagnostics Inc – Job Princeton\n\nMP: UNCLEAR | 3 pts\nMP_SIGNAL: Input costs / inflation described as headwind without quantified structural margin impact\nMP_SOURCE: None\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Bracco Media and News and Life-Sciences-Europe.com\n\nSCD: LIKELY | 7 pts\nSCD_SIGNAL: Recall / quality crisis causing supply interruption\nSCD_SOURCE: AuntMinnie\n\nTOTAL: 22/40\nSUMMARY: Bracco Diagnostics shows signals of likely resource constraints, significant growth, and supply chain disruption. There is a recent recall of Isovue prefilled syringes. Bracco is expanding into cell therapy manufacturing and has announced a new manufacturing facility in Geneva to triple production of an ultrasound contrast agent. There is also urgent hiring for supply chain and procurement roles.\n",
+    "_raw": "COMPANY: Vencorex (Global HQ)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript; investor deck\n\nMP: UNCLEAR | 3 pts\nMP_SIGNAL: Input costs / inflation described as headwind without quantified structural margin impact\nMP_SOURCE: Annual report; earnings call\n\nSG: LIKELY | 7 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Production shutdown due to material shortage / supplier failure\nSCD_SOURCE: Press release; trade media; investor comms\n\nTOTAL: 22/40\nSUMMARY: Vencorex faces likely resource constraints, as evidenced by management statements. There are signs of significant growth with major capacity expansion plans. Supply chain disruptions are also likely, indicated by production shutdowns.\n",
     "_situations": {
       "RC": {
         "status": "LIKELY",
         "pts": 6,
-        "signal": "Urgent hiring for SC/Proc roles (“urgent”, “immediate start”, “critical hire”)",
-        "source": "Bracco Careers - Myworkdayjobs.com and Director, Procurement Strategic Sourcing - BDI – Bracco Diagnostics Inc – Job Princeton"
+        "signal": "Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”",
+        "source": "Earnings transcript; investor deck"
       },
       "MP": {
         "status": "UNCLEAR",
         "pts": 3,
         "signal": "Input costs / inflation described as headwind without quantified structural margin impact",
-        "source": "None"
-      },
-      "SG": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "Bracco Media and News and Life-Sciences-Europe.com"
-      },
-      "SCD": {
-        "status": "LIKELY",
-        "pts": 7,
-        "signal": "Recall / quality crisis causing supply interruption",
-        "source": "AuntMinnie"
-      }
-    }
-  },
-  {
-    "company": "Sanpellegrino (Nestlé Waters IT)",
-    "hq_country": "Milan, IT",
-    "industry": "Beverages (Water)",
-    "revenue": "Approx. ~$1.2B",
-    "situations": "RC: LIKELY (6pts) | MP: LIKELY (7pts) | SG: UNCLEAR (3pts) | SCD: LIKELY (6pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:6 | MP:7 | SG:3 | SCD:6 = 22/40",
-    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: Recall / quality crisis causing supply interruption",
-    "sources": "Intellizence, February 2026; RetailDetail EU, January 2026; Food Navigator, January 2026; FDA, February 2026",
-    "summary": "Sanpellegrino, as part of Nestlé Waters, faces resource constraints due to restructuring and job cuts. The company is experiencing margin pressure, which is contributing to the decision to sell a stake in the water division. There are also supply chain disruptions due to recalls.",
-    "tier": "Tier 1",
-    "_score_int": 22,
-    "_frequency": 1,
-    "_raw": "COMPANY: Sanpellegrino (Nestlé Waters IT)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Intellizence, February 2026\n\nMP: LIKELY | 7 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: RetailDetail EU, January 2026\n\nSG: UNCLEAR | 3 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Food Navigator, January 2026\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Recall / quality crisis causing supply interruption\nSCD_SOURCE: FDA, February 2026\n\nTOTAL: 22/40\nSUMMARY: Sanpellegrino, as part of Nestlé Waters, faces resource constraints due to restructuring and job cuts. The company is experiencing margin pressure, which is contributing to the decision to sell a stake in the water division. There are also supply chain disruptions due to recalls.\n",
-    "_situations": {
-      "RC": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”",
-        "source": "Intellizence, February 2026"
-      },
-      "MP": {
-        "status": "LIKELY",
-        "pts": 7,
-        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "RetailDetail EU, January 2026"
-      },
-      "SG": {
-        "status": "UNCLEAR",
-        "pts": 3,
-        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "Food Navigator, January 2026"
-      },
-      "SCD": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Recall / quality crisis causing supply interruption",
-        "source": "FDA, February 2026"
-      }
-    }
-  },
-  {
-    "company": "SEB Groupe (Global HQ)",
-    "hq_country": "Écully, FR",
-    "industry": "Small Appliances",
-    "revenue": "Approx. ~$8.5B",
-    "situations": "RC: CONFIRMED (10pts) | MP: CONFIRMED (10pts)",
-    "classification": "CONFIRMED",
-    "priority_score": "RC:10 | MP:10 | SG:0 | SCD:0 = 20/40",
-    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-    "sources": "[actu.fr Feb 2026]; [Modern Ghana Feb 2026]",
-    "summary": "SEB Groupe is undergoing a major restructuring plan due to declining growth and profitability, which includes the elimination of up to 2,100 jobs globally. The company is facing pressures from an increasingly competitive landscape, and its operating income has fallen. The restructuring is intended to restore profitability and adapt to market changes.",
-    "tier": "Tier 1",
-    "_score_int": 20,
-    "_frequency": 1,
-    "_raw": "COMPANY: SEB Groupe (Global HQ)\nTIER: 1\n\nRC: CONFIRMED | 10 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: [actu.fr Feb 2026]\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: [Modern Ghana Feb 2026]\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 20/40\nSUMMARY: SEB Groupe is undergoing a major restructuring plan due to declining growth and profitability, which includes the elimination of up to 2,100 jobs globally. The company is facing pressures from an increasingly competitive landscape, and its operating income has fallen. The restructuring is intended to restore profitability and adapt to market changes.\n",
-    "_situations": {
-      "RC": {
-        "status": "CONFIRMED",
-        "pts": 10,
-        "signal": "Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”",
-        "source": "[actu.fr Feb 2026]"
-      },
-      "MP": {
-        "status": "CONFIRMED",
-        "pts": 10,
-        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "[Modern Ghana Feb 2026]"
-      },
-      "SG": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      },
-      "SCD": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      }
-    }
-  },
-  {
-    "company": "TRUMPF Group (Global HQ)",
-    "hq_country": "Ditzingen, BW, DE",
-    "industry": "Machine Tools / Lasers",
-    "revenue": "Approx. ~$5.5B",
-    "situations": "RC: LIKELY (6pts) | MP: LIKELY (7pts) | SG: LIKELY (6pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:6 | MP:7 | SG:6 | SCD:0 = 19/40",
-    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-    "sources": "Earnings transcript; investor deck; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; investor deck",
-    "summary": "TRUMPF Group is facing resource constraints and margin pressure due to the global economic slowdown, which has led to a decline in revenue and order intake. Despite these challenges, TRUMPF is investing in the modernization of its production site in Haguenau to strengthen quality and competitiveness. The company is also seeing opportunities in specific markets like electromobility and semiconductors.",
-    "tier": "Tier 1",
-    "_score_int": 19,
-    "_frequency": 1,
-    "_raw": "COMPANY: TRUMPF Group (Global HQ)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript; investor deck\n\nMP: LIKELY | 7 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 19/40\nSUMMARY: TRUMPF Group is facing resource constraints and margin pressure due to the global economic slowdown, which has led to a decline in revenue and order intake. Despite these challenges, TRUMPF is investing in the modernization of its production site in Haguenau to strengthen quality and competitiveness. The company is also seeing opportunities in specific markets like electromobility and semiconductors.\n",
-    "_situations": {
-      "RC": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”",
-        "source": "Earnings transcript; investor deck"
-      },
-      "MP": {
-        "status": "LIKELY",
-        "pts": 7,
-        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
-      },
-      "SG": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "Press release; investor deck"
-      },
-      "SCD": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      }
-    }
-  },
-  {
-    "company": "Biesse Group (Lombardy Hub)",
-    "hq_country": "Pesaro, IT",
-    "industry": "Woodworking Machinery",
-    "revenue": "Approx. ~$0.8B",
-    "situations": "RC: LIKELY (6pts) | MP: LIKELY (6pts) | SG: LIKELY (7pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:6 | MP:6 | SG:7 | SCD:0 = 19/40",
-    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-    "sources": "Earnings transcript; investor deck; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; investor deck",
-    "summary": "Biesse Group is facing resource constraints, as indicated by management statements. The company is also experiencing margin pressure, with reported declines in gross and EBITDA margins. Despite these challenges, Biesse Group is undertaking significant growth initiatives, including capacity expansion and new facility openings. There is no evidence of supply chain disruptions.",
-    "tier": "Tier 1",
-    "_score_int": 19,
-    "_frequency": 1,
-    "_raw": "COMPANY: Biesse Group (Lombardy Hub)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript; investor deck\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: LIKELY | 7 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 19/40\nSUMMARY: Biesse Group is facing resource constraints, as indicated by management statements. The company is also experiencing margin pressure, with reported declines in gross and EBITDA margins. Despite these challenges, Biesse Group is undertaking significant growth initiatives, including capacity expansion and new facility openings. There is no evidence of supply chain disruptions.\n",
-    "_situations": {
-      "RC": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”",
-        "source": "Earnings transcript; investor deck"
-      },
-      "MP": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
+        "source": "Annual report; earnings call"
       },
       "SG": {
         "status": "LIKELY",
@@ -328,28 +34,28 @@
         "source": "Press release; investor deck"
       },
       "SCD": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Production shutdown due to material shortage / supplier failure",
+        "source": "Press release; trade media; investor comms"
       }
     }
   },
   {
-    "company": "Salini Impregilo (WeBuild)",
-    "hq_country": "Milan, IT",
-    "industry": "Construction",
-    "revenue": "Approx. ~$8.0B",
-    "situations": "MP: CONFIRMED (8pts) | SG: CONFIRMED (8pts)",
-    "classification": "CONFIRMED",
-    "priority_score": "RC:1 | MP:8 | SG:8 | SCD:0 = 17/40",
-    "key_evidence": "MP: Revenue growth to €12.0 billion-€13.0 billion in 2025 and 2026, and about €13.0 billion in 2027 • SG: Orders acquired since the start of the year amounted to €9.3 billion, bringing total order intake for the 2023-2025 period to approximately €45 billion",
-    "sources": "S&P Global Ratings, 2025-11-03; Webuild Group, 2025-11-13",
-    "summary": "Webuild shows strong financial performance with revenue growth and a substantial order backlog. S&P Global Ratings anticipates Webuild will continue to deliver EBITDA growth in 2025-2027, supported by strong visibility from its order backlog, disciplined contract management, and the positive impact of its cost-efficiency program. The company's commercial pipeline reached €76.7 billion, including ~€18.5 billion in submitted tenders and ~€14.4 billion in preparation, with many outcomes expected in 2026.",
+    "company": "Marie Brizard Wine & Spirits",
+    "hq_country": "Bordeaux, FR",
+    "industry": "Spirits / Liqueurs",
+    "revenue": "Approx. ~$0.4B",
+    "situations": "MP: LIKELY (6pts) | SG: LIKELY (6pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:1 | MP:6 | SG:6 | SCD:1 = 14/40",
+    "key_evidence": "MP: Quantified cost-out / savings program (value + timeframe) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+    "sources": "PortersFiveForce.com, 2025-12-28",
+    "summary": "Marie Brizard Wine & Spirits is experiencing margin pressure and is undertaking initiatives to improve profitability, including a 5% reduction in logistics costs through AI systems. The company is also pursuing a growth strategy, including acquisitions and expansion into the Asia-Pacific region. However, the company has faced revenue declines in France due to delisting of the William Peel brand and destocking by distributors.",
     "tier": "Tier 1",
-    "_score_int": 17,
+    "_score_int": 14,
     "_frequency": 1,
-    "_raw": "COMPANY: Salini Impregilo (WeBuild)\nTIER: 1\n\nRC: NOT PRESENT | 1 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: CONFIRMED | 8 pts\nMP_SIGNAL: Revenue growth to €12.0 billion-€13.0 billion in 2025 and 2026, and about €13.0 billion in 2027\nMP_SOURCE: S&P Global Ratings, 2025-11-03\n\nSG: CONFIRMED | 8 pts\nSG_SIGNAL: Orders acquired since the start of the year amounted to €9.3 billion, bringing total order intake for the 2023-2025 period to approximately €45 billion\nSG_SOURCE: Webuild Group, 2025-11-13\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 17/40\nSUMMARY: Webuild shows strong financial performance with revenue growth and a substantial order backlog. S&P Global Ratings anticipates Webuild will continue to deliver EBITDA growth in 2025-2027, supported by strong visibility from its order backlog, disciplined contract management, and the positive impact of its cost-efficiency program. The company's commercial pipeline reached €76.7 billion, including ~€18.5 billion in submitted tenders and ~€14.4 billion in preparation, with many outcomes expected in 2026.\n",
+    "_raw": "COMPANY: Marie Brizard Wine & Spirits\nTIER: 1\n\nRC: NOT PRESENT | 1 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Quantified cost-out / savings program (value + timeframe)\nMP_SOURCE: PortersFiveForce.com, 2025-12-28\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: PortersFiveForce.com, 2025-12-28\n\nSCD: NOT PRESENT | 1 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 14/40\nSUMMARY: Marie Brizard Wine & Spirits is experiencing margin pressure and is undertaking initiatives to improve profitability, including a 5% reduction in logistics costs through AI systems. The company is also pursuing a growth strategy, including acquisitions and expansion into the Asia-Pacific region. However, the company has faced revenue declines in France due to delisting of the William Peel brand and destocking by distributors.\n",
     "_situations": {
       "RC": {
         "status": "NOT PRESENT",
@@ -358,62 +64,20 @@
         "source": "none"
       },
       "MP": {
-        "status": "CONFIRMED",
-        "pts": 8,
-        "signal": "Revenue growth to €12.0 billion-€13.0 billion in 2025 and 2026, and about €13.0 billion in 2027",
-        "source": "S&P Global Ratings, 2025-11-03"
-      },
-      "SG": {
-        "status": "CONFIRMED",
-        "pts": 8,
-        "signal": "Orders acquired since the start of the year amounted to €9.3 billion, bringing total order intake for the 2023-2025 period to approximately €45 billion",
-        "source": "Webuild Group, 2025-11-13"
-      },
-      "SCD": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      }
-    }
-  },
-  {
-    "company": "Brose Fahrzeugteile",
-    "hq_country": "Coburg, BY, DE",
-    "industry": "Automotive Components",
-    "revenue": "Approx. ~$7.5B",
-    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (8pts) | SG: UNCLEAR (3pts)",
-    "classification": "CONFIRMED",
-    "priority_score": "RC:6 | MP:8 | SG:3 | SCD:0 = 17/40",
-    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: M&A integration / carve-out execution program active",
-    "sources": "Earnings transcript [hypothetical]; Annual report / 10-K / 20-F; quarterly results; earnings transcript [hypothetical]; Press release; investor announcement [hypothetical]",
-    "summary": "Brose Fahrzeugteile is facing margin pressure due to declining sales and restructuring costs, leading to cost-cutting measures including job reductions. The company is also undergoing restructuring and has made some acquisitions.",
-    "tier": "Tier 1",
-    "_score_int": 17,
-    "_frequency": 1,
-    "_raw": "COMPANY: Brose Fahrzeugteile\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript [hypothetical]\n\nMP: CONFIRMED | 8 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript [hypothetical]\n\nSG: UNCLEAR | 3 pts\nSG_SIGNAL: M&A integration / carve-out execution program active\nSG_SOURCE: Press release; investor announcement [hypothetical]\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 17/40\nSUMMARY: Brose Fahrzeugteile is facing margin pressure due to declining sales and restructuring costs, leading to cost-cutting measures including job reductions. The company is also undergoing restructuring and has made some acquisitions.\n",
-    "_situations": {
-      "RC": {
         "status": "LIKELY",
         "pts": 6,
-        "signal": "Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”",
-        "source": "Earnings transcript [hypothetical]"
-      },
-      "MP": {
-        "status": "CONFIRMED",
-        "pts": 8,
-        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript [hypothetical]"
+        "signal": "Quantified cost-out / savings program (value + timeframe)",
+        "source": "PortersFiveForce.com, 2025-12-28"
       },
       "SG": {
-        "status": "UNCLEAR",
-        "pts": 3,
-        "signal": "M&A integration / carve-out execution program active",
-        "source": "Press release; investor announcement [hypothetical]"
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+        "source": "PortersFiveForce.com, 2025-12-28"
       },
       "SCD": {
         "status": "NOT PRESENT",
-        "pts": 0,
+        "pts": 1,
         "signal": "none",
         "source": "none"
       }
