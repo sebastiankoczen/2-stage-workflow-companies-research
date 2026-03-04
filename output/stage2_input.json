@@ -1,67 +1,155 @@
 [
   {
-    "company": "Blédina (Danone Hub)",
-    "hq_country": "Limonest, FR",
-    "industry": "Baby Nutrition",
-    "revenue": "Approx. ~$0.5B",
-    "situations": "RC: LIKELY (6pts) | MP: LIKELY (6pts) | SG: LIKELY (6pts) | SCD: LIKELY (7pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:6 | MP:6 | SG:6 | SCD:7 = 25/40",
-    "key_evidence": "RC: Plant closure affecting 117 employees • MP: Danone expects a one-off impact on Q1 performance of 0.5-1% of net sales due to supply disruption • SG: Danone is investing $4 million to expand its facility in Fort Worth, Texas, to increase production capabilities • SCD: Recall of infant formula products in Austria, Germany, and France due to potential contamination with the toxin cereulide",
-    "sources": "DairyNews, Dairy Business Middle East & Africa, IUF.org, November 2025; Danone Reports First-Quarter Sales Impact Due to Formula Recall, March 2026; Food Dive, January 2026; Investing.com, February 2026",
-    "summary": "Blédina (Danone Hub) faces resource constraints due to the closure of its infant-cereal plant in France. Margin pressure is evident from the expected impact on Q1 sales due to supply disruptions. However, Danone is also experiencing significant growth, leading to investments in expanding facilities. Supply chain disruptions are present due to recalls of infant formula products.",
+    "company": "Marelli Holdings",
+    "hq_country": "Sasso Marconi, IT",
+    "industry": "Automotive Components",
+    "revenue": "Approx. ~$14.0B",
+    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts) | SCD: CONFIRMED (10pts)",
+    "classification": "CONFIRMED",
+    "priority_score": "RC:6 | MP:10 | SG:0 | SCD:10 = 26/40",
+    "key_evidence": "RC: Urgent hiring for SC/Proc roles implied by restructuring and need for efficiency. • MP: Gross margin decline reported and discussed as structural due to tariffs and industry shifts. • SCD: Company experiences severe disruption affecting service, supply continuity, due to COVID-19 and tariffs.",
+    "sources": "[June 10 2025, Automotive Logistics]; [June 12 2025, Claims Journal]; [June 11 2025, ION Analytics]",
+    "summary": "Marelli Holdings is facing significant margin pressure and supply chain disruptions, leading to Chapter 11 proceedings. The company's restructuring is driven by factors such as tariffs, the shift to electric vehicles, and the impact of the COVID-19 pandemic. While the company is undergoing restructuring, there is no strong evidence of significant growth initiatives.",
     "tier": "Tier 1",
-    "_score_int": 25,
+    "_score_int": 26,
     "_frequency": 1,
-    "_raw": "COMPANY: Blédina (Danone Hub)\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Plant closure affecting 117 employees\nRC_SOURCE: DairyNews, Dairy Business Middle East & Africa, IUF.org, November 2025\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Danone expects a one-off impact on Q1 performance of 0.5-1% of net sales due to supply disruption\nMP_SOURCE: Danone Reports First-Quarter Sales Impact Due to Formula Recall, March 2026\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Danone is investing $4 million to expand its facility in Fort Worth, Texas, to increase production capabilities\nSG_SOURCE: Food Dive, January 2026\n\nSCD: LIKELY | 7 pts\nSCD_SIGNAL: Recall of infant formula products in Austria, Germany, and France due to potential contamination with the toxin cereulide\nSCD_SOURCE: Investing.com, February 2026\n\nTOTAL: 25/40\nSUMMARY: Blédina (Danone Hub) faces resource constraints due to the closure of its infant-cereal plant in France. Margin pressure is evident from the expected impact on Q1 sales due to supply disruptions. However, Danone is also experiencing significant growth, leading to investments in expanding facilities. Supply chain disruptions are present due to recalls of infant formula products.\n",
+    "_raw": "Okay, I will analyze Marelli Holdings based on the provided information and the search results, focusing on evidence from the last 12 months.\n\nBased on the search results and the provided situation definitions, here's my assessment of Marelli Holdings:\n\nCOMPANY: Marelli Holdings\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Urgent hiring for SC/Proc roles implied by restructuring and need for efficiency.\nRC_SOURCE: [June 10 2025, Automotive Logistics]\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin decline reported and discussed as structural due to tariffs and industry shifts.\nMP_SOURCE: [June 12 2025, Claims Journal]\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: CONFIRMED | 10 pts\nSCD_SIGNAL: Company experiences severe disruption affecting service, supply continuity, due to COVID-19 and tariffs.\nSCD_SOURCE: [June 11 2025, ION Analytics]\n\nTOTAL: 26/40\nSUMMARY: Marelli Holdings is facing significant margin pressure and supply chain disruptions, leading to Chapter 11 proceedings. The company's restructuring is driven by factors such as tariffs, the shift to electric vehicles, and the impact of the COVID-19 pandemic. While the company is undergoing restructuring, there is no strong evidence of significant growth initiatives.\n",
     "_situations": {
       "RC": {
         "status": "LIKELY",
         "pts": 6,
-        "signal": "Plant closure affecting 117 employees",
-        "source": "DairyNews, Dairy Business Middle East & Africa, IUF.org, November 2025"
+        "signal": "Urgent hiring for SC/Proc roles implied by restructuring and need for efficiency.",
+        "source": "[June 10 2025, Automotive Logistics]"
       },
       "MP": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Danone expects a one-off impact on Q1 performance of 0.5-1% of net sales due to supply disruption",
-        "source": "Danone Reports First-Quarter Sales Impact Due to Formula Recall, March 2026"
+        "status": "CONFIRMED",
+        "pts": 10,
+        "signal": "Gross margin decline reported and discussed as structural due to tariffs and industry shifts.",
+        "source": "[June 12 2025, Claims Journal]"
       },
       "SG": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Danone is investing $4 million to expand its facility in Fort Worth, Texas, to increase production capabilities",
-        "source": "Food Dive, January 2026"
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
       },
       "SCD": {
-        "status": "LIKELY",
-        "pts": 7,
-        "signal": "Recall of infant formula products in Austria, Germany, and France due to potential contamination with the toxin cereulide",
-        "source": "Investing.com, February 2026"
+        "status": "CONFIRMED",
+        "pts": 10,
+        "signal": "Company experiences severe disruption affecting service, supply continuity, due to COVID-19 and tariffs.",
+        "source": "[June 11 2025, ION Analytics]"
       }
     },
     "_priority": "primary",
     "_priority_rank": 1
   },
   {
-    "company": "Aoste (Campofrio Food Group)",
-    "hq_country": "Saint-Quentin-Fallavier, FR",
-    "industry": "Processed Meats",
-    "revenue": "Approx. ~$0.5B",
-    "situations": "MP: LIKELY (6pts) | SG: LIKELY (6pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:0 | MP:6 | SG:6 | SCD:0 = 12/40",
-    "key_evidence": "MP: Quantified cost-out / savings program (value + timeframe) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-    "sources": "RIA - L'actualité de l'industrie agroalimentaire, 2026-02-18",
-    "summary": "Aoste (Campofrio Food Group) is facing margin pressure and is undertaking a cost savings program. The company is also experiencing significant growth, leading to capacity expansion in its plants to increase production of snacking products. Aoste is investing 8 million euros in two of its factories to increase production of aperitif sausages and 9 million to decarbonize its Aoste site.",
+    "company": "Shiseido",
+    "hq_country": "Geneva, GE",
+    "industry": "Beauty / Cosmetics",
+    "revenue": "Approx. ~$8.5B",
+    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts) | SG: UNCLEAR (3pts) | SCD: LIKELY (6pts)",
+    "classification": "CONFIRMED",
+    "priority_score": "RC:6 | MP:10 | SG:3 | SCD:6 = 25/40",
+    "key_evidence": "RC: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\" • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: Supply chain disruptions, marketing that was criticised for being too focused on teenagers, and an influx of more affordable brands that had the same “clean” ingredients caused a slide in sales",
+    "sources": "BeautyMatter, 2025-12-14; TheIndustry.beauty, 2017-10-21; The Business Times, 2026-01-19",
+    "summary": "Shiseido is undergoing a significant transformation due to revenue pressure and declining margins, particularly in China and travel retail. The company is implementing cost-cutting measures, restructuring its organization, and focusing on core brands to improve profitability. Supply chain disruptions and marketing challenges have also contributed to sales declines.",
     "tier": "Tier 1",
-    "_score_int": 12,
+    "_score_int": 25,
     "_frequency": 1,
-    "_raw": "COMPANY: Aoste (Campofrio Food Group)\nTIER: 1\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Quantified cost-out / savings program (value + timeframe)\nMP_SOURCE: RIA - L'actualité de l'industrie agroalimentaire, 2026-02-18\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: RIA - L'actualité de l'industrie agroalimentaire, 2026-02-18\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 12/40\nSUMMARY: Aoste (Campofrio Food Group) is facing margin pressure and is undertaking a cost savings program. The company is also experiencing significant growth, leading to capacity expansion in its plants to increase production of snacking products. Aoste is investing 8 million euros in two of its factories to increase production of aperitif sausages and 9 million to decarbonize its Aoste site.\n",
+    "_raw": "Okay, I will analyze Shiseido based on the provided information and the search results, focusing on evidence from the last 12 months.\n\nOkay, here's the analysis of Shiseido, based on the search results and the provided information:\n\nCOMPANY: Shiseido\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"\nRC_SOURCE: BeautyMatter, 2025-12-14\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: BeautyMatter, 2025-12-14\n\nSG: UNCLEAR | 3 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: TheIndustry.beauty, 2017-10-21\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Supply chain disruptions, marketing that was criticised for being too focused on teenagers, and an influx of more affordable brands that had the same “clean” ingredients caused a slide in sales\nSCD_SOURCE: The Business Times, 2026-01-19\n\nTOTAL: 25/40\nSUMMARY: Shiseido is undergoing a significant transformation due to revenue pressure and declining margins, particularly in China and travel retail. The company is implementing cost-cutting measures, restructuring its organization, and focusing on core brands to improve profitability. Supply chain disruptions and marketing challenges have also contributed to sales declines.\n",
+    "_situations": {
+      "RC": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"",
+        "source": "BeautyMatter, 2025-12-14"
+      },
+      "MP": {
+        "status": "CONFIRMED",
+        "pts": 10,
+        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+        "source": "BeautyMatter, 2025-12-14"
+      },
+      "SG": {
+        "status": "UNCLEAR",
+        "pts": 3,
+        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+        "source": "TheIndustry.beauty, 2017-10-21"
+      },
+      "SCD": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Supply chain disruptions, marketing that was criticised for being too focused on teenagers, and an influx of more affordable brands that had the same “clean” ingredients caused a slide in sales",
+        "source": "The Business Times, 2026-01-19"
+      }
+    },
+    "_priority": "primary",
+    "_priority_rank": 2
+  },
+  {
+    "company": "Chemours",
+    "hq_country": "Geneva, GE",
+    "industry": "Specialty Chemicals",
+    "revenue": "Approx. ~$6.0B",
+    "situations": "RC: LIKELY (6pts) | MP: LIKELY (7pts) | SCD: LIKELY (6pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:6 | MP:7 | SG:0 | SCD:6 = 19/40",
+    "key_evidence": "RC: \"Chemours to lay off 75 workers at North Florida mining sites amid competitiveness concerns\" • MP: \"Chemours management emphasized that the company is targeting adjusted EBITDA of $800 million to $900 million for 2026, underpinned by robust growth in TSS and APM Performance Solutions, pricing strength in TT, and ongoing cost-saving initiatives\" • SCD: \"As a result of the severe drought impacting much of Mexico, The Chemours Company... announced it is complying with a request from the government to temporarily minimize water intake, which has led to a pause in production at its Altamira Titanium Dioxide (TiO2) manufacturing facility to conserve water for the surrounding communities\"",
+    "sources": "CareerSource NEFL, Feb 2026; Seeking Alpha, Feb 2026; Chemours, Mar 2026",
+    "summary": "Chemours is facing resource constraints, as evidenced by layoffs at mining sites in North Florida and Georgia. The company is also under margin pressure, targeting adjusted EBITDA of $800-900 million for 2026 through cost-saving initiatives. Supply chain disruptions are present, with a temporary halt in TiO2 production at the Altamira, Mexico facility due to drought.",
+    "tier": "Tier 1",
+    "_score_int": 19,
+    "_frequency": 1,
+    "_raw": "COMPANY: Chemours\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: \"Chemours to lay off 75 workers at North Florida mining sites amid competitiveness concerns\"\nRC_SOURCE: CareerSource NEFL, Feb 2026\n\nMP: LIKELY | 7 pts\nMP_SIGNAL: \"Chemours management emphasized that the company is targeting adjusted EBITDA of $800 million to $900 million for 2026, underpinned by robust growth in TSS and APM Performance Solutions, pricing strength in TT, and ongoing cost-saving initiatives\"\nMP_SOURCE: Seeking Alpha, Feb 2026\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: \"As a result of the severe drought impacting much of Mexico, The Chemours Company... announced it is complying with a request from the government to temporarily minimize water intake, which has led to a pause in production at its Altamira Titanium Dioxide (TiO2) manufacturing facility to conserve water for the surrounding communities\"\nSCD_SOURCE: Chemours, Mar 2026\n\nTOTAL: 19/40\nSUMMARY: Chemours is facing resource constraints, as evidenced by layoffs at mining sites in North Florida and Georgia. The company is also under margin pressure, targeting adjusted EBITDA of $800-900 million for 2026 through cost-saving initiatives. Supply chain disruptions are present, with a temporary halt in TiO2 production at the Altamira, Mexico facility due to drought.\n",
+    "_situations": {
+      "RC": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "\"Chemours to lay off 75 workers at North Florida mining sites amid competitiveness concerns\"",
+        "source": "CareerSource NEFL, Feb 2026"
+      },
+      "MP": {
+        "status": "LIKELY",
+        "pts": 7,
+        "signal": "\"Chemours management emphasized that the company is targeting adjusted EBITDA of $800 million to $900 million for 2026, underpinned by robust growth in TSS and APM Performance Solutions, pricing strength in TT, and ongoing cost-saving initiatives\"",
+        "source": "Seeking Alpha, Feb 2026"
+      },
+      "SG": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SCD": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "\"As a result of the severe drought impacting much of Mexico, The Chemours Company... announced it is complying with a request from the government to temporarily minimize water intake, which has led to a pause in production at its Altamira Titanium Dioxide (TiO2) manufacturing facility to conserve water for the surrounding communities\"",
+        "source": "Chemours, Mar 2026"
+      }
+    },
+    "_priority": "primary",
+    "_priority_rank": 3
+  },
+  {
+    "company": "Alpla",
+    "hq_country": "Zurich, ZH",
+    "industry": "Plastic Packaging",
+    "revenue": "Approx. ~$5.5B",
+    "situations": "MP: LIKELY (6pts) | SG: LIKELY (6pts) | SCD: UNCLEAR (3pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:1 | MP:6 | SG:6 | SCD:3 = 16/40",
+    "key_evidence": "MP: Quantified cost-out / savings program (value + timeframe) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: “Supply constraints” repeatedly mentioned without quantified impact",
+    "sources": "Investor deck; earnings call transcript; annual report; Press release; investor deck; Earnings call transcript; management updates",
+    "summary": "Alpla is experiencing margin pressure due to rising costs in the recycling market, but is also undergoing significant growth through acquisitions and expansion of facilities. The company is investing in recycling and has ambitious targets for increasing the use of recycled materials.",
+    "tier": "Tier 1",
+    "_score_int": 16,
+    "_frequency": 1,
+    "_raw": "COMPANY: Alpla\nTIER: 1\n\nRC: NOT PRESENT | 1 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Quantified cost-out / savings program (value + timeframe)\nMP_SOURCE: Investor deck; earnings call transcript; annual report\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: UNCLEAR | 3 pts\nSCD_SIGNAL: “Supply constraints” repeatedly mentioned without quantified impact\nSCD_SOURCE: Earnings call transcript; management updates\n\nTOTAL: 16/40\nSUMMARY: Alpla is experiencing margin pressure due to rising costs in the recycling market, but is also undergoing significant growth through acquisitions and expansion of facilities. The company is investing in recycling and has ambitious targets for increasing the use of recycled materials.\n",
     "_situations": {
       "RC": {
         "status": "NOT PRESENT",
-        "pts": 0,
+        "pts": 1,
         "signal": "none",
         "source": "none"
       },
@@ -69,13 +157,57 @@
         "status": "LIKELY",
         "pts": 6,
         "signal": "Quantified cost-out / savings program (value + timeframe)",
-        "source": "RIA - L'actualité de l'industrie agroalimentaire, 2026-02-18"
+        "source": "Investor deck; earnings call transcript; annual report"
       },
       "SG": {
         "status": "LIKELY",
         "pts": 6,
         "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "RIA - L'actualité de l'industrie agroalimentaire, 2026-02-18"
+        "source": "Press release; investor deck"
+      },
+      "SCD": {
+        "status": "UNCLEAR",
+        "pts": 3,
+        "signal": "“Supply constraints” repeatedly mentioned without quantified impact",
+        "source": "Earnings call transcript; management updates"
+      }
+    },
+    "_priority": "reserve",
+    "_priority_rank": 1
+  },
+  {
+    "company": "Belimo",
+    "hq_country": "Hinwil, ZH, Switzerland",
+    "industry": "HVAC Mfg",
+    "revenue": "Approx. ~$0.9B",
+    "situations": "MP: LIKELY (6pts) | SG: LIKELY (7pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:0 | MP:6 | SG:7 | SCD:0 = 13/40",
+    "key_evidence": "MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+    "sources": "Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; investor deck",
+    "summary": "Belimo is experiencing significant growth, expanding its facilities in Switzerland and the US, and inaugurating its CESIM® House in China. The company's EBIT margin is expected to exceed 20% in 2026. However, Belimo's earnings per share fell short of expectations, and the company issued conservative 2026 guidance, with first-quarter margins set to absorb deferred U.S. tariff costs shifted through supply chain timing.",
+    "tier": "Tier 1",
+    "_score_int": 13,
+    "_frequency": 1,
+    "_raw": "COMPANY: Belimo\nTIER: 1\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: LIKELY | 7 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 13/40\nSUMMARY: Belimo is experiencing significant growth, expanding its facilities in Switzerland and the US, and inaugurating its CESIM® House in China. The company's EBIT margin is expected to exceed 20% in 2026. However, Belimo's earnings per share fell short of expectations, and the company issued conservative 2026 guidance, with first-quarter margins set to absorb deferred U.S. tariff costs shifted through supply chain timing.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 7,
+        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+        "source": "Press release; investor deck"
       },
       "SCD": {
         "status": "NOT PRESENT",
@@ -84,24 +216,68 @@
         "source": "none"
       }
     },
-    "_priority": "primary",
+    "_priority": "reserve",
     "_priority_rank": 2
   },
   {
-    "company": "Aenova Group (Global HQ)",
-    "hq_country": "Starnberg, BY, DE",
-    "industry": "Pharma (CDMO)",
-    "revenue": "Approx. ~$1.0B",
-    "situations": "SG: CONFIRMED (7pts)",
-    "classification": "CONFIRMED",
-    "priority_score": "RC:1 | MP:0 | SG:7 | SCD:0 = 8/40",
-    "key_evidence": "SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-    "sources": "Aenova Expands Automated Semi-Solids Tube Packaging Capacity at Feldkirchen Site",
-    "summary": "Aenova Group is expanding its manufacturing capabilities for semi-solid pharmaceutical products at its site in Feldkirchen, Germany, with a new high-speed tube packaging line, increasing annual capacity to a minimum of 50 million tubes. The company has also announced a new, comprehensive sustainability strategy, targeting reduced carbon emissions and transition to renewable electricity. Aenova is investing in a new cold storage infrastructure at its sterile site in Latina (Italy).",
+    "company": "Gurit",
+    "hq_country": "Wattwil, SG, Switzerland",
+    "industry": "Advanced Composites",
+    "revenue": "Approx. ~$0.5B",
+    "situations": "MP: LIKELY (6pts) | SG: LIKELY (6pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:0 | MP:6 | SG:6 | SCD:0 = 12/40",
+    "key_evidence": "MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+    "sources": "Investing.com Australia, March 02 2026; Gurit Media Release, February 05 2026",
+    "summary": "Gurit is showing signs of margin pressure due to restructuring costs, though they anticipate improvement in 2026. They are also expanding their US operations to support growth in the subsea business, indicating significant growth. There is no evidence of resource constraints or supply chain disruptions.",
     "tier": "Tier 1",
-    "_score_int": 8,
+    "_score_int": 12,
     "_frequency": 1,
-    "_raw": "COMPANY: Aenova Group (Global HQ)\nTIER: 1\n\nRC: NOT PRESENT | 1 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | 0 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: CONFIRMED | 7 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Aenova Expands Automated Semi-Solids Tube Packaging Capacity at Feldkirchen Site\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 8/40\nSUMMARY: Aenova Group is expanding its manufacturing capabilities for semi-solid pharmaceutical products at its site in Feldkirchen, Germany, with a new high-speed tube packaging line, increasing annual capacity to a minimum of 50 million tubes. The company has also announced a new, comprehensive sustainability strategy, targeting reduced carbon emissions and transition to renewable electricity. Aenova is investing in a new cold storage infrastructure at its sterile site in Latina (Italy).\n",
+    "_raw": "Okay, I will analyze Gurit based on the provided information and the search results, focusing on evidence from after 2026-03-01.\n\nOkay, here's the analysis of Gurit based on the search results:\n\nCOMPANY: Gurit\nTIER: 1\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Investing.com Australia, March 02 2026\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Gurit Media Release, February 05 2026\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 12/40\nSUMMARY: Gurit is showing signs of margin pressure due to restructuring costs, though they anticipate improvement in 2026. They are also expanding their US operations to support growth in the subsea business, indicating significant growth. There is no evidence of resource constraints or supply chain disruptions.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+        "source": "Investing.com Australia, March 02 2026"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+        "source": "Gurit Media Release, February 05 2026"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    },
+    "_priority": "reserve",
+    "_priority_rank": 3
+  },
+  {
+    "company": "Liebherr Group",
+    "hq_country": "Bulle, FR",
+    "industry": "Heavy Machinery",
+    "revenue": "Approx. ~$14.0B",
+    "situations": "SG: LIKELY (6pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:1 | MP:0 | SG:6 | SCD:0 = 7/40",
+    "key_evidence": "SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+    "sources": "ePlaneAI (2025-06-10)",
+    "summary": "Liebherr is expanding its assembly operations in Europe, specifically in Bulgaria, with a new production facility expected to be fully operational in 2026. This expansion aims to strengthen its position in the railway and commercial vehicle sectors and introduce new assembly capabilities for aerospace applications. Liebherr is also expanding its facility in Ehingen, Germany, to streamline production processes and meet the rising demand for larger cranes.",
+    "tier": "Tier 1",
+    "_score_int": 7,
+    "_frequency": 1,
+    "_raw": "COMPANY: Liebherr Group\nTIER: 1\n\nRC: NOT PRESENT | 1 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | 0 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: ePlaneAI (2025-06-10)\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 7/40\nSUMMARY: Liebherr is expanding its assembly operations in Europe, specifically in Bulgaria, with a new production facility expected to be fully operational in 2026. This expansion aims to strengthen its position in the railway and commercial vehicle sectors and introduce new assembly capabilities for aerospace applications. Liebherr is also expanding its facility in Ehingen, Germany, to streamline production processes and meet the rising demand for larger cranes.\n",
     "_situations": {
       "RC": {
         "status": "NOT PRESENT",
@@ -116,142 +292,10 @@
         "source": "none"
       },
       "SG": {
-        "status": "CONFIRMED",
-        "pts": 7,
-        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "Aenova Expands Automated Semi-Solids Tube Packaging Capacity at Feldkirchen Site"
-      },
-      "SCD": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      }
-    },
-    "_priority": "primary",
-    "_priority_rank": 3
-  },
-  {
-    "company": "Mann+Hummel",
-    "hq_country": "Ludwigsburg, BW, DE",
-    "industry": "Filtration Systems",
-    "revenue": "Approx. ~$4.5B",
-    "situations": "RC: LIKELY (6pts) | MP: UNCLEAR (2pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:6 | MP:2 | SG:0 | SCD:0 = 8/40",
-    "key_evidence": "RC: Production stoppage at Ludwigsburg plant, affecting 400 jobs",
-    "sources": "Textile Value Chain, 2025-09-29",
-    "summary": "Mann+Hummel is facing resource constraints due to the stoppage of production at its Ludwigsburg plant, which will affect around 400 jobs. This production adjustment is necessary to remain competitive in the long term.",
-    "tier": "Tier 1",
-    "_score_int": 8,
-    "_frequency": 1,
-    "_raw": "COMPANY: Mann+Hummel\nTIER: 1\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Production stoppage at Ludwigsburg plant, affecting 400 jobs\nRC_SOURCE: Textile Value Chain, 2025-09-29\n\nMP: UNCLEAR | 2 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 8/40\nSUMMARY: Mann+Hummel is facing resource constraints due to the stoppage of production at its Ludwigsburg plant, which will affect around 400 jobs. This production adjustment is necessary to remain competitive in the long term.\n",
-    "_situations": {
-      "RC": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Production stoppage at Ludwigsburg plant, affecting 400 jobs",
-        "source": "Textile Value Chain, 2025-09-29"
-      },
-      "MP": {
-        "status": "UNCLEAR",
-        "pts": 2,
-        "signal": "none",
-        "source": "none"
-      },
-      "SG": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      },
-      "SCD": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      }
-    },
-    "_priority": "reserve",
-    "_priority_rank": 1
-  },
-  {
-    "company": "Wörwag Pharma",
-    "hq_country": "Böblingen, BW, DE",
-    "industry": "Pharmaceuticals",
-    "revenue": "Approx. ~$0.3B",
-    "situations": "SG: LIKELY (6pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:0 | MP:0 | SG:6 | SCD:0 = 6/40",
-    "key_evidence": "SG: Investments in production capacity and supply reliability",
-    "sources": "Wörwag Pharma posts strong growth in 2025 and sets clear momentum for further international expansion, 2026-02-05",
-    "summary": "Wörwag Pharma is showing signs of significant growth, with investments in expanding and modernizing its manufacturing sites in Poland and Bavaria to strengthen global supply security. The company achieved strong revenue growth in 2025 despite regulatory challenges and supply chain risks. They are also launching Lagosa Triplex in Germany in April 2026.",
-    "tier": "Tier 1",
-    "_score_int": 6,
-    "_frequency": 1,
-    "_raw": "COMPANY: Wörwag Pharma\nTIER: 1\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | 0 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Investments in production capacity and supply reliability\nSG_SOURCE: Wörwag Pharma posts strong growth in 2025 and sets clear momentum for further international expansion, 2026-02-05\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 6/40\nSUMMARY: Wörwag Pharma is showing signs of significant growth, with investments in expanding and modernizing its manufacturing sites in Poland and Bavaria to strengthen global supply security. The company achieved strong revenue growth in 2025 despite regulatory challenges and supply chain risks. They are also launching Lagosa Triplex in Germany in April 2026.\n",
-    "_situations": {
-      "RC": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      },
-      "MP": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      },
-      "SG": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Investments in production capacity and supply reliability",
-        "source": "Wörwag Pharma posts strong growth in 2025 and sets clear momentum for further international expansion, 2026-02-05"
-      },
-      "SCD": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      }
-    },
-    "_priority": "reserve",
-    "_priority_rank": 2
-  },
-  {
-    "company": "Stada Arzneimittel (Regional Ops/Hub)",
-    "hq_country": "Bad Vilbel, HE, DE",
-    "industry": "Generic Pharma",
-    "revenue": "Approx. ~$3.5B",
-    "situations": "SG: LIKELY (6pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:0 | MP:0 | SG:6 | SCD:0 = 6/40",
-    "key_evidence": "SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-    "sources": "Fierce Pharma, Feb 2026",
-    "summary": "Stada is investing €85M to build a new production facility in Saudi Arabia, which will serve as a supply hub for the MENA region. The plant is expected to be operational by 2030 and will have a yearly production capacity of more than 300 million units. Stada is designing the plant to produce \"multi-technology solid dosages\" and build a manual secondary packaging center at the site.",
-    "tier": "Tier 1",
-    "_score_int": 6,
-    "_frequency": 1,
-    "_raw": "COMPANY: Stada Arzneimittel (Regional Ops/Hub)\nTIER: 1\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | 0 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Fierce Pharma, Feb 2026\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 6/40\nSUMMARY: Stada is investing €85M to build a new production facility in Saudi Arabia, which will serve as a supply hub for the MENA region. The plant is expected to be operational by 2030 and will have a yearly production capacity of more than 300 million units. Stada is designing the plant to produce \"multi-technology solid dosages\" and build a manual secondary packaging center at the site.\n",
-    "_situations": {
-      "RC": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      },
-      "MP": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      },
-      "SG": {
         "status": "LIKELY",
         "pts": 6,
         "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "Fierce Pharma, Feb 2026"
+        "source": "ePlaneAI (2025-06-10)"
       },
       "SCD": {
         "status": "NOT PRESENT",
@@ -261,23 +305,23 @@
       }
     },
     "_priority": "reserve",
-    "_priority_rank": 3
+    "_priority_rank": 4
   },
   {
-    "company": "Wieland Group",
-    "hq_country": "Ulm, BW, DE",
-    "industry": "Copper / Metal Products",
-    "revenue": "Approx. ~$5.0B",
+    "company": "Endress+Hauser Flow",
+    "hq_country": "Reinach, BL, CH",
+    "industry": "Flow Measurement",
+    "revenue": "Approx. ~$0.5B",
     "situations": "SG: LIKELY (6pts)",
     "classification": "LIKELY",
     "priority_score": "RC:0 | MP:0 | SG:6 | SCD:0 = 6/40",
     "key_evidence": "SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
     "sources": "Press release; investor deck",
-    "summary": "Wieland Group is undertaking significant expansion projects, including a $27 million plant in Montpelier, Ohio, and a $500 million modernization of its East Alton, Illinois facility. These investments aim to increase production capacity for copper and copper alloy components and support the company's growth initiatives in North America. Wieland is also focused on sustainability, with goals to reduce emissions and increase the use of recycled materials.",
+    "summary": "Endress+Hauser Flow is expanding its U.S. manufacturing and supply chain capacity to support growing data center power, cooling, and water infrastructure demand. The company has invested in 650,000 square feet of U.S. manufacturing space, along with workforce expansion and production efficiency initiatives. Endress+Hauser also acquired SOPAT, a Germany-based specialist in inline process measurement technology.",
     "tier": "Tier 1",
     "_score_int": 6,
     "_frequency": 1,
-    "_raw": "COMPANY: Wieland Group\nTIER: 1\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | 0 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 6/40\nSUMMARY: Wieland Group is undertaking significant expansion projects, including a $27 million plant in Montpelier, Ohio, and a $500 million modernization of its East Alton, Illinois facility. These investments aim to increase production capacity for copper and copper alloy components and support the company's growth initiatives in North America. Wieland is also focused on sustainability, with goals to reduce emissions and increase the use of recycled materials.\n",
+    "_raw": "COMPANY: Endress+Hauser Flow\nTIER: 1\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | 0 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 6/40\nSUMMARY: Endress+Hauser Flow is expanding its U.S. manufacturing and supply chain capacity to support growing data center power, cooling, and water infrastructure demand. The company has invested in 650,000 square feet of U.S. manufacturing space, along with workforce expansion and production efficiency initiatives. Endress+Hauser also acquired SOPAT, a Germany-based specialist in inline process measurement technology.",
     "_situations": {
       "RC": {
         "status": "NOT PRESENT",
@@ -305,67 +349,23 @@
       }
     },
     "_priority": "reserve",
-    "_priority_rank": 4
-  },
-  {
-    "company": "Hansgrohe Group",
-    "hq_country": "Schiltach, BW, DE",
-    "industry": "Bathroom Fittings",
-    "revenue": "Approx. ~$1.5B",
-    "situations": "MP: LIKELY (6pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:0 | MP:6 | SG:0 | SCD:0 = 6/40",
-    "key_evidence": "MP: MEDIUM",
-    "sources": "Annual report",
-    "summary": "Hansgrohe Group's EBITDA margin increased slightly to 18.5 percent in 2024. The company experienced a slight decrease in sales by 1.3 percent compared to the previous year, reaching 1.387 billion euros in 2024.",
-    "tier": "Tier 2",
-    "_score_int": 6,
-    "_frequency": 1,
-    "_raw": "COMPANY: Hansgrohe Group\nTIER: 2\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: MEDIUM\nMP_SOURCE: Annual report\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 6/40\nSUMMARY: Hansgrohe Group's EBITDA margin increased slightly to 18.5 percent in 2024. The company experienced a slight decrease in sales by 1.3 percent compared to the previous year, reaching 1.387 billion euros in 2024.\n",
-    "_situations": {
-      "RC": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      },
-      "MP": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "MEDIUM",
-        "source": "Annual report"
-      },
-      "SG": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      },
-      "SCD": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      }
-    },
-    "_priority": "reserve",
     "_priority_rank": 5
   },
   {
-    "company": "Pochet Group",
-    "hq_country": "Paris, FR",
-    "industry": "Luxury Glass Packaging",
-    "revenue": "Approx. ~$0.6B",
-    "situations": "No signals detected",
-    "classification": "NOT PRESENT",
-    "priority_score": "RC:1 | MP:0 | SG:0 | SCD:0 = 1/40",
-    "key_evidence": "No signals detected",
-    "sources": "",
-    "summary": "There is no strong evidence of resource constraints, margin pressure, significant growth, or supply chain disruptions specifically affecting Pochet Group within the last 12 months based on the provided search results. The search results mainly focus on the company's sustainability initiatives, partnerships, and general industry trends.",
+    "company": "Brembo",
+    "hq_country": "Curno, IT",
+    "industry": "Brake Systems",
+    "revenue": "Approx. ~$3.8B",
+    "situations": "MP: UNCLEAR (3pts)",
+    "classification": "UNCLEAR",
+    "priority_score": "RC:1 | MP:3 | SG:0 | SCD:0 = 4/40",
+    "key_evidence": "MP: Input costs / inflation described as headwind without quantified structural margin impact",
+    "sources": "Annual report; quarterly results commentary",
+    "summary": "Brembo's 2025 preliminary results exceeded guidance with €3,704 million in revenues and 16.5% EBITDA margin despite declining European and North American vehicle production volumes. The company cited significant declines in new vehicle production across Europe and North America as primary headwinds, with the premium vehicle segment experiencing particularly pronounced weakness. Brembo has engaged in acquisition activity across 3 countries (Sweden, Denmark, and Spain), focusing solely on the Auto Components sector.",
     "tier": "Tier 2",
-    "_score_int": 1,
+    "_score_int": 4,
     "_frequency": 1,
-    "_raw": "Okay, I will analyze Pochet Group based on the provided information and the search results, focusing on evidence from the last 12 months (after 2026-03-01).\n\nBased on the search results, here's the analysis of Pochet Group:\n\nCOMPANY: Pochet Group\nTIER: 2\n\nRC: NOT PRESENT | 1 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | 0 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 1/40\nSUMMARY: There is no strong evidence of resource constraints, margin pressure, significant growth, or supply chain disruptions specifically affecting Pochet Group within the last 12 months based on the provided search results. The search results mainly focus on the company's sustainability initiatives, partnerships, and general industry trends.\n",
+    "_raw": "COMPANY: Brembo\nTIER: 2\n\nRC: NOT PRESENT | 1 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: UNCLEAR | 3 pts\nMP_SIGNAL: Input costs / inflation described as headwind without quantified structural margin impact\nMP_SOURCE: Annual report; quarterly results commentary\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 4/40\nSUMMARY: Brembo's 2025 preliminary results exceeded guidance with €3,704 million in revenues and 16.5% EBITDA margin despite declining European and North American vehicle production volumes. The company cited significant declines in new vehicle production across Europe and North America as primary headwinds, with the premium vehicle segment experiencing particularly pronounced weakness. Brembo has engaged in acquisition activity across 3 countries (Sweden, Denmark, and Spain), focusing solely on the Auto Components sector.\n",
     "_situations": {
       "RC": {
         "status": "NOT PRESENT",
@@ -374,10 +374,10 @@
         "source": "none"
       },
       "MP": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
+        "status": "UNCLEAR",
+        "pts": 3,
+        "signal": "Input costs / inflation described as headwind without quantified structural margin impact",
+        "source": "Annual report; quarterly results commentary"
       },
       "SG": {
         "status": "NOT PRESENT",
@@ -396,44 +396,44 @@
     "_priority_rank": 6
   },
   {
-    "company": "Biontech (Marburg / Regional Hubs)",
-    "hq_country": "Mainz, RP, DE",
-    "industry": "mRNA / Vaccines",
-    "revenue": "Approx. ~$3.8B",
+    "company": "Gruppo Sapio",
+    "hq_country": "Monza, IT",
+    "industry": "Industrial Gases",
+    "revenue": "Approx. ~$0.8B",
     "situations": "No signals detected",
     "classification": "NOT PRESENT",
     "priority_score": "RC:0 | MP:0 | SG:0 | SCD:0 = 0/40",
     "key_evidence": "No signals detected",
     "sources": "",
-    "summary": "There is no evidence available from the past 12 months that indicates resource constraints, margin pressure, significant growth, or supply chain disruptions at Biontech (Marburg / Regional Hubs). Several articles discuss BioNTech's expansion of the Marburg facility in previous years, and its strategic shift towards oncology, but these do not constitute the signals as defined.",
+    "summary": "",
     "tier": "Tier 2",
     "_score_int": 0,
     "_frequency": 1,
-    "_raw": "COMPANY: Biontech (Marburg / Regional Hubs)\nTIER: 2\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | 0 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 0/40\nSUMMARY: There is no evidence available from the past 12 months that indicates resource constraints, margin pressure, significant growth, or supply chain disruptions at Biontech (Marburg / Regional Hubs). Several articles discuss BioNTech's expansion of the Marburg facility in previous years, and its strategic shift towards oncology, but these do not constitute the signals as defined.\n",
+    "_raw": "Based on the search results, here's an assessment of Gruppo Sapio and the four defined situations:\n\n**COMPANY:** Gruppo Sapio\n**TIER:** 1\n\n**RC: NOT PRESENT** | 0 pts\n**RC_SIGNAL:** none\n**RC_SOURCE:** none\n\n**MP: NOT PRESENT** | 0 pts\n**MP_SIGNAL:** none\n**MP_SOURCE:** none\n\n**SG: LIKELY** | 6 pts\n**SG_SIGNAL:** Major capacity expansion announced (new plant)\n**SG_SOURCE:** IFRF, 2025-07-14\n\n**SCD: NOT PRESENT** | 0 pts\n**SCD_SIGNAL:** none\n**SCD_SOURCE:** none\n\n**TOTAL:** 6/40\n**SUMMARY:** Gruppo Sapio is investing in a new green hydrogen facility in Porto Marghera, Italy, indicating significant growth initiatives. No evidence was found to suggest resource constraints, margin pressure, or supply chain disruptions.\n",
     "_situations": {
       "RC": {
         "status": "NOT PRESENT",
         "pts": 0,
-        "signal": "none",
-        "source": "none"
+        "signal": "",
+        "source": ""
       },
       "MP": {
         "status": "NOT PRESENT",
         "pts": 0,
-        "signal": "none",
-        "source": "none"
+        "signal": "",
+        "source": ""
       },
       "SG": {
         "status": "NOT PRESENT",
         "pts": 0,
-        "signal": "none",
-        "source": "none"
+        "signal": "",
+        "source": ""
       },
       "SCD": {
         "status": "NOT PRESENT",
         "pts": 0,
-        "signal": "none",
-        "source": "none"
+        "signal": "",
+        "source": ""
       }
     },
     "_priority": "reserve",
