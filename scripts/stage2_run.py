@@ -1,5 +1,5 @@
 """
-XIMPAX Intelligence Engine — Stage 2 (v5 — email-free)
+XIMPAX Intelligence Engine — Stage 2 (v5 — Gmail + chain substitution)
 
 CHANGES FROM v4:
   - NEW: If a reserve substitute itself scores 0 (all-stale evidence), pull
@@ -31,6 +31,11 @@ import re
 import json
 import time
 import logging
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -813,9 +818,28 @@ def build_report(final_companies: list[tuple], false_signals: list[tuple]) -> st
 
 # ── Email ──────────────────────────────────────────────────────────────────────
 def send_email(html: str, attachment: Path):
-    """Email delivery removed — report saved to output/ and committed to repo.
-    Delivery via Power Automate OneDrive trigger or Teams webhook (see README)."""
-    log.info("Email step skipped — report available in output/ directory")
+    smtp_user = os.environ["GMAIL_ADDRESS"]
+    smtp_pass = os.environ["GMAIL_APP_PASSWORD"]
+    to_addr   = os.environ["RECIPIENT_EMAIL"]
+    subject   = f"XIMPAX Weekly Intelligence Report — {datetime.utcnow().strftime('%d %b %Y')}"
+
+    msg            = MIMEMultipart("mixed")
+    msg["From"]    = smtp_user
+    msg["To"]      = to_addr
+    msg["Subject"] = subject
+    msg.attach(MIMEText(html, "html", "utf-8"))
+
+    with open(attachment, "rb") as f:
+        part = MIMEBase("application", "octet-stream")
+        part.set_payload(f.read())
+    encoders.encode_base64(part)
+    part.add_header("Content-Disposition", f'attachment; filename="{attachment.name}"')
+    msg.attach(part)
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
+        s.login(smtp_user, smtp_pass)
+        s.sendmail(smtp_user, to_addr, msg.as_string())
+    log.info(f"Email sent to {to_addr}")
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────
