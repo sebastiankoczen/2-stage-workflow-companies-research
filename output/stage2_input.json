@@ -1,331 +1,79 @@
 [
   {
-    "company": "Eiger BioPharmaceuticals",
-    "hq_country": "Zurich, ZH",
-    "industry": "Rare Disease Pharma",
-    "revenue": "Approx. ~$0.1B",
-    "situations": "RC: CONFIRMED (10pts) | MP: CONFIRMED (10pts) | SCD: CONFIRMED (10pts)",
+    "company": "Trinseo",
+    "hq_country": "Horgen, ZH",
+    "industry": "Specialty Materials",
+    "revenue": "Approx. ~$4.0B",
+    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts) | SCD: LIKELY (6pts)",
     "classification": "CONFIRMED",
-    "priority_score": "RC:10 | MP:10 | SG:0 | SCD:10 = 30/40",
+    "priority_score": "RC:6 | MP:10 | SG:0 | SCD:6 = 22/40",
     "key_evidence": "RC: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\" • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SCD: Production shutdown due to material shortage / supplier failure",
-    "sources": "Earnings transcript; investor deck; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; trade media; investor comms",
-    "summary": "Eiger BioPharmaceuticals filed for Chapter 11 bankruptcy in April 2024, triggered by clinical and regulatory setbacks that limited access to capital. The company experienced resource constraints, margin pressure, and supply chain disruptions, ultimately leading to the decision to sell its assets and wind down operations.",
+    "sources": "Earnings transcript; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; trade media; investor comms",
+    "summary": "Trinseo is facing margin pressure, leading to restructuring actions including plant closures and workforce reductions. The company is experiencing resource constraints and has had production shutdowns due to supply chain challenges. While there's no strong evidence of significant growth, the company is actively optimizing operations to enhance cash flow and profitability.",
     "tier": "Eligible",
-    "_score_int": 30,
+    "_score_int": 22,
     "_frequency": 1,
-    "_raw": "COMPANY: Eiger BioPharmaceuticals\nICP: ELIGIBLE\n\nRC: CONFIRMED | 10 pts\nRC_SIGNAL: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"\nRC_SOURCE: Earnings transcript; investor deck\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: CONFIRMED | 10 pts\nSCD_SIGNAL: Production shutdown due to material shortage / supplier failure\nSCD_SOURCE: Press release; trade media; investor comms\n\nTOTAL: 30/40\nSUMMARY: Eiger BioPharmaceuticals filed for Chapter 11 bankruptcy in April 2024, triggered by clinical and regulatory setbacks that limited access to capital. The company experienced resource constraints, margin pressure, and supply chain disruptions, ultimately leading to the decision to sell its assets and wind down operations.\n",
+    "_raw": "COMPANY: Trinseo\nICP: ELIGIBLE\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"\nRC_SOURCE: Earnings transcript\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Production shutdown due to material shortage / supplier failure\nSCD_SOURCE: Press release; trade media; investor comms\n\nTOTAL: 22/40\nSUMMARY: Trinseo is facing margin pressure, leading to restructuring actions including plant closures and workforce reductions. The company is experiencing resource constraints and has had production shutdowns due to supply chain challenges. While there's no strong evidence of significant growth, the company is actively optimizing operations to enhance cash flow and profitability.",
     "_situations": {
       "RC": {
-        "status": "CONFIRMED",
-        "pts": 10,
+        "status": "LIKELY",
+        "pts": 6,
         "signal": "Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"",
-        "source": "Earnings transcript; investor deck"
-      },
-      "MP": {
-        "status": "CONFIRMED",
-        "pts": 10,
-        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
-      },
-      "SG": {
-        "status": "NOT PRESENT",
-        "pts": 0,
-        "signal": "none",
-        "source": "none"
-      },
-      "SCD": {
-        "status": "CONFIRMED",
-        "pts": 10,
-        "signal": "Production shutdown due to material shortage / supplier failure",
-        "source": "Press release; trade media; investor comms"
-      }
-    }
-  },
-  {
-    "company": "Freudenberg Group",
-    "hq_country": "Weinheim, BW, DE",
-    "industry": "Sealing / Filtration",
-    "revenue": "Approx. ~$12.0B",
-    "situations": "RC: LIKELY (6pts) | MP: LIKELY (6pts) | SG: LIKELY (7pts) | SCD: LIKELY (6pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:6 | MP:6 | SG:7 | SCD:6 = 25/40",
-    "key_evidence": "RC: Urgent hiring for SC/Proc roles • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: Missed sales / guidance explicitly attributed to supply disruption/shortage",
-    "sources": "LinkedIn Jobs; company careers website; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; investor deck; Earnings call transcript; quarterly results",
-    "summary": "Freudenberg Group shows signals of likely resource constraints with urgent hiring for supply chain and procurement roles. There are also indications of margin pressure due to structural declines. The company is experiencing significant growth, with major capacity expansions, particularly in the medical sector. Supply chain disruptions are evident, with missed sales and guidance attributed to shortages.",
-    "tier": "Eligible",
-    "_score_int": 25,
-    "_frequency": 1,
-    "_raw": "COMPANY: Freudenberg Group\nICP: ELIGIBLE\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Urgent hiring for SC/Proc roles\nRC_SOURCE: LinkedIn Jobs; company careers website\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: LIKELY | 7 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Missed sales / guidance explicitly attributed to supply disruption/shortage\nSCD_SOURCE: Earnings call transcript; quarterly results\n\nTOTAL: 25/40\nSUMMARY: Freudenberg Group shows signals of likely resource constraints with urgent hiring for supply chain and procurement roles. There are also indications of margin pressure due to structural declines. The company is experiencing significant growth, with major capacity expansions, particularly in the medical sector. Supply chain disruptions are evident, with missed sales and guidance attributed to shortages.\n",
-    "_situations": {
-      "RC": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Urgent hiring for SC/Proc roles",
-        "source": "LinkedIn Jobs; company careers website"
-      },
-      "MP": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
-      },
-      "SG": {
-        "status": "LIKELY",
-        "pts": 7,
-        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "Press release; investor deck"
-      },
-      "SCD": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Missed sales / guidance explicitly attributed to supply disruption/shortage",
-        "source": "Earnings call transcript; quarterly results"
-      }
-    }
-  },
-  {
-    "company": "Bayer Crop Science",
-    "hq_country": "Lyon, FR",
-    "industry": "Agrochemicals",
-    "revenue": "Approx. ~$5.5B",
-    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts) | SG: UNCLEAR (3pts) | SCD: LIKELY (6pts)",
-    "classification": "CONFIRMED",
-    "priority_score": "RC:6 | MP:10 | SG:3 | SCD:6 = 25/40",
-    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Entry into multiple new geographies/channels requiring operational redesign • SCD: Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)",
-    "sources": "Earnings transcript; Annual report / 10-K / 20-F; Investor deck; annual report; press release; Press release; earnings call transcript",
-    "summary": "Bayer Crop Science is facing margin pressure due to declining EBITDA and is implementing cost-saving programs. The company is experiencing resource constraints, with management acknowledging a lack of bandwidth. Additionally, Bayer Crop Science is dealing with supply chain disruptions, including potential glyphosate production halts and related litigation.",
-    "tier": "Eligible",
-    "_score_int": 25,
-    "_frequency": 1,
-    "_raw": "COMPANY: Bayer Crop Science\nICP: ELIGIBLE\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F\n\nSG: UNCLEAR | 3 pts\nSG_SIGNAL: Entry into multiple new geographies/channels requiring operational redesign\nSG_SOURCE: Investor deck; annual report; press release\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)\nSCD_SOURCE: Press release; earnings call transcript\n\nTOTAL: 25/40\nSUMMARY: Bayer Crop Science is facing margin pressure due to declining EBITDA and is implementing cost-saving programs. The company is experiencing resource constraints, with management acknowledging a lack of bandwidth. Additionally, Bayer Crop Science is dealing with supply chain disruptions, including potential glyphosate production halts and related litigation.\n",
-    "_situations": {
-      "RC": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”",
         "source": "Earnings transcript"
       },
       "MP": {
         "status": "CONFIRMED",
         "pts": 10,
         "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "Annual report / 10-K / 20-F"
+        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
       },
       "SG": {
-        "status": "UNCLEAR",
-        "pts": 3,
-        "signal": "Entry into multiple new geographies/channels requiring operational redesign",
-        "source": "Investor deck; annual report; press release"
-      },
-      "SCD": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)",
-        "source": "Press release; earnings call transcript"
-      }
-    }
-  },
-  {
-    "company": "Sun Pharma",
-    "hq_country": "Basel, BS",
-    "industry": "Pharmaceuticals",
-    "revenue": "Approx. ~$5.5B",
-    "situations": "RC: LIKELY (6pts) | MP: LIKELY (6pts) | SG: LIKELY (6pts) | SCD: LIKELY (6pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:6 | MP:6 | SG:6 | SCD:6 = 24/40",
-    "key_evidence": "RC: Workforce reduction by 40% at Sun Pharma Advanced Research (SPARC) • MP: Operating profit margin rose from 25.5% in FY24 to 27.2% in FY25, reflecting effective cost management • SG: Sun Pharma is reportedly exploring a ~$10 billion acquisition of US-based Organon to expand its US presence • SCD: Recalling over 26,000 bottles of a generic medication to treat dandruff and skin conditions with inflammation and itching",
-    "sources": "The Economic Times, 2026-01-08; DCFmodeling.com, 2026-03-02; $10 Billion Buyout: Will This Acquisition Be a Game Changer for Sun Pharma?, 2026-01-20; USFDA, 2026-01-26",
-    "summary": "Sun Pharma shows signals of resource constraints due to workforce reductions at SPARC, while also demonstrating margin improvement through effective cost management. The company is exploring a major acquisition to expand its US presence. Recent recalls of pharmaceutical products in the US indicate potential supply chain disruptions.",
-    "tier": "Eligible",
-    "_score_int": 24,
-    "_frequency": 1,
-    "_raw": "COMPANY: Sun Pharma\nICP: ELIGIBLE\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Workforce reduction by 40% at Sun Pharma Advanced Research (SPARC)\nRC_SOURCE: The Economic Times, 2026-01-08\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Operating profit margin rose from 25.5% in FY24 to 27.2% in FY25, reflecting effective cost management\nMP_SOURCE: DCFmodeling.com, 2026-03-02\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Sun Pharma is reportedly exploring a ~$10 billion acquisition of US-based Organon to expand its US presence\nSG_SOURCE: $10 Billion Buyout: Will This Acquisition Be a Game Changer for Sun Pharma?, 2026-01-20\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Recalling over 26,000 bottles of a generic medication to treat dandruff and skin conditions with inflammation and itching\nSCD_SOURCE: USFDA, 2026-01-26\n\nTOTAL: 24/40\nSUMMARY: Sun Pharma shows signals of resource constraints due to workforce reductions at SPARC, while also demonstrating margin improvement through effective cost management. The company is exploring a major acquisition to expand its US presence. Recent recalls of pharmaceutical products in the US indicate potential supply chain disruptions.\n",
-    "_situations": {
-      "RC": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Workforce reduction by 40% at Sun Pharma Advanced Research (SPARC)",
-        "source": "The Economic Times, 2026-01-08"
-      },
-      "MP": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Operating profit margin rose from 25.5% in FY24 to 27.2% in FY25, reflecting effective cost management",
-        "source": "DCFmodeling.com, 2026-03-02"
-      },
-      "SG": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Sun Pharma is reportedly exploring a ~$10 billion acquisition of US-based Organon to expand its US presence",
-        "source": "$10 Billion Buyout: Will This Acquisition Be a Game Changer for Sun Pharma?, 2026-01-20"
-      },
-      "SCD": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Recalling over 26,000 bottles of a generic medication to treat dandruff and skin conditions with inflammation and itching",
-        "source": "USFDA, 2026-01-26"
-      }
-    }
-  },
-  {
-    "company": "Vetropack",
-    "hq_country": "Bülach, ZH, Switzerland",
-    "industry": "Packaging (Glass)",
-    "revenue": "Approx. ~$1.0B",
-    "situations": "RC: LIKELY (6pts) | MP: LIKELY (6pts) | SG: LIKELY (6pts) | SCD: LIKELY (6pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:6 | MP:6 | SG:6 | SCD:6 = 24/40",
-    "key_evidence": "RC: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\" • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: Production shutdown due to material shortage / supplier failure",
-    "sources": "Press Release; PitchBook; Press release",
-    "summary": "Vetropack is facing resource constraints due to the closure of the St-Prex plant and high sick days. They are also experiencing margin pressure with a decline in EBITDA. Despite these challenges, Vetropack is expanding capacity with a new plant in Italy and increased production of lightweight glass bottles in Austria. The company has also faced supply chain disruptions, including a production shutdown at St-Prex due to the poor condition of the furnace and low staffing levels.",
-    "tier": "Eligible",
-    "_score_int": 24,
-    "_frequency": 1,
-    "_raw": "Okay, I will analyze Vetropack based on the provided information and the search queries, focusing on evidence from the last 12 months (after 2026-01-03).\n\nCOMPANY: Vetropack\nICP: ELIGIBLE\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"\nRC_SOURCE: Press Release\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: PitchBook\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Production shutdown due to material shortage / supplier failure\nSCD_SOURCE: Press release\n\nTOTAL: 24/40\nSUMMARY: Vetropack is facing resource constraints due to the closure of the St-Prex plant and high sick days. They are also experiencing margin pressure with a decline in EBITDA. Despite these challenges, Vetropack is expanding capacity with a new plant in Italy and increased production of lightweight glass bottles in Austria. The company has also faced supply chain disruptions, including a production shutdown at St-Prex due to the poor condition of the furnace and low staffing levels.\n",
-    "_situations": {
-      "RC": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"",
-        "source": "Press Release"
-      },
-      "MP": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "PitchBook"
-      },
-      "SG": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "Press release"
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
       },
       "SCD": {
         "status": "LIKELY",
         "pts": 6,
         "signal": "Production shutdown due to material shortage / supplier failure",
-        "source": "Press release"
+        "source": "Press release; trade media; investor comms"
       }
     }
   },
   {
-    "company": "Migros Industrie",
-    "hq_country": "Zurich, ZH",
-    "industry": "Food & Bev Manufacturing",
-    "revenue": "Approx. ~$4.0B",
-    "situations": "RC: LIKELY (6pts) | MP: LIKELY (6pts) | SG: LIKELY (6pts) | SCD: LIKELY (6pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:6 | MP:6 | SG:6 | SCD:6 = 24/40",
-    "key_evidence": "RC: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\" • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: Recall / quality crisis causing supply interruption",
-    "sources": "Earnings transcript; investor deck; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; investor deck; Regulator notices; company press release",
-    "summary": "Migros Industrie faces resource constraints and margin pressure, while also undertaking significant growth initiatives and dealing with supply chain disruptions. The company is experiencing resource constraints, as evidenced by management statements. There are also reports of margin decline. Simultaneously, Migros Industrie is undergoing significant growth, marked by capacity expansion. The company has also faced supply chain disruptions, including product recalls.",
-    "tier": "Eligible",
-    "_score_int": 24,
-    "_frequency": 1,
-    "_raw": "COMPANY: Migros Industrie\nICP: ELIGIBLE\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"\nRC_SOURCE: Earnings transcript; investor deck\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Recall / quality crisis causing supply interruption\nSCD_SOURCE: Regulator notices; company press release\n\nTOTAL: 24/40\nSUMMARY: Migros Industrie faces resource constraints and margin pressure, while also undertaking significant growth initiatives and dealing with supply chain disruptions. The company is experiencing resource constraints, as evidenced by management statements. There are also reports of margin decline. Simultaneously, Migros Industrie is undergoing significant growth, marked by capacity expansion. The company has also faced supply chain disruptions, including product recalls.\n",
-    "_situations": {
-      "RC": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"",
-        "source": "Earnings transcript; investor deck"
-      },
-      "MP": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
-      },
-      "SG": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "Press release; investor deck"
-      },
-      "SCD": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Recall / quality crisis causing supply interruption",
-        "source": "Regulator notices; company press release"
-      }
-    }
-  },
-  {
-    "company": "Bottega Veneta",
-    "hq_country": "Montebello Vicentino, IT",
-    "industry": "Luxury Leather Goods",
-    "revenue": "Approx. ~$1.8B",
-    "situations": "RC: LIKELY (6pts) | MP: LIKELY (6pts) | SG: LIKELY (6pts) | SCD: LIKELY (6pts)",
-    "classification": "LIKELY",
-    "priority_score": "RC:6 | MP:6 | SG:6 | SCD:6 = 24/40",
-    "key_evidence": "RC: Urgent hiring for SC/Proc roles (“urgent”, “immediate start”, “critical hire”) • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Sustained high growth explicitly linked to scaling capacity and execution limits • SCD: Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)",
-    "sources": "LinkedIn Jobs; company careers website; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Earnings call transcript; annual report; quarterly results; Press release; earnings call transcript",
-    "summary": "Bottega Veneta is experiencing resource constraints with urgent hiring for supply chain and procurement roles. Kering, the parent company, is undergoing restructuring, and Bottega Veneta has seen a decline in sales and profit. Despite these challenges, Bottega Veneta has demonstrated resilience, with a focus on craftsmanship and strategic pricing. There are reports of quality issues and customer complaints, potentially leading to crisis stabilization actions.",
-    "tier": "Eligible",
-    "_score_int": 24,
-    "_frequency": 1,
-    "_raw": "COMPANY: Bottega Veneta\nICP: ELIGIBLE\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Urgent hiring for SC/Proc roles (“urgent”, “immediate start”, “critical hire”)\nRC_SOURCE: LinkedIn Jobs; company careers website\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Sustained high growth explicitly linked to scaling capacity and execution limits\nSG_SOURCE: Earnings call transcript; annual report; quarterly results\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)\nSCD_SOURCE: Press release; earnings call transcript\n\nTOTAL: 24/40\nSUMMARY: Bottega Veneta is experiencing resource constraints with urgent hiring for supply chain and procurement roles. Kering, the parent company, is undergoing restructuring, and Bottega Veneta has seen a decline in sales and profit. Despite these challenges, Bottega Veneta has demonstrated resilience, with a focus on craftsmanship and strategic pricing. There are reports of quality issues and customer complaints, potentially leading to crisis stabilization actions.\n",
-    "_situations": {
-      "RC": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Urgent hiring for SC/Proc roles (“urgent”, “immediate start”, “critical hire”)",
-        "source": "LinkedIn Jobs; company careers website"
-      },
-      "MP": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
-      },
-      "SG": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Sustained high growth explicitly linked to scaling capacity and execution limits",
-        "source": "Earnings call transcript; annual report; quarterly results"
-      },
-      "SCD": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Company announces crisis stabilization actions (re-sourcing, allocation controls, rapid dual sourcing, task force)",
-        "source": "Press release; earnings call transcript"
-      }
-    }
-  },
-  {
-    "company": "Amcor",
-    "hq_country": "Zurich, ZH",
-    "industry": "Packaging",
-    "revenue": "Approx. ~$13.5B",
-    "situations": "RC: CONFIRMED (10pts) | MP: CONFIRMED (8pts) | SG: LIKELY (6pts)",
+    "company": "Biogen",
+    "hq_country": "Baar, ZG",
+    "industry": "Biopharmaceuticals",
+    "revenue": "Approx. ~$9.8B",
+    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (8pts) | SG: LIKELY (5pts)",
     "classification": "CONFIRMED",
-    "priority_score": "RC:10 | MP:8 | SG:6 | SCD:0 = 24/40",
-    "key_evidence": "RC: Organizational redesign, system consolidation and simplification efforts across corporate support functions, including having cut more than 600 employees • MP: Synergies during the quarter were at the upper end of Amcor's guidance range, worth $55 million in Q2, and the company reinforced plans to hit at least $260 million in FY2026 • SG: Amcor on Tuesday announced “a significant expansion” of printing, lamination and converting capabilities at existing facilities to support the protein market in North America",
-    "sources": "Packaging Dive, 2026-02-04; Packaging Dive, 2025-11-12",
-    "summary": "Amcor is undergoing significant restructuring, including workforce reductions and site closures, to achieve synergy targets following the Berry Global acquisition. The company is also expanding capacity in North America to support growth in the protein packaging market. While sales volumes have fallen across North America and Europe, the company is focused on cost management and portfolio optimization.",
+    "priority_score": "RC:6 | MP:8 | SG:5 | SCD:0 = 19/40",
+    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Quantified cost-out / savings program (value + timeframe) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+    "sources": "Earnings transcript; investor deck; Investor deck; earnings call transcript; annual report; Press release; investor deck",
+    "summary": "Biogen is undergoing a significant transformation, marked by cost-cutting measures including workforce reductions, while simultaneously investing in manufacturing capacity expansion and focusing on new product launches. The company is facing competitive pressures in its MS franchise, leading to revenue decline, but is aiming for growth through new products and pipeline advancements. This situation suggests a need for expertise in cost optimization, supply chain efficiency, and strategic resource allocation.",
     "tier": "Eligible",
-    "_score_int": 24,
+    "_score_int": 19,
     "_frequency": 1,
-    "_raw": "COMPANY: Amcor\nICP: ELIGIBLE\n\nRC: CONFIRMED | 10 pts\nRC_SIGNAL: Organizational redesign, system consolidation and simplification efforts across corporate support functions, including having cut more than 600 employees\nRC_SOURCE: Packaging Dive, 2026-02-04\n\nMP: CONFIRMED | 8 pts\nMP_SIGNAL: Synergies during the quarter were at the upper end of Amcor's guidance range, worth $55 million in Q2, and the company reinforced plans to hit at least $260 million in FY2026\nMP_SOURCE: Packaging Dive, 2026-02-04\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Amcor on Tuesday announced “a significant expansion” of printing, lamination and converting capabilities at existing facilities to support the protein market in North America\nSG_SOURCE: Packaging Dive, 2025-11-12\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 24/40\nSUMMARY: Amcor is undergoing significant restructuring, including workforce reductions and site closures, to achieve synergy targets following the Berry Global acquisition. The company is also expanding capacity in North America to support growth in the protein packaging market. While sales volumes have fallen across North America and Europe, the company is focused on cost management and portfolio optimization.\n",
+    "_raw": "COMPANY: Biogen\nICP: ELIGIBLE\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript; investor deck\n\nMP: CONFIRMED | 8 pts\nMP_SIGNAL: Quantified cost-out / savings program (value + timeframe)\nMP_SOURCE: Investor deck; earnings call transcript; annual report\n\nSG: LIKELY | 5 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 19/40\nSUMMARY: Biogen is undergoing a significant transformation, marked by cost-cutting measures including workforce reductions, while simultaneously investing in manufacturing capacity expansion and focusing on new product launches. The company is facing competitive pressures in its MS franchise, leading to revenue decline, but is aiming for growth through new products and pipeline advancements. This situation suggests a need for expertise in cost optimization, supply chain efficiency, and strategic resource allocation.\n",
     "_situations": {
       "RC": {
-        "status": "CONFIRMED",
-        "pts": 10,
-        "signal": "Organizational redesign, system consolidation and simplification efforts across corporate support functions, including having cut more than 600 employees",
-        "source": "Packaging Dive, 2026-02-04"
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”",
+        "source": "Earnings transcript; investor deck"
       },
       "MP": {
         "status": "CONFIRMED",
         "pts": 8,
-        "signal": "Synergies during the quarter were at the upper end of Amcor's guidance range, worth $55 million in Q2, and the company reinforced plans to hit at least $260 million in FY2026",
-        "source": "Packaging Dive, 2026-02-04"
+        "signal": "Quantified cost-out / savings program (value + timeframe)",
+        "source": "Investor deck; earnings call transcript; annual report"
       },
       "SG": {
         "status": "LIKELY",
-        "pts": 6,
-        "signal": "Amcor on Tuesday announced “a significant expansion” of printing, lamination and converting capabilities at existing facilities to support the protein market in North America",
-        "source": "Packaging Dive, 2025-11-12"
+        "pts": 5,
+        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+        "source": "Press release; investor deck"
       },
       "SCD": {
         "status": "NOT PRESENT",
@@ -336,20 +84,104 @@
     }
   },
   {
-    "company": "Alfasigma",
-    "hq_country": "Zurich, ZH",
-    "industry": "Pharmaceuticals",
-    "revenue": "Approx. ~$1.5B",
-    "situations": "RC: LIKELY (6pts) | MP: LIKELY (6pts) | SG: LIKELY (8pts) | SCD: UNCLEAR (3pts)",
+    "company": "Bauli Group",
+    "hq_country": "Castel d'Azzano, IT",
+    "industry": "Bakery / Confectionery",
+    "revenue": "Approx. ~$0.5B",
+    "situations": "RC: LIKELY (4pts) | MP: LIKELY (6pts) | SG: LIKELY (6pts)",
     "classification": "LIKELY",
-    "priority_score": "RC:6 | MP:6 | SG:8 | SCD:3 = 23/40",
-    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp) • SCD: \"Supply constraints” repeatedly mentioned without quantified impact",
-    "sources": "Earnings transcript; investor deck; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; investor deck; Earnings call transcript; management updates",
-    "summary": "Alfasigma is experiencing significant growth, as evidenced by capacity expansion announcements and acquisitions. However, the company also faces resource constraints and margin pressure, requiring cost optimization efforts. There are mentions of supply constraints, but without quantified impact.",
+    "priority_score": "RC:4 | MP:6 | SG:6 | SCD:0 = 16/40",
+    "key_evidence": "RC: Procurement workloads are projected to rise 8% in 2026, even as staffing levels and budgets decline • MP: Bauli aims to reach a revenue milestone of one billion euros by 2030, leveraging its strong 2023 turnover of 634 million euros • SG: Bauli plans to expand its international presence, particularly in North America and India, where it already operates a production facility",
+    "sources": "Supply Chain 24/7, 2026-03-04; Graziotto Legal, 2026-03-06",
+    "summary": "Bauli Group is experiencing margin pressure as it aims to reach one billion euros in revenue by 2030. The company is also undertaking significant growth initiatives, including international expansion in North America and India. Procurement workloads are projected to rise even as staffing levels and budgets decline.",
     "tier": "Eligible",
-    "_score_int": 23,
+    "_score_int": 16,
     "_frequency": 1,
-    "_raw": "COMPANY: Alfasigma\nICP: ELIGIBLE\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript; investor deck\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: LIKELY | 8 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: UNCLEAR | 3 pts\nSCD_SIGNAL: \"Supply constraints” repeatedly mentioned without quantified impact\nSCD_SOURCE: Earnings call transcript; management updates\n\nTOTAL: 23/40\nSUMMARY: Alfasigma is experiencing significant growth, as evidenced by capacity expansion announcements and acquisitions. However, the company also faces resource constraints and margin pressure, requiring cost optimization efforts. There are mentions of supply constraints, but without quantified impact.\n",
+    "_raw": "COMPANY: Bauli Group\nICP: ELIGIBLE\n\nRC: LIKELY | 4 pts\nRC_SIGNAL: Procurement workloads are projected to rise 8% in 2026, even as staffing levels and budgets decline\nRC_SOURCE: Supply Chain 24/7, 2026-03-04\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Bauli aims to reach a revenue milestone of one billion euros by 2030, leveraging its strong 2023 turnover of 634 million euros\nMP_SOURCE: Graziotto Legal, 2026-03-06\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Bauli plans to expand its international presence, particularly in North America and India, where it already operates a production facility\nSG_SOURCE: Graziotto Legal, 2026-03-06\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 16/40\nSUMMARY: Bauli Group is experiencing margin pressure as it aims to reach one billion euros in revenue by 2030. The company is also undertaking significant growth initiatives, including international expansion in North America and India. Procurement workloads are projected to rise even as staffing levels and budgets decline.\n",
+    "_situations": {
+      "RC": {
+        "status": "LIKELY",
+        "pts": 4,
+        "signal": "Procurement workloads are projected to rise 8% in 2026, even as staffing levels and budgets decline",
+        "source": "Supply Chain 24/7, 2026-03-04"
+      },
+      "MP": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Bauli aims to reach a revenue milestone of one billion euros by 2030, leveraging its strong 2023 turnover of 634 million euros",
+        "source": "Graziotto Legal, 2026-03-06"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Bauli plans to expand its international presence, particularly in North America and India, where it already operates a production facility",
+        "source": "Graziotto Legal, 2026-03-06"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "Archroma",
+    "hq_country": "Pratteln, BL",
+    "industry": "Specialty Chemicals",
+    "revenue": "Approx. ~$1.3B",
+    "situations": "MP: LIKELY (6pts) | SG: LIKELY (6pts) | SCD: LIKELY (4pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:0 | MP:6 | SG:6 | SCD:4 = 16/40",
+    "key_evidence": "MP: Quantified cost-out / savings program (value + timeframe) • SG: M&A integration / carve-out execution program active • SCD: “Supply constraints” repeatedly mentioned without quantified impact",
+    "sources": "Investor deck; earnings call transcript; annual report; Press release; investor announcement; Earnings call transcript; management updates",
+    "summary": "Archroma shows signals of margin pressure due to cost inflation and inefficiencies, with cost-out programs in place. The company is also experiencing significant growth through M&A activity, specifically the acquisition of Huntsman Textile Effects, requiring integration efforts. There are also mentions of supply constraints, though without quantified impact.",
+    "tier": "Eligible",
+    "_score_int": 16,
+    "_frequency": 1,
+    "_raw": "COMPANY: Archroma\nICP: ELIGIBLE\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Quantified cost-out / savings program (value + timeframe)\nMP_SOURCE: Investor deck; earnings call transcript; annual report\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: M&A integration / carve-out execution program active\nSG_SOURCE: Press release; investor announcement\n\nSCD: LIKELY | 4 pts\nSCD_SIGNAL: “Supply constraints” repeatedly mentioned without quantified impact\nSCD_SOURCE: Earnings call transcript; management updates\n\nTOTAL: 16/40\nSUMMARY: Archroma shows signals of margin pressure due to cost inflation and inefficiencies, with cost-out programs in place. The company is also experiencing significant growth through M&A activity, specifically the acquisition of Huntsman Textile Effects, requiring integration efforts. There are also mentions of supply constraints, though without quantified impact.",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Quantified cost-out / savings program (value + timeframe)",
+        "source": "Investor deck; earnings call transcript; annual report"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "M&A integration / carve-out execution program active",
+        "source": "Press release; investor announcement"
+      },
+      "SCD": {
+        "status": "LIKELY",
+        "pts": 4,
+        "signal": "“Supply constraints” repeatedly mentioned without quantified impact",
+        "source": "Earnings call transcript; management updates"
+      }
+    }
+  },
+  {
+    "company": "Idorsia",
+    "hq_country": "Allschwil, BL",
+    "industry": "Pharmaceuticals",
+    "revenue": "Approx. ~$0.2B",
+    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (8pts)",
+    "classification": "CONFIRMED",
+    "priority_score": "RC:6 | MP:8 | SG:0 | SCD:0 = 14/40",
+    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+    "sources": "Earnings transcript; investor deck; Annual report / 10-K / 20-F; quarterly results; earnings transcript",
+    "summary": "Idorsia faces resource constraints and margin pressure, leading to restructuring and cost-saving measures. The company is working towards commercial profitability with QUVIVIQ and is actively seeking partnerships to maximize the value of its assets.",
+    "tier": "Eligible",
+    "_score_int": 14,
+    "_frequency": 1,
+    "_raw": "COMPANY: Idorsia\nICP: ELIGIBLE\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript; investor deck\n\nMP: CONFIRMED | 8 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 14/40\nSUMMARY: Idorsia faces resource constraints and margin pressure, leading to restructuring and cost-saving measures. The company is working towards commercial profitability with QUVIVIQ and is actively seeking partnerships to maximize the value of its assets.\n",
     "_situations": {
       "RC": {
         "status": "LIKELY",
@@ -358,58 +190,16 @@
         "source": "Earnings transcript; investor deck"
       },
       "MP": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
-        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
-      },
-      "SG": {
-        "status": "LIKELY",
-        "pts": 8,
-        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "Press release; investor deck"
-      },
-      "SCD": {
-        "status": "UNCLEAR",
-        "pts": 3,
-        "signal": "\"Supply constraints” repeatedly mentioned without quantified impact",
-        "source": "Earnings call transcript; management updates"
-      }
-    }
-  },
-  {
-    "company": "Bystronic",
-    "hq_country": "Niederönz, BE, Switzerland",
-    "industry": "Industrial Machinery",
-    "revenue": "Approx. ~$1.0B",
-    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts) | SG: LIKELY (6pts)",
-    "classification": "CONFIRMED",
-    "priority_score": "RC:6 | MP:10 | SG:6 | SCD:0 = 22/40",
-    "key_evidence": "RC: External workforce / contractor reliance explicitly described as necessary to execute SC/Proc work • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-    "sources": "Annual report notes; earnings transcript; investor deck; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; investor deck",
-    "summary": "Bystronic is showing signs of margin pressure, as evidenced by a 76.4% improvement in EBIT driven by cost reduction initiatives and a restructuring program that reduced costs by over CHF 60 million annually. The company is also experiencing significant growth, acquiring Coherent Corp.'s Tools for Materials Processing business unit to expand into new markets. However, there is no evidence of supply chain disruption.",
-    "tier": "Eligible",
-    "_score_int": 22,
-    "_frequency": 1,
-    "_raw": "COMPANY: Bystronic\nICP: ELIGIBLE\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: External workforce / contractor reliance explicitly described as necessary to execute SC/Proc work\nRC_SOURCE: Annual report notes; earnings transcript; investor deck\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 22/40\nSUMMARY: Bystronic is showing signs of margin pressure, as evidenced by a 76.4% improvement in EBIT driven by cost reduction initiatives and a restructuring program that reduced costs by over CHF 60 million annually. The company is also experiencing significant growth, acquiring Coherent Corp.'s Tools for Materials Processing business unit to expand into new markets. However, there is no evidence of supply chain disruption.\n",
-    "_situations": {
-      "RC": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "External workforce / contractor reliance explicitly described as necessary to execute SC/Proc work",
-        "source": "Annual report notes; earnings transcript; investor deck"
-      },
-      "MP": {
         "status": "CONFIRMED",
-        "pts": 10,
+        "pts": 8,
         "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
         "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
       },
       "SG": {
-        "status": "LIKELY",
-        "pts": 6,
-        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
-        "source": "Press release; investor deck"
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
       },
       "SCD": {
         "status": "NOT PRESENT",

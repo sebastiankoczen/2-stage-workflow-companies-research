@@ -1,0 +1,842 @@
+[
+  {
+    "company": "Trinseo",
+    "hq_country": "Horgen, ZH",
+    "industry": "Specialty Materials",
+    "revenue": "Approx. ~$4.0B",
+    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (10pts) | SCD: LIKELY (6pts)",
+    "classification": "CONFIRMED",
+    "priority_score": "RC:6 | MP:10 | SG:0 | SCD:6 = 22/40",
+    "key_evidence": "RC: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\" • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off) • SCD: Production shutdown due to material shortage / supplier failure",
+    "sources": "Earnings transcript; Annual report / 10-K / 20-F; quarterly results; earnings transcript; Press release; trade media; investor comms",
+    "summary": "Trinseo is facing margin pressure, leading to restructuring actions including plant closures and workforce reductions. The company is experiencing resource constraints and has had production shutdowns due to supply chain challenges. While there's no strong evidence of significant growth, the company is actively optimizing operations to enhance cash flow and profitability.",
+    "tier": "Eligible",
+    "_score_int": 22,
+    "_frequency": 1,
+    "_raw": "COMPANY: Trinseo\nICP: ELIGIBLE\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"\nRC_SOURCE: Earnings transcript\n\nMP: CONFIRMED | 10 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Production shutdown due to material shortage / supplier failure\nSCD_SOURCE: Press release; trade media; investor comms\n\nTOTAL: 22/40\nSUMMARY: Trinseo is facing margin pressure, leading to restructuring actions including plant closures and workforce reductions. The company is experiencing resource constraints and has had production shutdowns due to supply chain challenges. While there's no strong evidence of significant growth, the company is actively optimizing operations to enhance cash flow and profitability.",
+    "_situations": {
+      "RC": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"",
+        "source": "Earnings transcript"
+      },
+      "MP": {
+        "status": "CONFIRMED",
+        "pts": 10,
+        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
+      },
+      "SG": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SCD": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Production shutdown due to material shortage / supplier failure",
+        "source": "Press release; trade media; investor comms"
+      }
+    }
+  },
+  {
+    "company": "Biogen",
+    "hq_country": "Baar, ZG",
+    "industry": "Biopharmaceuticals",
+    "revenue": "Approx. ~$9.8B",
+    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (8pts) | SG: LIKELY (5pts)",
+    "classification": "CONFIRMED",
+    "priority_score": "RC:6 | MP:8 | SG:5 | SCD:0 = 19/40",
+    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Quantified cost-out / savings program (value + timeframe) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+    "sources": "Earnings transcript; investor deck; Investor deck; earnings call transcript; annual report; Press release; investor deck",
+    "summary": "Biogen is undergoing a significant transformation, marked by cost-cutting measures including workforce reductions, while simultaneously investing in manufacturing capacity expansion and focusing on new product launches. The company is facing competitive pressures in its MS franchise, leading to revenue decline, but is aiming for growth through new products and pipeline advancements. This situation suggests a need for expertise in cost optimization, supply chain efficiency, and strategic resource allocation.",
+    "tier": "Eligible",
+    "_score_int": 19,
+    "_frequency": 1,
+    "_raw": "COMPANY: Biogen\nICP: ELIGIBLE\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript; investor deck\n\nMP: CONFIRMED | 8 pts\nMP_SIGNAL: Quantified cost-out / savings program (value + timeframe)\nMP_SOURCE: Investor deck; earnings call transcript; annual report\n\nSG: LIKELY | 5 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 19/40\nSUMMARY: Biogen is undergoing a significant transformation, marked by cost-cutting measures including workforce reductions, while simultaneously investing in manufacturing capacity expansion and focusing on new product launches. The company is facing competitive pressures in its MS franchise, leading to revenue decline, but is aiming for growth through new products and pipeline advancements. This situation suggests a need for expertise in cost optimization, supply chain efficiency, and strategic resource allocation.\n",
+    "_situations": {
+      "RC": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”",
+        "source": "Earnings transcript; investor deck"
+      },
+      "MP": {
+        "status": "CONFIRMED",
+        "pts": 8,
+        "signal": "Quantified cost-out / savings program (value + timeframe)",
+        "source": "Investor deck; earnings call transcript; annual report"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 5,
+        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+        "source": "Press release; investor deck"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "Bauli Group",
+    "hq_country": "Castel d'Azzano, IT",
+    "industry": "Bakery / Confectionery",
+    "revenue": "Approx. ~$0.5B",
+    "situations": "RC: LIKELY (4pts) | MP: LIKELY (6pts) | SG: LIKELY (6pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:4 | MP:6 | SG:6 | SCD:0 = 16/40",
+    "key_evidence": "RC: Procurement workloads are projected to rise 8% in 2026, even as staffing levels and budgets decline • MP: Bauli aims to reach a revenue milestone of one billion euros by 2030, leveraging its strong 2023 turnover of 634 million euros • SG: Bauli plans to expand its international presence, particularly in North America and India, where it already operates a production facility",
+    "sources": "Supply Chain 24/7, 2026-03-04; Graziotto Legal, 2026-03-06",
+    "summary": "Bauli Group is experiencing margin pressure as it aims to reach one billion euros in revenue by 2030. The company is also undertaking significant growth initiatives, including international expansion in North America and India. Procurement workloads are projected to rise even as staffing levels and budgets decline.",
+    "tier": "Eligible",
+    "_score_int": 16,
+    "_frequency": 1,
+    "_raw": "COMPANY: Bauli Group\nICP: ELIGIBLE\n\nRC: LIKELY | 4 pts\nRC_SIGNAL: Procurement workloads are projected to rise 8% in 2026, even as staffing levels and budgets decline\nRC_SOURCE: Supply Chain 24/7, 2026-03-04\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Bauli aims to reach a revenue milestone of one billion euros by 2030, leveraging its strong 2023 turnover of 634 million euros\nMP_SOURCE: Graziotto Legal, 2026-03-06\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Bauli plans to expand its international presence, particularly in North America and India, where it already operates a production facility\nSG_SOURCE: Graziotto Legal, 2026-03-06\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 16/40\nSUMMARY: Bauli Group is experiencing margin pressure as it aims to reach one billion euros in revenue by 2030. The company is also undertaking significant growth initiatives, including international expansion in North America and India. Procurement workloads are projected to rise even as staffing levels and budgets decline.\n",
+    "_situations": {
+      "RC": {
+        "status": "LIKELY",
+        "pts": 4,
+        "signal": "Procurement workloads are projected to rise 8% in 2026, even as staffing levels and budgets decline",
+        "source": "Supply Chain 24/7, 2026-03-04"
+      },
+      "MP": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Bauli aims to reach a revenue milestone of one billion euros by 2030, leveraging its strong 2023 turnover of 634 million euros",
+        "source": "Graziotto Legal, 2026-03-06"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Bauli plans to expand its international presence, particularly in North America and India, where it already operates a production facility",
+        "source": "Graziotto Legal, 2026-03-06"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "Archroma",
+    "hq_country": "Pratteln, BL",
+    "industry": "Specialty Chemicals",
+    "revenue": "Approx. ~$1.3B",
+    "situations": "MP: LIKELY (6pts) | SG: LIKELY (6pts) | SCD: LIKELY (4pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:0 | MP:6 | SG:6 | SCD:4 = 16/40",
+    "key_evidence": "MP: Quantified cost-out / savings program (value + timeframe) • SG: M&A integration / carve-out execution program active • SCD: “Supply constraints” repeatedly mentioned without quantified impact",
+    "sources": "Investor deck; earnings call transcript; annual report; Press release; investor announcement; Earnings call transcript; management updates",
+    "summary": "Archroma shows signals of margin pressure due to cost inflation and inefficiencies, with cost-out programs in place. The company is also experiencing significant growth through M&A activity, specifically the acquisition of Huntsman Textile Effects, requiring integration efforts. There are also mentions of supply constraints, though without quantified impact.",
+    "tier": "Eligible",
+    "_score_int": 16,
+    "_frequency": 1,
+    "_raw": "COMPANY: Archroma\nICP: ELIGIBLE\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Quantified cost-out / savings program (value + timeframe)\nMP_SOURCE: Investor deck; earnings call transcript; annual report\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: M&A integration / carve-out execution program active\nSG_SOURCE: Press release; investor announcement\n\nSCD: LIKELY | 4 pts\nSCD_SIGNAL: “Supply constraints” repeatedly mentioned without quantified impact\nSCD_SOURCE: Earnings call transcript; management updates\n\nTOTAL: 16/40\nSUMMARY: Archroma shows signals of margin pressure due to cost inflation and inefficiencies, with cost-out programs in place. The company is also experiencing significant growth through M&A activity, specifically the acquisition of Huntsman Textile Effects, requiring integration efforts. There are also mentions of supply constraints, though without quantified impact.",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Quantified cost-out / savings program (value + timeframe)",
+        "source": "Investor deck; earnings call transcript; annual report"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "M&A integration / carve-out execution program active",
+        "source": "Press release; investor announcement"
+      },
+      "SCD": {
+        "status": "LIKELY",
+        "pts": 4,
+        "signal": "“Supply constraints” repeatedly mentioned without quantified impact",
+        "source": "Earnings call transcript; management updates"
+      }
+    }
+  },
+  {
+    "company": "Idorsia",
+    "hq_country": "Allschwil, BL",
+    "industry": "Pharmaceuticals",
+    "revenue": "Approx. ~$0.2B",
+    "situations": "RC: LIKELY (6pts) | MP: CONFIRMED (8pts)",
+    "classification": "CONFIRMED",
+    "priority_score": "RC:6 | MP:8 | SG:0 | SCD:0 = 14/40",
+    "key_evidence": "RC: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage” • MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+    "sources": "Earnings transcript; investor deck; Annual report / 10-K / 20-F; quarterly results; earnings transcript",
+    "summary": "Idorsia faces resource constraints and margin pressure, leading to restructuring and cost-saving measures. The company is working towards commercial profitability with QUVIVIQ and is actively seeking partnerships to maximize the value of its assets.",
+    "tier": "Eligible",
+    "_score_int": 14,
+    "_frequency": 1,
+    "_raw": "COMPANY: Idorsia\nICP: ELIGIBLE\n\nRC: LIKELY | 6 pts\nRC_SIGNAL: Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”\nRC_SOURCE: Earnings transcript; investor deck\n\nMP: CONFIRMED | 8 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 14/40\nSUMMARY: Idorsia faces resource constraints and margin pressure, leading to restructuring and cost-saving measures. The company is working towards commercial profitability with QUVIVIQ and is actively seeking partnerships to maximize the value of its assets.\n",
+    "_situations": {
+      "RC": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Management explicitly states “resource constraints / lack of bandwidth / capacity shortage”",
+        "source": "Earnings transcript; investor deck"
+      },
+      "MP": {
+        "status": "CONFIRMED",
+        "pts": 8,
+        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
+      },
+      "SG": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "PolyOne / Avient",
+    "hq_country": "Zurich, ZH",
+    "industry": "Specialty Polymers",
+    "revenue": "Approx. ~$3.5B",
+    "situations": "MP: LIKELY (6pts) | SG: LIKELY (6pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:1 | MP:6 | SG:6 | SCD:0 = 13/40",
+    "key_evidence": "MP: Quantified cost-out / savings program (value + timeframe) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+    "sources": "Investor presentation; annual report; press release; Press release; investor deck",
+    "summary": "Avient shows signals of margin pressure with cost savings programs and significant growth through capacity expansion and innovation. While demand conditions are expected to remain mixed as we start 2026, the company is not relying on it to deliver earnings growth. The company expects the carryover impact of their 2025 initiatives and continued focus on productivity and cash preservation to enable earnings growth in 2026.",
+    "tier": "Eligible",
+    "_score_int": 13,
+    "_frequency": 1,
+    "_raw": "Okay, I will analyze PolyOne/Avient based on the provided information and the search queries, focusing on evidence from after 2026-01-03.\n\nOkay, here's the analysis of PolyOne/Avient based on the search results:\n\nCOMPANY: PolyOne / Avient\nICP: ELIGIBLE\n\nRC: NOT PRESENT | 1 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Quantified cost-out / savings program (value + timeframe)\nMP_SOURCE: Investor presentation; annual report; press release\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 13/40\nSUMMARY: Avient shows signals of margin pressure with cost savings programs and significant growth through capacity expansion and innovation. While demand conditions are expected to remain mixed as we start 2026, the company is not relying on it to deliver earnings growth. The company expects the carryover impact of their 2025 initiatives and continued focus on productivity and cash preservation to enable earnings growth in 2026.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 1,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Quantified cost-out / savings program (value + timeframe)",
+        "source": "Investor presentation; annual report; press release"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+        "source": "Press release; investor deck"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "OC Oerlikon",
+    "hq_country": "Pfäffikon, SZ, Switzerland",
+    "industry": "Industrial Engineering",
+    "revenue": "Approx. ~$3.0B",
+    "situations": "MP: LIKELY (6pts) | SG: LIKELY (6pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:0 | MP:6 | SG:6 | SCD:0 = 12/40",
+    "key_evidence": "MP: Quantified cost-out / savings program (value + timeframe) • SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+    "sources": "Investor deck; earnings call transcript; annual report; Press release; investor deck",
+    "summary": "Oerlikon is experiencing margin pressure, addressed through structural cost-out actions and efficiency improvements. The company is also undergoing significant growth, expanding its manufacturing capacity in Michigan to meet rising customer demand. They completed the divestment of the Barmag business to Rieter.",
+    "tier": "Eligible",
+    "_score_int": 12,
+    "_frequency": 1,
+    "_raw": "COMPANY: OC Oerlikon\nICP: ELIGIBLE\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Quantified cost-out / savings program (value + timeframe)\nMP_SOURCE: Investor deck; earnings call transcript; annual report\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 12/40\nSUMMARY: Oerlikon is experiencing margin pressure, addressed through structural cost-out actions and efficiency improvements. The company is also undergoing significant growth, expanding its manufacturing capacity in Michigan to meet rising customer demand. They completed the divestment of the Barmag business to Rieter.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Quantified cost-out / savings program (value + timeframe)",
+        "source": "Investor deck; earnings call transcript; annual report"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+        "source": "Press release; investor deck"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "Feintool International",
+    "hq_country": "Lyss, BE",
+    "industry": "Automotive Components",
+    "revenue": "Approx. ~$0.9B",
+    "situations": "RC: LIKELY (5pts) | MP: LIKELY (6pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:5 | MP:6 | SG:0 | SCD:0 = 11/40",
+    "key_evidence": "RC: Management completed the European stamping restructuring, which is expected to deliver roughly CHF 12 million in annual savings from FY2026. • MP: Feintool expects an uneven development across its markets, with a challenging environment continuing in Europe, while in the US and Asia, the Group aims to build on the positive momentum of the second half of 2025, As a result, Feintool anticipates further improvement in EBIT margins in local currencies.",
+    "sources": "Tipranks.com, March 05 2026; Annual Results 2025, February 26 2026",
+    "summary": "Feintool International is undergoing restructuring in Europe, which is expected to yield cost savings in 2026. The company anticipates improved EBIT margins, driven by growth in the US and Asia, despite a challenging environment in Europe.",
+    "tier": "Eligible",
+    "_score_int": 11,
+    "_frequency": 1,
+    "_raw": "COMPANY: Feintool International\nICP: ELIGIBLE\n\nRC: LIKELY | 5 pts\nRC_SIGNAL: Management completed the European stamping restructuring, which is expected to deliver roughly CHF 12 million in annual savings from FY2026.\nRC_SOURCE: Tipranks.com, March 05 2026\n\nMP: LIKELY | 6 pts\nMP_SIGNAL: Feintool expects an uneven development across its markets, with a challenging environment continuing in Europe, while in the US and Asia, the Group aims to build on the positive momentum of the second half of 2025, As a result, Feintool anticipates further improvement in EBIT margins in local currencies.\nMP_SOURCE: Annual Results 2025, February 26 2026\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 11/40\nSUMMARY: Feintool International is undergoing restructuring in Europe, which is expected to yield cost savings in 2026. The company anticipates improved EBIT margins, driven by growth in the US and Asia, despite a challenging environment in Europe.\n",
+    "_situations": {
+      "RC": {
+        "status": "LIKELY",
+        "pts": 5,
+        "signal": "Management completed the European stamping restructuring, which is expected to deliver roughly CHF 12 million in annual savings from FY2026.",
+        "source": "Tipranks.com, March 05 2026"
+      },
+      "MP": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Feintool expects an uneven development across its markets, with a challenging environment continuing in Europe, while in the US and Asia, the Group aims to build on the positive momentum of the second half of 2025, As a result, Feintool anticipates further improvement in EBIT margins in local currencies.",
+        "source": "Annual Results 2025, February 26 2026"
+      },
+      "SG": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "Gnutti Carlo Group",
+    "hq_country": "Brescia, IT",
+    "industry": "Precision Components",
+    "revenue": "Approx. ~$0.4B",
+    "situations": "RC: UNCLEAR (3pts) | SCD: LIKELY (6pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:3 | MP:1 | SG:0 | SCD:6 = 10/40",
+    "key_evidence": "RC: Urgent hiring for SC/Proc roles (“urgent”, “immediate start”, “critical hire”) • MP: Input costs / inflation described as headwind without quantified structural margin impact • SCD: Production shutdown due to material shortage / supplier failure",
+    "sources": "LinkedIn Jobs; company careers website; Annual report; earnings call; Press release; trade media; investor comms",
+    "summary": "Gnutti Carlo Group, operating in the automotive industry, faces potential supply chain disruptions as evidenced by production halts due to component shortages. The company also shows signs of resource constraints with urgent hiring for supply chain and procurement roles. While there's mention of input costs and inflation, the impact on margins isn't quantified.",
+    "tier": "Eligible",
+    "_score_int": 10,
+    "_frequency": 1,
+    "_raw": "COMPANY: Gnutti Carlo Group\nICP: ELIGIBLE\n\nRC: UNCLEAR | 3 pts\nRC_SIGNAL: Urgent hiring for SC/Proc roles (“urgent”, “immediate start”, “critical hire”)\nRC_SOURCE: LinkedIn Jobs; company careers website\n\nMP: NOT PRESENT | 1 pts\nMP_SIGNAL: Input costs / inflation described as headwind without quantified structural margin impact\nMP_SOURCE: Annual report; earnings call\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Production shutdown due to material shortage / supplier failure\nSCD_SOURCE: Press release; trade media; investor comms\n\nTOTAL: 10/40\nSUMMARY: Gnutti Carlo Group, operating in the automotive industry, faces potential supply chain disruptions as evidenced by production halts due to component shortages. The company also shows signs of resource constraints with urgent hiring for supply chain and procurement roles. While there's mention of input costs and inflation, the impact on margins isn't quantified.\n",
+    "_situations": {
+      "RC": {
+        "status": "UNCLEAR",
+        "pts": 3,
+        "signal": "Urgent hiring for SC/Proc roles (“urgent”, “immediate start”, “critical hire”)",
+        "source": "LinkedIn Jobs; company careers website"
+      },
+      "MP": {
+        "status": "NOT PRESENT",
+        "pts": 1,
+        "signal": "Input costs / inflation described as headwind without quantified structural margin impact",
+        "source": "Annual report; earnings call"
+      },
+      "SG": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SCD": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Production shutdown due to material shortage / supplier failure",
+        "source": "Press release; trade media; investor comms"
+      }
+    }
+  },
+  {
+    "company": "Tenaris S.p.A.",
+    "hq_country": "Milan, IT",
+    "industry": "Steel Tubes",
+    "revenue": "Approx. ~$11.5B",
+    "situations": "SG: LIKELY (6pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:1 | MP:1 | SG:6 | SCD:0 = 8/40",
+    "key_evidence": "SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+    "sources": "Press release; investor deck",
+    "summary": "Tenaris is showing signs of significant growth with capacity expansion through acquisitions and facility restarts. They acquired Republic Tube's Houston facility and are restarting heat treatment lines in Koppel, Pennsylvania. The company is also expanding in the Middle East and Guyana-Suriname basin.",
+    "tier": "Eligible",
+    "_score_int": 8,
+    "_frequency": 1,
+    "_raw": "COMPANY: Tenaris S.p.A.\nICP: ELIGIBLE\n\nRC: NOT PRESENT | 1 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | 1 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Press release; investor deck\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 8/40\nSUMMARY: Tenaris is showing signs of significant growth with capacity expansion through acquisitions and facility restarts. They acquired Republic Tube's Houston facility and are restarting heat treatment lines in Koppel, Pennsylvania. The company is also expanding in the Middle East and Guyana-Suriname basin.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 1,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "NOT PRESENT",
+        "pts": 1,
+        "signal": "none",
+        "source": "none"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+        "source": "Press release; investor deck"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "Franke Group",
+    "hq_country": "Aarburg, AG, Switzerland",
+    "industry": "Industrial Mfg",
+    "revenue": "Approx. ~$2.6B",
+    "situations": "MP: UNCLEAR (2pts) | SG: LIKELY (6pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:0 | MP:2 | SG:6 | SCD:0 = 8/40",
+    "key_evidence": "MP: EBIT fell to CHF 193,1 million (-10,6%), while the EBIT margin declined slightly to 8.0% (previous year 8.5%) • SG: Franke acquired the Norwegian kitchen hood manufacturer, Røros Metall for an undisclosed sum",
+    "sources": "InteriorDaily, 2024-05-23; Wikipedia, 2026-01-08",
+    "summary": "Franke Group's EBIT and EBIT margin fell in 2023. Franke Group acquired Røros Metall in January 2026, expanding its Nordic presence. There is no evidence of resource constraints or supply chain disruptions.",
+    "tier": "Eligible",
+    "_score_int": 8,
+    "_frequency": 1,
+    "_raw": "COMPANY: Franke Group\nICP: ELIGIBLE\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: UNCLEAR | 2 pts\nMP_SIGNAL: EBIT fell to CHF 193,1 million (-10,6%), while the EBIT margin declined slightly to 8.0% (previous year 8.5%)\nMP_SOURCE: InteriorDaily, 2024-05-23\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Franke acquired the Norwegian kitchen hood manufacturer, Røros Metall for an undisclosed sum\nSG_SOURCE: Wikipedia, 2026-01-08\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 8/40\nSUMMARY: Franke Group's EBIT and EBIT margin fell in 2023. Franke Group acquired Røros Metall in January 2026, expanding its Nordic presence. There is no evidence of resource constraints or supply chain disruptions.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "UNCLEAR",
+        "pts": 2,
+        "signal": "EBIT fell to CHF 193,1 million (-10,6%), while the EBIT margin declined slightly to 8.0% (previous year 8.5%)",
+        "source": "InteriorDaily, 2024-05-23"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Franke acquired the Norwegian kitchen hood manufacturer, Røros Metall for an undisclosed sum",
+        "source": "Wikipedia, 2026-01-08"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "Bobst Group",
+    "hq_country": "Mex, VD, Switzerland",
+    "industry": "Packaging Machinery",
+    "revenue": "Approx. ~$2.1B",
+    "situations": "MP: CONFIRMED (7pts)",
+    "classification": "CONFIRMED",
+    "priority_score": "RC:1 | MP:7 | SG:0 | SCD:0 = 8/40",
+    "key_evidence": "MP: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+    "sources": "Annual report / 10-K / 20-F; quarterly results; earnings transcript",
+    "summary": "Bobst Group's 2025 results were impacted by lower sales and US tariffs, leading to a decline in operating result (EBIT) and net result compared to 2024. The company expects 2026 to remain challenging due to the geopolitical and economic situation. The Group has also launched cost-savings programs and ongoing operational improvements to compensate for the missing margin.",
+    "tier": "Eligible",
+    "_score_int": 8,
+    "_frequency": 1,
+    "_raw": "COMPANY: Bobst Group\nICP: ELIGIBLE\n\nRC: NOT PRESENT | 1 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: CONFIRMED | 7 pts\nMP_SIGNAL: Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)\nMP_SOURCE: Annual report / 10-K / 20-F; quarterly results; earnings transcript\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 8/40\nSUMMARY: Bobst Group's 2025 results were impacted by lower sales and US tariffs, leading to a decline in operating result (EBIT) and net result compared to 2024. The company expects 2026 to remain challenging due to the geopolitical and economic situation. The Group has also launched cost-savings programs and ongoing operational improvements to compensate for the missing margin.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 1,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "CONFIRMED",
+        "pts": 7,
+        "signal": "Gross margin / EBITDA margin decline reported and discussed as structural (not one-off)",
+        "source": "Annual report / 10-K / 20-F; quarterly results; earnings transcript"
+      },
+      "SG": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "Doppelmayr/Garaventa Group",
+    "hq_country": "Wolfurt, VBG, AT",
+    "industry": "Ropeway / Lifts",
+    "revenue": "Approx. ~$1.2B",
+    "situations": "SG: LIKELY (6pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:0 | MP:0 | SG:6 | SCD:0 = 6/40",
+    "key_evidence": "SG: Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+    "sources": "Lift Blog, May 23 2025",
+    "summary": "Doppelmayr/Garaventa Group is undertaking major capacity expansion projects, including a new production site in Wolfurt, Austria, and an expansion of their Canadian headquarters in Saint-Jérôme, Quebec. These expansions are driven by increasing international demand, particularly in North America.",
+    "tier": "Eligible",
+    "_score_int": 6,
+    "_frequency": 1,
+    "_raw": "COMPANY: Doppelmayr/Garaventa Group\nICP: ELIGIBLE\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | 0 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Major capacity expansion announced (new plant / lines / DC / automation ramp)\nSG_SOURCE: Lift Blog, May 23 2025\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 6/40\nSUMMARY: Doppelmayr/Garaventa Group is undertaking major capacity expansion projects, including a new production site in Wolfurt, Austria, and an expansion of their Canadian headquarters in Saint-Jérôme, Quebec. These expansions are driven by increasing international demand, particularly in North America.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Major capacity expansion announced (new plant / lines / DC / automation ramp)",
+        "source": "Lift Blog, May 23 2025"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "Zanetti S.p.A.",
+    "hq_country": "Caravaggio, IT",
+    "industry": "Dairy / Cheese",
+    "revenue": "Approx. ~$0.5B",
+    "situations": "SG: LIKELY (6pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:0 | MP:0 | SG:6 | SCD:0 = 6/40",
+    "key_evidence": "SG: Acquisition",
+    "sources": "Italianfood.net, April 19 2024",
+    "summary": "Zanetti S.p.A. is part of a consortium that acquired Saviola Spa, which will bolster Zanetti's position in domestic and international markets. There is no evidence of resource constraints, margin pressure, or supply chain disruptions.",
+    "tier": "Eligible",
+    "_score_int": 6,
+    "_frequency": 1,
+    "_raw": "COMPANY: Zanetti S.p.A.\nICP: ELIGIBLE\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | 0 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: Acquisition\nSG_SOURCE: Italianfood.net, April 19 2024\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 6/40\nSUMMARY: Zanetti S.p.A. is part of a consortium that acquired Saviola Spa, which will bolster Zanetti's position in domestic and international markets. There is no evidence of resource constraints, margin pressure, or supply chain disruptions.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Acquisition",
+        "source": "Italianfood.net, April 19 2024"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "Ritter Sport / Alfred Ritter GmbH",
+    "hq_country": "Waldenbuch, BW, DE",
+    "industry": "Chocolate",
+    "revenue": "Approx. ~$0.5B",
+    "situations": "SG: LIKELY (6pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:0 | MP:0 | SG:6 | SCD:0 = 6/40",
+    "key_evidence": "SG: M&A integration / carve-out execution program active",
+    "sources": "Press release; investor announcement",
+    "summary": "Ritter Sport acquired Creative Natural Products Inc. (Chocolove) in November/December 2025 to expand its presence in the U.S. chocolate market. The acquisition should strengthen Ritter Sport's ability to connect with customers who enjoy premium chocolate.",
+    "tier": "Eligible",
+    "_score_int": 6,
+    "_frequency": 1,
+    "_raw": "COMPANY: Ritter Sport / Alfred Ritter GmbH\nICP: ELIGIBLE\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | 0 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: LIKELY | 6 pts\nSG_SIGNAL: M&A integration / carve-out execution program active\nSG_SOURCE: Press release; investor announcement\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 6/40\nSUMMARY: Ritter Sport acquired Creative Natural Products Inc. (Chocolove) in November/December 2025 to expand its presence in the U.S. chocolate market. The acquisition should strengthen Ritter Sport's ability to connect with customers who enjoy premium chocolate.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SG": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "M&A integration / carve-out execution program active",
+        "source": "Press release; investor announcement"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "Testo SE & Co. KGaA",
+    "hq_country": "Titisee-Neustadt, BW, DE",
+    "industry": "Measurement Instruments",
+    "revenue": "Approx. ~$0.5B",
+    "situations": "RC: UNCLEAR (3pts)",
+    "classification": "UNCLEAR",
+    "priority_score": "RC:3 | MP:0 | SG:0 | SCD:0 = 3/40",
+    "key_evidence": "RC: Urgent hiring for SC/Proc roles (“urgent”, “immediate start”, “critical hire”)",
+    "sources": "LinkedIn Jobs; company careers website",
+    "summary": "There is an unclear signal for resource constraints, based on urgent hiring for supply chain and procurement roles. No signals were found for margin pressure, significant growth, or supply chain disruption.",
+    "tier": "Eligible",
+    "_score_int": 3,
+    "_frequency": 1,
+    "_raw": "COMPANY: Testo SE & Co. KGaA\nICP: ELIGIBLE\n\nRC: UNCLEAR | 3 pts\nRC_SIGNAL: Urgent hiring for SC/Proc roles (“urgent”, “immediate start”, “critical hire”)\nRC_SOURCE: LinkedIn Jobs; company careers website\n\nMP: NOT PRESENT | 0 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 3/40\nSUMMARY: There is an unclear signal for resource constraints, based on urgent hiring for supply chain and procurement roles. No signals were found for margin pressure, significant growth, or supply chain disruption.\n",
+    "_situations": {
+      "RC": {
+        "status": "UNCLEAR",
+        "pts": 3,
+        "signal": "Urgent hiring for SC/Proc roles (“urgent”, “immediate start”, “critical hire”)",
+        "source": "LinkedIn Jobs; company careers website"
+      },
+      "MP": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SG": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "Curaden / Curaprox",
+    "hq_country": "Kriens, LU",
+    "industry": "Oral Care Products",
+    "revenue": "Approx. ~$0.2B",
+    "situations": "No signals detected",
+    "classification": "NOT PRESENT",
+    "priority_score": "RC:0 | MP:0 | SG:0 | SCD:0 = 0/40",
+    "key_evidence": "No signals detected",
+    "sources": "",
+    "summary": "No relevant signals were found regarding resource constraints, margin pressure, significant growth or supply chain disruptions for Curaden/Curaprox within the specified timeframe.",
+    "tier": "Eligible",
+    "_score_int": 0,
+    "_frequency": 1,
+    "_raw": "Okay, I will analyze Curaden/Curaprox based on the provided information and the search results, focusing on evidence from after 2026-01-03.\n\nBased on the search results, here's my assessment of Curaden/Curaprox:\n\nCOMPANY: Curaden / Curaprox\nICP: ELIGIBLE\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | 0 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: NOT PRESENT | 0 pts\nSCD_SIGNAL: none\nSCD_SOURCE: none\n\nTOTAL: 0/40\nSUMMARY: No relevant signals were found regarding resource constraints, margin pressure, significant growth or supply chain disruptions for Curaden/Curaprox within the specified timeframe.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SG": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      }
+    }
+  },
+  {
+    "company": "Volcafe",
+    "hq_country": "Winterthur, ZH",
+    "industry": "Coffee Trading",
+    "revenue": "Approx. ~$4.0B",
+    "situations": "No signals detected",
+    "classification": "NOT PRESENT",
+    "priority_score": "RC:0 | MP:0 | SG:0 | SCD:0 = 0/40",
+    "key_evidence": "No signals detected",
+    "sources": "",
+    "summary": "",
+    "tier": "Eligible",
+    "_score_int": 0,
+    "_frequency": 1,
+    "_raw": "Okay, I will analyze Volcafe based on the provided information and the search queries, and then score the four situations (Resource Constraints, Margin Pressure, Significant Growth, and Supply Chain Disruption).\n\nOkay, here's the analysis and scoring for Volcafe:\n\n**COMPANY:** Volcafe\n**ICP:** ELIGIBLE\n\n**RC:** UNCLEAR | 3 pts\n**RC_SIGNAL:** Staffing partners / contractor ecosystem presence implied (frequent interim posts, staffing firm campaigns)\n**RC_SOURCE:** LinkedIn; staffing firm websites; trade publications\n\n**MP:** NOT PRESENT | 1 pts\n**MP_SIGNAL:** none\n**MP_SOURCE:** none\n\n**SG:** LIKELY | 6 pts\n**SG_SIGNAL:** Major capacity expansion announced (new plant / lines / DC / automation ramp)\n**SG_SOURCE:** Press release; investor deck\n\n**SCD:** UNCLEAR | 3 pts\n**SCD_SIGNAL:** \"Supply constraints” repeatedly mentioned without quantified impact\n**SCD_SOURCE:** Earnings call transcript; management updates\n\n**TOTAL:** 13/40\n**SUMMARY:** Volcafe shows signals of significant growth due to recent acquisitions by Hartree Partners and expansion into soft commodities. There are also indications of supply chain constraints and disruptions, but these are not strongly supported by the available evidence. There is no strong evidence of margin pressure.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "",
+        "source": ""
+      },
+      "MP": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "",
+        "source": ""
+      },
+      "SG": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "",
+        "source": ""
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "",
+        "source": ""
+      }
+    }
+  },
+  {
+    "company": "Scott Sports",
+    "hq_country": "Givisiez, FR",
+    "industry": "Sports Equipment",
+    "revenue": "Approx. ~$0.6B",
+    "situations": "No signals detected",
+    "classification": "NOT PRESENT",
+    "priority_score": "RC:0 | MP:0 | SG:0 | SCD:0 = 0/40",
+    "key_evidence": "No signals detected",
+    "sources": "",
+    "summary": "",
+    "tier": "Eligible",
+    "_score_int": 0,
+    "_frequency": 1,
+    "_raw": "Okay, I will analyze Scott Sports based on the provided information and the search queries, focusing on evidence from the last 12 months (after 2026-01-03).\n\nOkay, here's the analysis of Scott Sports based on the search results:\n\n**COMPANY:** Scott Sports\n**ICP:** ELIGIBLE\n\n**RC:** LIKELY | 6 pts\n**RC_SIGNAL:** Management explicitly states \"resource constraints / lack of bandwidth / capacity shortage\"\n**RC_SOURCE:** Bicycle Retailer and Industry News, March 2024\n\n**MP:** LIKELY | 5 pts\n**MP_SIGNAL:** Loan provided by majority shareholder to \"improve its financial structure\" and balance high stock inventory.\n**MP_SOURCE:** Cycling Weekly, January 2024\n\n**SG:** UNCLEAR | 3 pts\n**SG_SIGNAL:** Scott Sports USA introducing click-and-collect program\n**SG_SOURCE:** Bicycle Retailer and Industry News, March 2025\n\n**SCD:** UNCLEAR | 2 pts\n**SCD_SIGNAL:** Past recalls of bicycle helmets and forks.\n**SCD_SOURCE:** SCOTT Sports Safety and Recalls pages, accessed March 2026\n\n**TOTAL:** 16/40\n**SUMMARY:** Scott Sports shows signs of resource constraints, as evidenced by the CEO replacement to refresh the brand and the need for advice from industry experts. There's also margin pressure, indicated by a loan from the majority shareholder to improve financial structure and manage inventory. The company is pursuing growth initiatives like click-and-collect. There have been past recalls, but no recent recalls were found.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "",
+        "source": ""
+      },
+      "MP": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "",
+        "source": ""
+      },
+      "SG": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "",
+        "source": ""
+      },
+      "SCD": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "",
+        "source": ""
+      }
+    }
+  },
+  {
+    "company": "Energie 360°",
+    "hq_country": "Zurich, ZH",
+    "industry": "Energy & Utilities",
+    "revenue": "Approx. ~$1.0B",
+    "situations": "SCD: LIKELY (6pts)",
+    "classification": "LIKELY",
+    "priority_score": "RC:0 | MP:0 | SG:0 | SCD:6 = 6/40",
+    "key_evidence": "SCD: Production shutdown due to material shortage / supplier failure",
+    "sources": "Energy prices surge as tanker disruptions and facility shutdowns rattle global supply [2026-03-02]",
+    "summary": "Energie 360° is likely experiencing supply chain disruptions. Natural gas prices rose sharply in Europe after QatarEnergy halted production of liquefied natural gas due to attacks on its facilities.",
+    "tier": "Out of ICP",
+    "_score_int": 6,
+    "_frequency": 1,
+    "_raw": "COMPANY: Energie 360°\nICP: OUT\n\nRC: NOT PRESENT | 0 pts\nRC_SIGNAL: none\nRC_SOURCE: none\n\nMP: NOT PRESENT | 0 pts\nMP_SIGNAL: none\nMP_SOURCE: none\n\nSG: NOT PRESENT | 0 pts\nSG_SIGNAL: none\nSG_SOURCE: none\n\nSCD: LIKELY | 6 pts\nSCD_SIGNAL: Production shutdown due to material shortage / supplier failure\nSCD_SOURCE: Energy prices surge as tanker disruptions and facility shutdowns rattle global supply [2026-03-02]\n\nTOTAL: 6/40\nSUMMARY: Energie 360° is likely experiencing supply chain disruptions. Natural gas prices rose sharply in Europe after QatarEnergy halted production of liquefied natural gas due to attacks on its facilities.\n",
+    "_situations": {
+      "RC": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "MP": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SG": {
+        "status": "NOT PRESENT",
+        "pts": 0,
+        "signal": "none",
+        "source": "none"
+      },
+      "SCD": {
+        "status": "LIKELY",
+        "pts": 6,
+        "signal": "Production shutdown due to material shortage / supplier failure",
+        "source": "Energy prices surge as tanker disruptions and facility shutdowns rattle global supply [2026-03-02]"
+      }
+    }
+  }
+]
