@@ -1,7 +1,7 @@
 name: XIMPAX Weekly Intelligence Run
 on:
   schedule:
-    - cron: "0 6 * * 1"
+    - cron: "0 8 * * 1"  # 9am CET (UTC+1, winter) / 10am CEST (UTC+2, summer)
   workflow_dispatch:
     inputs:
       reason:
