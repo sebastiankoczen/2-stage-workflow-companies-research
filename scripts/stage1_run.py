@@ -34,9 +34,9 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 GEMINI_MODEL       = "gemini-2.0-flash"
-COMPANIES_PER_WEEK = 100    # companies scanned per weekly run (one call each)
+COMPANIES_PER_WEEK = 20    # companies scanned per weekly run (one call each)
 SLEEP_BETWEEN      = 15    # seconds between company calls
-TOP_N_FOR_STAGE2   = 10     # top companies forwarded to Stage 2
+TOP_N_FOR_STAGE2   = 5     # top companies forwarded to Stage 2
 TODAY              = datetime.utcnow().strftime("%Y-%m-%d")
 
 COMPANIES_FILE = CONFIG_DIR / "companies.xlsx"
@@ -537,6 +537,11 @@ def main():
     stage2_path = OUTPUT_DIR / "stage2_input.json"
     stage2_path.write_text(json.dumps(top_companies, ensure_ascii=False, indent=2))
     log.info(f"Stage 2 input saved → {stage2_path}")
+
+    # Save full Stage 1 results for Stage 2 report dropdown
+    summary_path = OUTPUT_DIR / "stage1_summary.json"
+    summary_path.write_text(json.dumps(results, ensure_ascii=False, indent=2))
+    log.info(f"Stage 1 summary saved → {summary_path}")
 
     return html_path, stage2_path
 
