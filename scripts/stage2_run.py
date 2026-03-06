@@ -84,6 +84,17 @@ def load_stage2_input() -> list[dict]:
     return data
 
 
+def load_stage1_summary() -> list[dict]:
+    """Load full Stage 1 results for the report dropdown. Returns [] if not available."""
+    path = OUTPUT_DIR / "stage1_summary.json"
+    if not path.exists():
+        log.warning("stage1_summary.json not found — dropdown will be empty this run.")
+        return []
+    data = json.loads(path.read_text())
+    data.sort(key=lambda r: r.get("_score_int", 0), reverse=True)
+    return data
+
+
 # ── CALL A: Research prompt ────────────────────────────────────────────────────
 def build_research_prompt(company: dict) -> str:
     instructions  = load_file(CONFIG_DIR / "instructions.txt")
@@ -718,10 +729,12 @@ REPORT_HTML = """\
 
   <tr><td style="background:#111827;padding:20px 24px">{company_sections}</td></tr>
 
+  <tr><td style="padding:0 24px 24px">{stage1_dropdown}</td></tr>
+
   <tr><td style="background:#0f172a;border-radius:0 0 12px 12px;padding:16px 32px;
                  border-top:1px solid #374151;text-align:center;color:#4b5563;font-size:11px">
     XIMPAX Intelligence Engine · Research: Gemini 2.0 Flash + Google Search · Formatting: Gemini 2.0 Flash<br>
-    Evidence window: {cutoff} → {date} · Sorted by verified score (clean signals only)
+    Evidence window: {cutoff} → {date} · Sorted by clean signal count
   </td></tr>
 
 </table></td></tr></table>
@@ -747,7 +760,124 @@ def count_clean_signals(rows: list[dict], cname: str) -> int:
     return total
 
 
-def build_report(companies_with_rows: list[tuple]) -> str:
+
+def build_stage1_dropdown(stage1_all: list[dict]) -> str:
+    """Render collapsible Stage 1 scorecard for all scanned companies."""
+    if not stage1_all:
+        return ""
+
+    STATUS_COLORS = {
+        "CONFIRMED":   ("#86efac", "#14532d"),
+        "LIKELY":      ("#93c5fd", "#1e3a5f"),
+        "UNCLEAR":     ("#fcd34d", "#422006"),
+        "NOT PRESENT": ("#9ca3af", "#374151"),
+        "OUT OF ICP":  ("#f87171", "#450a0a"),
+    }
+
+    rows_html = []
+    for r in stage1_all:
+        score      = r.get("_score_int", 0)
+        company    = r.get("company", "")
+        industry   = r.get("industry", "—")
+        location   = r.get("hq_country", "—")
+        revenue    = r.get("revenue", "—")
+        tier       = r.get("tier", "")
+        classif    = r.get("classification", "NOT PRESENT")
+
+        # Status label
+        if "out of icp" in tier.lower():
+            status_key = "OUT OF ICP"
+        else:
+            status_key = classif.upper() if classif.upper() in STATUS_COLORS else "NOT PRESENT"
+
+        tc, bg = STATUS_COLORS.get(status_key, ("#9ca3af", "#374151"))
+
+        # Score bar width
+        bar_w = min(100, int(score / 40 * 100))
+
+        # Situation mini-badges (RC / MP / SG / SCD)
+        sit_data  = r.get("_situations", {})
+        sit_badges = ""
+        sit_map   = {
+            "resource_constraints":  ("RC",  "#2A5298"),
+            "margin_pressure":       ("MP",  "#7A2A14"),
+            "significant_growth":    ("SG",  "#1B5E3B"),
+            "supply_chain_disruption": ("SCD", "#B8860B"),
+        }
+        for key, (code, color) in sit_map.items():
+            sit_status = sit_data.get(key, {}).get("status", "NOT PRESENT").upper()
+            if sit_status in ("CONFIRMED", "LIKELY"):
+                opacity = "1"
+            elif sit_status == "UNCLEAR":
+                opacity = "0.5"
+            else:
+                opacity = "0.15"
+            sit_badges += (
+                f'<span style="display:inline-block;padding:1px 5px;border-radius:3px;' 
+                f'background:{color};color:#fff;font-size:8px;font-weight:700;' 
+                f'opacity:{opacity};margin-right:2px">{code}</span>'
+            )
+
+        rows_html.append(f"""
+        <tr style="border-bottom:1px solid #1e293b;">
+          <td style="padding:8px 10px;font-size:12px;font-weight:600;color:#e2e8f0;white-space:nowrap">{company}</td>
+          <td style="padding:8px 10px;font-size:11px;color:#94a3b8">{industry}</td>
+          <td style="padding:8px 10px;font-size:11px;color:#94a3b8;white-space:nowrap">{location}</td>
+          <td style="padding:8px 10px;font-size:11px;color:#94a3b8;white-space:nowrap">{revenue}</td>
+          <td style="padding:8px 10px;text-align:center">
+            <span style="display:inline-block;padding:2px 8px;border-radius:10px;
+                         background:{bg};color:{tc};font-size:9px;font-weight:700;white-space:nowrap">
+              {status_key}
+            </span>
+          </td>
+          <td style="padding:8px 14px;min-width:130px">
+            <div style="display:flex;align-items:center;gap:6px">
+              <div style="flex:1;background:#1e293b;border-radius:3px;height:5px">
+                <div style="width:{bar_w}%;height:5px;border-radius:3px;
+                            background:linear-gradient(90deg,#2563eb,#7c3aed)"></div>
+              </div>
+              <span style="font-size:11px;font-weight:700;color:#60a5fa;white-space:nowrap">{score}/40</span>
+            </div>
+          </td>
+          <td style="padding:8px 10px">{sit_badges}</td>
+        </tr>""")
+
+    return f"""
+    <details style="margin-top:24px">
+      <summary style="cursor:pointer;background:#0f172a;border:1px solid #374151;
+                      border-radius:8px;padding:12px 20px;list-style:none;
+                      display:flex;align-items:center;justify-content:space-between;
+                      user-select:none">
+        <span style="font-size:13px;font-weight:700;color:#94a3b8;text-transform:uppercase;
+                     letter-spacing:1px">
+          ▶ Stage 1 Full Scorecard &nbsp;
+          <span style="font-weight:400;font-size:11px;color:#4b5563">
+            — {len(stage1_all)} companies scanned this run · click to expand
+          </span>
+        </span>
+        <span style="font-size:10px;color:#4b5563">RC = Resource Constraints &nbsp; MP = Margin Pressure &nbsp; SG = Significant Growth &nbsp; SCD = Supply Chain Disruption</span>
+      </summary>
+      <div style="border:1px solid #374151;border-top:none;border-radius:0 0 8px 8px;
+                  overflow:hidden;background:#0f172a">
+        <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif">
+          <thead>
+            <tr style="background:#111827;border-bottom:2px solid #374151">
+              <th style="padding:8px 10px;text-align:left;font-size:9px;color:#4b5563;text-transform:uppercase;letter-spacing:1px">Company</th>
+              <th style="padding:8px 10px;text-align:left;font-size:9px;color:#4b5563;text-transform:uppercase;letter-spacing:1px">Industry</th>
+              <th style="padding:8px 10px;text-align:left;font-size:9px;color:#4b5563;text-transform:uppercase;letter-spacing:1px">Location</th>
+              <th style="padding:8px 10px;text-align:left;font-size:9px;color:#4b5563;text-transform:uppercase;letter-spacing:1px">Revenue</th>
+              <th style="padding:8px 10px;text-align:center;font-size:9px;color:#4b5563;text-transform:uppercase;letter-spacing:1px">Status</th>
+              <th style="padding:8px 14px;text-align:left;font-size:9px;color:#4b5563;text-transform:uppercase;letter-spacing:1px">Score</th>
+              <th style="padding:8px 10px;text-align:left;font-size:9px;color:#4b5563;text-transform:uppercase;letter-spacing:1px">Situations</th>
+            </tr>
+          </thead>
+          <tbody>{"".join(rows_html)}</tbody>
+        </table>
+      </div>
+    </details>"""
+
+
+def build_report(companies_with_rows: list[tuple], stage1_all: list[dict] | None = None) -> str:
     # Sort by total clean, deduplicated signal count — highest first
     companies_with_rows = sorted(
         companies_with_rows,
@@ -768,6 +898,8 @@ def build_report(companies_with_rows: list[tuple]) -> str:
                 clean_signals += 1
         sections.append(build_company_section(company, rows, rank))
 
+    dropdown_html = build_stage1_dropdown(stage1_all or [])
+
     return REPORT_HTML.format(
         date=TODAY,
         cutoff=CUTOFF_STR,
@@ -776,6 +908,7 @@ def build_report(companies_with_rows: list[tuple]) -> str:
         likely=likely,
         clean_signals=clean_signals,
         company_sections="\n".join(sections),
+        stage1_dropdown=dropdown_html,
     )
 
 
@@ -849,7 +982,8 @@ def main():
     raw_path = OUTPUT_DIR / f"stage2_raw_{ts}.json"
     raw_path.write_text(json.dumps(raw_all, ensure_ascii=False, indent=2))
 
-    html      = build_report(companies_with_rows)
+    stage1_all = load_stage1_summary()
+    html      = build_report(companies_with_rows, stage1_all)
     html_path = OUTPUT_DIR / f"stage2_report_{ts}.html"
     html_path.write_text(html, encoding="utf-8")
     log.info(f"Stage 2 report → {html_path}")
